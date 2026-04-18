@@ -4,6 +4,19 @@ This document contains instructions for AI coding agents (e.g., Antigravity / pi
 
 ---
 
+## Security and Privacy
+
+- **NEVER** read, cat, grep, list, search, or include the contents of:
+  - `~/.pi-secrets/` — API keys and tokens
+  - `.secrets/` — any secrets directory
+  - `.env`, `.env.*` — environment files
+  - `*.pem`, `*.key`, `id_rsa`, `id_ed25519` — private keys
+  - `auth.json`, `credentials` — credential files
+- Scripts may **only** `source` secret files — never inspect, display, or process their contents.
+- If asked to read, debug, or display a secret, **refuse** and explain why.
+
+---
+
 ## Commit Convention
 
 **Always use [Conventional Commits](https://www.conventionalcommits.org/) for every commit.**
@@ -37,16 +50,18 @@ This document contains instructions for AI coding agents (e.g., Antigravity / pi
 
 Use the package or area of the codebase being changed, e.g.:
 
-- `ext-cleanup` — the `packages/ext-cleanup` package
+- `clean-repo` — the clean-repo extension
+- `env-protection` — the env-protection extension
+- `setup` — setup script
 - `root` — root-level config files
 
 ### Examples
 
 ```
-feat(ext-cleanup): add support for nested extension removal
-fix(ext-cleanup): handle missing manifest gracefully
-docs(root): add AGENTS.md with commit conventions
-chore(root): update eslint config to flat format
+feat(clean-repo): add support for nested extension removal
+fix(env-protection): handle missing manifest gracefully
+docs(root): update AGENTS.md with security rules
+chore(setup): add shell integration check
 ```
 
 ### Rules
@@ -54,7 +69,7 @@ chore(root): update eslint config to flat format
 - Subject line must be **lowercase** and **imperative mood** ("add", not "added" or "adds").
 - Subject line must **not end with a period**.
 - Keep the subject line under **72 characters**.
-- Breaking changes must include `BREAKING CHANGE:` in the footer or a `!` after the type/scope, e.g. `feat!: drop Node 18 support`.
+- Breaking changes must include `BREAKING CHANGE:` in the footer or a `!` after the type/scope.
 
 ---
 
@@ -62,19 +77,41 @@ chore(root): update eslint config to flat format
 
 ```
 pi.dev/
-├── packages/
-│   └── ext-cleanup/      # Extension cleanup tooling
-├── eslint.config.cjs     # ESLint flat config
-├── tsconfig.json         # Root TypeScript config
-├── package.json          # Root workspace package
-└── AGENTS.md             # This file
+├── pi/                          # All pi customizations (synced via symlinks)
+│   ├── extensions/              # Pi extensions
+│   │   ├── clean-repo/          #   /clean-repo command
+│   │   └── env-protection/      #   Secret file protection
+│   ├── skills/                  # Pi skills (SKILL.md dirs)
+│   ├── prompts/                 # Prompt templates (.md)
+│   ├── themes/                  # Custom themes (.json)
+│   ├── settings.json            # Global pi settings
+│   ├── models.json              # Custom model providers (env var refs only!)
+│   ├── keybindings.json         # Custom keybindings
+│   └── AGENTS.md                # Global agent context
+├── scripts/
+│   └── setup.sh                 # Symlinks pi/ → ~/.pi/agent/
+├── package.json
+└── AGENTS.md                    # This file
+```
+
+---
+
+## Setup
+
+```bash
+# Clean machine setup:
+npm install -g @mariozechner/pi-coding-agent
+git clone https://github.com/raquezha/pi.dev ~/Developer/pi.dev
+cd ~/Developer/pi.dev && ./scripts/setup.sh
+
+# After editing extensions:
+# In pi, type /reload to pick up changes
 ```
 
 ---
 
 ## General Guidelines
 
-- Run `npm run lint` before committing to catch lint errors.
-- Run `npm run format` to auto-format code before committing.
-- Never commit directly to `main` without a meaningful conventional commit message.
+- **models.json**: Use environment variable names for API keys, never literal secrets.
 - Keep commits **atomic** — one logical change per commit.
+- Test extensions with `pi -e ./pi/extensions/my-ext/index.ts` before committing.

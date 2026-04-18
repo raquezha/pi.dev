@@ -1,0 +1,18 @@
+node_modules/
+.secrets/
+dist/
+*.log
+.DS_Store
+
+# Never commit secrets
+.env
+.env.*
+*.pem
+*.key
+id_rsa
+id_ed25519
+credentials
+auth.json
+
+# OS
+Thumbs.db

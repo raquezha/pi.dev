@@ -1,0 +1,16 @@
+{
+  "name": "pi.dev",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal pi coding agent customizations — extensions, skills, prompts, themes",
+  "scripts": {
+    "setup": "./scripts/setup.sh"
+  },
+  "keywords": ["pi-package"],
+  "pi": {
+    "extensions": ["./pi/extensions"],
+    "skills": ["./pi/skills"],
+    "prompts": ["./pi/prompts"],
+    "themes": ["./pi/themes"]
+  }
+}

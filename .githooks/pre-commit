@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+# Use lint-staged if available
+if command -v npx >/dev/null 2>&1 && npx --no-install lint-staged >/dev/null 2>&1; then
+  npx --no-install lint-staged
+  exit $?
+fi
+
+# Fallback: run formatting and lint across repo
+echo "Running fallback: prettier and eslint --fix"
+npm run format
+npm run lint:fix || true
+npm run lint

@@ -1,0 +1,13 @@
+{
+  "defaultProvider": "github-copilot",
+  "defaultModel": "gpt-5-mini",
+  "defaultThinkingLevel": "medium",
+  "showHardwareCursor": true,
+  "hideThinkingBlock": false,
+  "theme": "dark",
+  "editorPaddingX": 2,
+  "packages": [
+    "npm:@leohenon/pi-vim",
+    "npm:@heyhuynhgiabuu/pi-pretty"
+  ]
+}
