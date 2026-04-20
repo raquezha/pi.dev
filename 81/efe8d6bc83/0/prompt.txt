@@ -1,38 +1,3 @@
-still thi sis what i see raquezha@raquezhas-MacBook-Air documentation % pi
-
- 🔒 env-protection active — secrets are guarded
-
-────────────────────────────────────────────────────────────────────────────────────
-
-────────────────────────────────────────────────────────────────────────────────────
--- INSERT -- ~/Developer/project-alpha/documentation (main)
-$0.000 (sub) 0.0%/1.0M                  (google-antigravity) gemini-3-flash • medium
-FFF indexed
-
----
-
-haha fuck now this is what is see: 
-[Context]
-  ~/.pi/agent/AGENTS.md
-
-[Extensions]
-  @heyhuynhgiabuu/pi-pretty:src, @leohenon/pi-vim, clean-repo/index.ts,
-env-protection/index.ts
-
-[Themes]
-  Darcula
-
-
- Reloaded keybindings, extensions, skills, prompts, themes
-
-────────────────────────────────────────────────────────────────────────────────────
-
-────────────────────────────────────────────────────────────────────────────────────
--- INSERT -- ~/Developer/project-alpha/documentation (main)
-$0.000 (sub) 0.0%/1.0M                  (google-antigravity) gemini-3-flash • medium
-
----
-
 this is what i see: raquezha@raquezhas-MacBook-Air documentation % pi
 
  pi v0.67.68
