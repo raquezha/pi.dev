@@ -1,4 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { truncateToWidth } from "@mariozechner/pi-tui";
 
 export default function (pi: ExtensionAPI) {
   pi.on("session_start", async (_event, ctx) => {
@@ -37,7 +38,7 @@ export default function (pi: ExtensionAPI) {
             const safeWidth = Math.max(0, width);
             const separator = theme.fg("dim", "─".repeat(safeWidth));
 
-            return [
+            const lines = [
               "",
               header,
               separator,
@@ -47,6 +48,9 @@ export default function (pi: ExtensionAPI) {
               separator,
               "",
             ];
+
+            // Truncate all lines to fit terminal width
+            return lines.map(line => truncateToWidth(line, safeWidth));
           },
           invalidate() {},
         };
