@@ -44,8 +44,7 @@ export default function (pi: ExtensionAPI) {
             ];
 
             const maxLabelWidth = Math.max(...rows.map(r => r[0].length));
-            const safeWidth = Math.min(width - 8, 80); 
-            const separator = theme.fg("dim", "─".repeat(safeWidth));
+            const separator = theme.fg("dim", "─".repeat(width));
 
             const tableLines = [
               branding,
@@ -57,12 +56,9 @@ export default function (pi: ExtensionAPI) {
               separator,
             ];
 
-            // 4. Center the entire block
-            const truncatedLines = tableLines.map(l => truncateToWidth(l, width));
-            const blockWidth = Math.max(...truncatedLines.map(l => visibleWidth(l)));
-            const leftPadding = " ".repeat(Math.floor(Math.max(0, width - blockWidth) / 2));
-
-            return ["", ...truncatedLines.map(l => leftPadding + l), ""];
+            // Left-aligned with 3-space margin
+            const indent = "   ";
+            return ["", ...tableLines.map(l => indent + truncateToWidth(l, width - 3)), ""];
           },
           invalidate() {},
         };
