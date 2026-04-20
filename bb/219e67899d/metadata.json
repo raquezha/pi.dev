@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "bb219e67899d",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "pi/themes/darcula.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/bb/219e67899d/0/metadata.json",
+      "transcript": "/bb/219e67899d/0/full.jsonl",
+      "content_hash": "/bb/219e67899d/0/content_hash.txt",
+      "prompt": "/bb/219e67899d/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 280282,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1688688,
+    "output_tokens": 36878,
+    "api_call_count": 70
+  }
+}
