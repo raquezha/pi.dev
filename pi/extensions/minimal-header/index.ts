@@ -37,27 +37,32 @@ export default function (pi: ExtensionAPI) {
               skills = "loading...";
             }
 
-            const safeWidth = Math.min(width, 100); 
-            const separator = theme.fg("dim", "─".repeat(safeWidth));
+            // Define the core table lines
+            const labelSkills = theme.fg("accent", "Skills ");
+            const labelExts   = theme.fg("accent", "Exts   ");
+            const labelHelp   = theme.fg("accent", "Help   ");
+            const helpContent = theme.fg("dim", "ctrl+c exit · / commands · ! bash · ctrl+o more");
 
-            const rawLines = [
-              "",
+            const tableLines = [
               header,
               separator,
-              `${theme.fg("accent", "Skills ")} ${theme.fg("text", skills)}`,
-              `${theme.fg("accent", "Exts   ")} ${theme.fg("text", extensions)}`,
-              `${theme.fg("accent", "Help   ")} ${theme.fg("dim", "ctrl+c exit · / commands · ! bash · ctrl+o more")}`,
+              `${labelSkills} ${theme.fg("text", skills)}`,
+              `${labelExts}   ${theme.fg("text", extensions)}`,
+              `${labelHelp}   ${helpContent}`,
               separator,
-              "",
             ];
 
-            // Center each line individually
-            return rawLines.map(line => {
-              const truncated = truncateToWidth(line, width);
-              const vWidth = visibleWidth(truncated);
-              const padding = Math.floor(Math.max(0, width - vWidth) / 2);
-              return " ".repeat(padding) + truncated;
-            });
+            // 1. Truncate lines to width first
+            const truncatedLines = tableLines.map(l => truncateToWidth(l, width));
+
+            // 2. Find the widest line in the block to determine block width
+            const blockWidth = Math.max(...truncatedLines.map(l => visibleWidth(l)));
+
+            // 3. Calculate left padding to center the entire block
+            const leftPadding = " ".repeat(Math.floor(Math.max(0, width - blockWidth) / 2));
+
+            // 4. Final assembly
+            return ["", ...truncatedLines.map(l => leftPadding + l), ""];
           },
           invalidate() {},
         };
