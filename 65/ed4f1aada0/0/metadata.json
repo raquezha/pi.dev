@@ -1,0 +1,63 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "65ed4f1aada0",
+  "session_id": "019da8da-cde0-709d-ad4b-826380bdd140",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-20T03:10:04.565821Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "pi/skills/android/adb/SKILL.md",
+    "pi/skills/android/android-adb/SKILL.md",
+    "pi/skills/android/android-compose/SKILL.md",
+    "pi/skills/android/android-gradle/SKILL.md",
+    "pi/skills/android/android-logcat-smart/SKILL.md",
+    "pi/skills/android/android-project-setup/SKILL.md",
+    "pi/skills/android/compose/SKILL.md",
+    "pi/skills/android/gradle/SKILL.md",
+    "pi/skills/android/logcat-smart/SKILL.md",
+    "pi/skills/android/project-setup/SKILL.md",
+    "scripts/setup.sh"
+  ],
+  "agent": "Pi",
+  "model": "",
+  "turn_id": "41c3696d5333",
+  "token_usage": {
+    "input_tokens": 88911,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 165232,
+    "output_tokens": 6054,
+    "api_call_count": 23
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-20T03:10:04.561472Z",
+    "agent_lines": 207,
+    "agent_removed": 205,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 207,
+    "total_lines_changed": 412,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 207,
+      "agent_lines_removed": 205
+    }
+  ]
+}

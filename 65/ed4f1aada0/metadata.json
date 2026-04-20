@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "65ed4f1aada0",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "pi/skills/android/adb/SKILL.md",
+    "pi/skills/android/android-adb/SKILL.md",
+    "pi/skills/android/android-compose/SKILL.md",
+    "pi/skills/android/android-gradle/SKILL.md",
+    "pi/skills/android/android-logcat-smart/SKILL.md",
+    "pi/skills/android/android-project-setup/SKILL.md",
+    "pi/skills/android/compose/SKILL.md",
+    "pi/skills/android/gradle/SKILL.md",
+    "pi/skills/android/logcat-smart/SKILL.md",
+    "pi/skills/android/project-setup/SKILL.md",
+    "scripts/setup.sh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/65/ed4f1aada0/0/metadata.json",
+      "transcript": "/65/ed4f1aada0/0/full.jsonl",
+      "content_hash": "/65/ed4f1aada0/0/content_hash.txt",
+      "prompt": "/65/ed4f1aada0/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 88911,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 165232,
+    "output_tokens": 6054,
+    "api_call_count": 23
+  }
+}
