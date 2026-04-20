@@ -242,9 +242,44 @@ echo -e "${GREEN}╔════════════════════
 echo -e "${GREEN}║         Setup complete! 🎉           ║${NC}"
 echo -e "${GREEN}╚══════════════════════════════════════╝${NC}"
 echo ""
-echo "  Next steps:"
-echo "    1. Create ~/.pi-secrets/.env with your API keys (if not done)"
-echo "    2. Add 'source ~/.pi-secrets/.env' to your shell rc (if not done)"
-echo "    3. Run 'pi' — your extensions are ready"
-echo "    4. If pi is already running, type '/reload' to pick up changes"
+echo "  Next steps (The Hierarchy):"
 echo ""
+echo "  1. GLOBAL MACHINE SETUP (Once per Mac)"
+echo "     - Install Pi:     npm install -g @mariozechner/pi-coding-agent"
+echo "     - Install Entire: curl -fsSL https://entire.io/install.sh | bash"
+echo "     - Login:          entire login"
+echo "     - Build Agent:    ./scripts/install-entire-agent.sh"
+echo ""
+echo "  2. PI.DEV CONFIGURATION (Once per Mac)"
+echo "     - Link pi.dev:    ./scripts/setup.sh (You just did this!)"
+echo "     - Secrets:        Create ~/.pi-secrets/.env with your API keys"
+echo "     - Shell:          Add 'source ~/.pi-secrets/.env' to your ~/.zshrc"
+echo ""
+echo "  3. PROJECT ACTIVATION (Once per Repo/Project)"
+echo "     - Enable Entire:  entire enable"
+echo "     - Enable Pi:      entire-agent-pi install-hooks"
+echo ""
+echo "  4. START WORKING"
+echo "     - Run 'pi' in your project repo."
+echo "     - If pi is already running, type '/reload' inside pi."
+echo ""
+
+# ── Quick developer guidance: Go toolchain check ──────────────────────
+if command -v go >/dev/null 2>&1; then
+  ok "Go toolchain found ($(go version))"
+else
+  warn "Go toolchain not found on this machine"
+  if command -v brew >/dev/null 2>&1; then
+    info "You can install Go with Homebrew. Run these commands:"
+    echo "  brew update"
+    echo "  brew install go"
+    echo "After that, verify with: go version"
+  else
+    info "Homebrew not found. Install Go manually from https://go.dev/dl/ or install Homebrew first:"
+    echo "  /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+    echo "Then run: brew install go"
+  fi
+  echo ""
+  info "When Go is installed, run: ./scripts/install-entire-agent.sh to build the entire-agent-pi binary"
+fi
+
