@@ -143,7 +143,9 @@ echo ""
 
 has_skills=false
 for skill_dir in "$PI_DIR"/skills/*/; do
-  if [[ -d "$skill_dir" ]] && [[ -f "$skill_dir/SKILL.md" ]]; then
+  if [[ -d "$skill_dir" ]]; then
+    # We link any top-level directory in pi/skills/
+    # pi handles recursive discovery of SKILL.md files within them.
     skill_name="$(basename "$skill_dir")"
     link_dir "$skill_dir" "$AGENT_DIR/skills/$skill_name" "skills/$skill_name"
     has_skills=true
