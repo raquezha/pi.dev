@@ -20,26 +20,35 @@ export default function (pi: ExtensionAPI) {
                            theme.fg("dim", ` | `) + 
                            theme.fg("success", `${dateStr} | ${timeStr}`);
 
-            // Get skills and extensions
-            const commands = pi.getCommands();
-            const skills = commands
-              .filter(c => c.source === "skill")
-              .map(c => c.name.replace("android-", ""))
-              .join(", ");
-            
-            const extensions = pi.getCommands()
-              .filter(c => c.source === "extension")
-              .map(c => c.name)
-              .join(", ");
+            // Get skills and extensions safely
+            let skills = "none";
+            let extensions = "none";
+            try {
+              const commands = pi.getCommands() || [];
+              skills = commands
+                .filter(c => c && c.source === "skill")
+                .map(c => c.name.replace("android-", ""))
+                .join(", ") || "none";
+              
+              extensions = commands
+                .filter(c => c && c.source === "extension")
+                .map(c => c.name)
+                .join(", ") || "none";
+            } catch (e) {
+              // Silently handle discovery lag
+            }
+
+            const safeWidth = Math.max(0, width);
+            const separator = theme.fg("dim", "─".repeat(safeWidth));
 
             const lines = [
               "",
               header,
-              theme.fg("dim", "─".repeat(width)),
-              `${theme.fg("accent", "Skills ")} ${theme.fg("text", skills || "none")}`,
-              `${theme.fg("accent", "Exts   ")} ${theme.fg("text", extensions || "none")}`,
+              separator,
+              `${theme.fg("accent", "Skills ")} ${theme.fg("text", skills)}`,
+              `${theme.fg("accent", "Exts   ")} ${theme.fg("text", extensions)}`,
               `${theme.fg("accent", "Help   ")} ${theme.fg("dim", "ctrl+c exit · / commands · ! bash · ctrl+o more")}`,
-              theme.fg("dim", "─".repeat(width)),
+              separator,
               "",
             ];
 
