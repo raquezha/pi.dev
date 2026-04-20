@@ -11,13 +11,12 @@ export default function (pi: ExtensionAPI) {
             const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
             const dateStr = now.toDateString();
             
-            const header = theme.fg("accent", `pi v0.67.68`) + 
-                           theme.fg("dim", ` | `) + 
-                           theme.fg("success", `${dateStr} | ${timeStr}`) +
-                           theme.fg("dim", ` | `) +
-                           theme.fg("accent", `hello raquezha!`);
+            // 1. Branding: π v0.67.68 · Mon Apr 20 2026 · 14:30:05
+            const branding = theme.fg("accent", theme.bold(" π ")) + 
+                             theme.fg("text", `v0.67.68`) + 
+                             theme.fg("dim", ` · ${dateStr} · ${timeStr}`);
 
-            // Get skills and extensions safely
+            // 2. Get resources safely
             let skills = "none";
             let extensions = "none";
             try {
@@ -26,52 +25,43 @@ export default function (pi: ExtensionAPI) {
                 skills = commands
                   .filter(c => c && c.source === "skill")
                   .map(c => c.name.replace("skill:", "").replace("android-", ""))
-                  .join(", ") || "none";
+                  .join(theme.fg("dim", " · ")) || "none";
                 
                 extensions = commands
                   .filter(c => c && c.source === "extension")
                   .map(c => c.name)
-                  .join(", ") || "none";
+                  .join(theme.fg("dim", " · ")) || "none";
               }
             } catch (e) {
               skills = "loading...";
             }
 
-            const safeWidth = Math.min(width, 100); 
-            const separator = theme.fg("dim", "─".repeat(safeWidth));
-
-            // Define the rows as [label, content, color]
+            // 3. Define the data block
             const rows = [
-              ["Skills", skills, "text"],
-              ["Exts", extensions, "text"],
-              ["Help", "ctrl+c exit · / commands · ! bash · ctrl+o more", "dim"]
+              ["Skills", skills],
+              ["Exts", extensions],
+              ["Help", theme.fg("dim", "/cmds · !bash · ctrl+c exit · ctrl+o more")]
             ];
 
-            // 1. Calculate the maximum label width
             const maxLabelWidth = Math.max(...rows.map(r => r[0].length));
+            const safeWidth = Math.min(width - 8, 80); 
+            const separator = theme.fg("dim", "─".repeat(safeWidth));
 
-            // 2. Construct the table lines with dynamic padding
             const tableLines = [
-              header,
+              branding,
               separator,
-              ...rows.map(([label, content, color]) => {
+              ...rows.map(([label, content]) => {
                 const paddedLabel = theme.fg("accent", label.padEnd(maxLabelWidth + 2));
-                const styledContent = theme.fg(color as any, content);
-                return paddedLabel + styledContent;
+                return paddedLabel + content;
               }),
               separator,
             ];
 
-            // 1. Truncate lines to width first
+            // 4. Center the entire block
             const truncatedLines = tableLines.map(l => truncateToWidth(l, width));
-
-            // 2. Find the widest line in the block to determine block width
             const blockWidth = Math.max(...truncatedLines.map(l => visibleWidth(l)));
-
-            // 3. Calculate left padding to center the entire block
             const leftPadding = " ".repeat(Math.floor(Math.max(0, width - blockWidth) / 2));
 
-            // 4. Final assembly
             return ["", ...truncatedLines.map(l => leftPadding + l), ""];
           },
           invalidate() {},
