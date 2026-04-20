@@ -40,18 +40,25 @@ export default function (pi: ExtensionAPI) {
             const safeWidth = Math.min(width, 100); 
             const separator = theme.fg("dim", "─".repeat(safeWidth));
 
-            // Define the core table lines (each label + space is exactly 10 chars)
-            const labelSkills = theme.fg("accent", "Skills  ");
-            const labelExts   = theme.fg("accent", "Exts    ");
-            const labelHelp   = theme.fg("accent", "Help    ");
-            const helpContent = theme.fg("dim", "ctrl+c exit · / commands · ! bash · ctrl+o more");
+            // Define the rows as [label, content, color]
+            const rows = [
+              ["Skills", skills, "text"],
+              ["Exts", extensions, "text"],
+              ["Help", "ctrl+c exit · / commands · ! bash · ctrl+o more", "dim"]
+            ];
 
+            // 1. Calculate the maximum label width
+            const maxLabelWidth = Math.max(...rows.map(r => r[0].length));
+
+            // 2. Construct the table lines with dynamic padding
             const tableLines = [
               header,
               separator,
-              `${labelSkills}${theme.fg("text", skills)}`,
-              `${labelExts}${theme.fg("text", extensions)}`,
-              `${labelHelp}${helpContent}`,
+              ...rows.map(([label, content, color]) => {
+                const paddedLabel = theme.fg("accent", label.padEnd(maxLabelWidth + 2));
+                const styledContent = theme.fg(color as any, content);
+                return paddedLabel + styledContent;
+              }),
               separator,
             ];
 
