@@ -1,16 +1,1 @@
-wait wait wait pi/skill/PLAN.md contains skills of global right? because if it's scope with android then there's a mismatch i'm planing to add skills like gitlab devops skills, mobile devips skills later docuemnatior skills
-
----
-
-1. why is it needed the ROADMAP.md 
-2. wait read the pi.dev docs is the directory aligned? also how does skill work if you don't used /skills in command? like i have smartlogcat right but i prompt it that "kinda indirecty use the logcat but not explicity" will it use the skilsl?
-3. Update @AGENTS.md to align
-4. wait why is there 2 @AGENTS.md and @pi/AGENTS.md
-
----
-
-ahh so @pi/AGENTS.md can override root prject's @AGENTS.md
-
----
-
-ahh merged okay how does that works is there somewhere in pi.dev docs that says this happened?
+push everythign
