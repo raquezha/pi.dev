@@ -16,26 +16,37 @@ export default function (pi: ExtensionAPI) {
             });
             const timeStr = now.toTimeString().split(" ")[0] + ":" + now.getMilliseconds().toString().slice(0, 1);
             
-            const header = theme.fg("accent", `pi v${VERSION}`) + 
-                           theme.fg("dim", ` | `) + 
-                           theme.fg("success", `${dateStr} | ${timeStr}`);
+            let header = "";
+            try {
+              const version = typeof VERSION !== 'undefined' ? VERSION : "0.67.68";
+              const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+              const dateStr = now.toDateString();
+              
+              header = theme.fg("accent", `pi v${version}`) + 
+                       theme.fg("dim", ` | `) + 
+                       theme.fg("success", `${dateStr} | ${timeStr}`);
+            } catch (e) {
+              header = "pi v0.67.68";
+            }
 
             // Get skills and extensions safely
             let skills = "none";
             let extensions = "none";
             try {
-              const commands = pi.getCommands() || [];
-              skills = commands
-                .filter(c => c && c.source === "skill")
-                .map(c => c.name.replace("android-", ""))
-                .join(", ") || "none";
-              
-              extensions = commands
-                .filter(c => c && c.source === "extension")
-                .map(c => c.name)
-                .join(", ") || "none";
+              const commands = pi.getCommands();
+              if (commands && Array.isArray(commands)) {
+                skills = commands
+                  .filter(c => c && c.source === "skill")
+                  .map(c => c.name.replace("android-", ""))
+                  .join(", ") || "none";
+                
+                extensions = commands
+                  .filter(c => c && c.source === "extension")
+                  .map(c => c.name)
+                  .join(", ") || "none";
+              }
             } catch (e) {
-              // Silently handle discovery lag
+              skills = "loading...";
             }
 
             const safeWidth = Math.max(0, width);
@@ -51,9 +62,11 @@ export default function (pi: ExtensionAPI) {
               separator,
               "",
             ];
-
             return lines;
-          },
+          } catch (err) {
+            return ["", "Header Error: " + (err as Error).message, ""];
+          }
+        },
           invalidate() {},
         };
       });
