@@ -40,18 +40,18 @@ export default function (pi: ExtensionAPI) {
             const safeWidth = Math.min(width, 100); 
             const separator = theme.fg("dim", "─".repeat(safeWidth));
 
-            // Define the core table lines
-            const labelSkills = theme.fg("accent", "Skills ");
-            const labelExts   = theme.fg("accent", "Exts   ");
-            const labelHelp   = theme.fg("accent", "Help   ");
+            // Define the core table lines (each label + space is exactly 10 chars)
+            const labelSkills = theme.fg("accent", "Skills  ");
+            const labelExts   = theme.fg("accent", "Exts    ");
+            const labelHelp   = theme.fg("accent", "Help    ");
             const helpContent = theme.fg("dim", "ctrl+c exit · / commands · ! bash · ctrl+o more");
 
             const tableLines = [
               header,
               separator,
-              `${labelSkills} ${theme.fg("text", skills)}`,
-              `${labelExts}   ${theme.fg("text", extensions)}`,
-              `${labelHelp}   ${helpContent}`,
+              `${labelSkills}${theme.fg("text", skills)}`,
+              `${labelExts}${theme.fg("text", extensions)}`,
+              `${labelHelp}${helpContent}`,
               separator,
             ];
 
