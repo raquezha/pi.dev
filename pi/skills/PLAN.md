@@ -11,8 +11,9 @@ This document outlines the strategy for integrating specialized Android developm
 
 ### Phase 1: Core Tooling (Current)
 - [x] `android-adb`: Device interaction.
-- [x] `android-gradle`: Build system management.
+- [x] `android-gradle`: Build system management with **Build & Rollback** safety.
 - [x] `android-compose`: UI development patterns.
+- [x] `android-logcat-smart`: **Smart Synthesis** for crash analysis.
 
 ### Phase 2: Project Management
 - [ ] `android-manifest`: Permission and component management.
@@ -33,7 +34,8 @@ This document outlines the strategy for integrating specialized Android developm
 | Skill Name | Description |
 | :--- | :--- |
 | `android-adb` | ADB commands, logcat, screenshots, intent firing. |
-| `android-gradle` | Build, test, lint, dependency management. |
+| `android-logcat-smart` | Crash analysis and "Smart Synthesis" of fixes. |
+| `android-gradle` | Build, test, lint, with Build & Rollback safety. |
 | `android-compose` | Jetpack Compose UI generation and refactoring. |
 | `android-manifest` | Manifest analysis and modification. |
 | `android-resources` | Resource management (strings, colors, drawables). |
