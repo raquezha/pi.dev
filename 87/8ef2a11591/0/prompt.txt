@@ -1,0 +1,53 @@
+this is what i see: raquezha@raquezhas-MacBook-Air documentation % pi
+
+ pi v0.67.68
+ escape interrupt · ctrl+c/ctrl+d clear/exit · / commands · ! bash · ctrl+o more
+ Press ctrl+o to show full startup help and loaded resources.
+
+ Pi can explain its own features and look up its docs. Ask it how to use or extend
+ Pi.
+
+
+ 🔒 env-protection active — secrets are guarded
+
+[Context]
+  ~/.pi/agent/AGENTS.md
+
+[Extensions]
+  @heyhuynhgiabuu/pi-pretty:src, @leohenon/pi-vim, clean-repo/index.ts,
+env-protection/index.ts
+
+[Themes]
+  Darcula
+
+
+────────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────────
+-- INSERT -- ~/Developer/project-alpha/documentation (main)
+$0.000 (sub) 0.0%/1.0M                  (google-antigravity) gemini-3-flash • medium i don't like this comon fix it
+
+---
+
+Reloading keybindings, extensions, skills, prompts, themes...
+
+────────────────────────────────────────────────────────────────────────────────────
+~/Developer/project-alpha/documentation (main)
+$0.000 (sub) 0.0%/1.0M (auto)           (google-antigravity) gemini-3-flash • medium
+
+file:///opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-tui/dist/tui.js:906
+                throw new Error(errorMsg);
+                ^
+
+Error: Rendered line 4 exceeds terminal width (87 > 84).
+
+This is likely caused by a custom TUI component not truncating its output.
+Use visibleWidth() to measure and truncateToWidth() to truncate lines.
+
+Debug log written to: /Users/raquezha/.pi/agent/pi-crash.log
+    at TUI.doRender (file:///opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-tui/dist/tui.js:906:23)
+    at Timeout._onTimeout (file:///opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-tui/dist/tui.js:350:18)
+    at listOnTimeout (node:internal/timers:608:17)
+    at process.processTimers (node:internal/timers:543:7)
+
+Node.js v24.7.0
