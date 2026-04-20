@@ -37,6 +37,9 @@ export default function (pi: ExtensionAPI) {
               skills = "loading...";
             }
 
+            const safeWidth = Math.min(width, 100); 
+            const separator = theme.fg("dim", "─".repeat(safeWidth));
+
             // Define the core table lines
             const labelSkills = theme.fg("accent", "Skills ");
             const labelExts   = theme.fg("accent", "Exts   ");
