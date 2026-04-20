@@ -13,7 +13,9 @@ export default function (pi: ExtensionAPI) {
             
             const header = theme.fg("accent", `pi v0.67.68`) + 
                            theme.fg("dim", ` | `) + 
-                           theme.fg("success", `${dateStr} | ${timeStr}`);
+                           theme.fg("success", `${dateStr} | ${timeStr}`) +
+                           theme.fg("dim", ` | `) +
+                           theme.fg("accent", `hello raquezha!`);
 
             // Get skills and extensions safely
             let skills = "none";
@@ -35,17 +37,18 @@ export default function (pi: ExtensionAPI) {
               skills = "loading...";
             }
 
-            const safeWidth = Math.max(0, width);
+            const safeWidth = Math.max(0, width - 3);
             const separator = theme.fg("dim", "─".repeat(safeWidth));
+            const indent = "   ";
 
             const lines = [
               "",
               header,
-              separator,
-              `${theme.fg("accent", "Skills ")} ${theme.fg("text", skills)}`,
-              `${theme.fg("accent", "Exts   ")} ${theme.fg("text", extensions)}`,
-              `${theme.fg("accent", "Help   ")} ${theme.fg("dim", "ctrl+c exit · / commands · ! bash · ctrl+o more")}`,
-              separator,
+              indent + separator,
+              `${indent}${theme.fg("accent", "Skills ")} ${theme.fg("text", skills)}`,
+              `${indent}${theme.fg("accent", "Exts   ")} ${theme.fg("text", extensions)}`,
+              `${indent}${theme.fg("accent", "Help   ")} ${theme.fg("dim", "ctrl+c exit · / commands · ! bash · ctrl+o more")}`,
+              indent + separator,
               "",
             ];
 
