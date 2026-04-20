@@ -251,6 +251,7 @@ echo "     - Install Pi:     npm install -g @mariozechner/pi-coding-agent"
 echo "     - Install Entire: curl -fsSL https://entire.io/install.sh | bash"
 echo "     - Login:          entire login"
 echo "     - Build Agent:    ./scripts/install-entire-agent.sh"
+echo "     - Optional:       Install tmux (brew install tmux) for multitasking"
 echo ""
 echo "  2. PI.DEV CONFIGURATION (Once per Mac)"
 echo "     - Link pi.dev:    ./scripts/setup.sh (You just did this!)"
@@ -266,7 +267,7 @@ echo "     - Run 'pi' in your project repo."
 echo "     - If pi is already running, type '/reload' inside pi."
 echo ""
 
-# ── Quick developer guidance: Go toolchain check ──────────────────────
+# ── Quick developer guidance: Go toolchain & tmux checks ──────────────
 if command -v go >/dev/null 2>&1; then
   ok "Go toolchain found ($(go version))"
 else
@@ -283,5 +284,34 @@ else
   fi
   echo ""
   info "When Go is installed, run: ./scripts/install-entire-agent.sh to build the entire-agent-pi binary"
+fi
+
+echo ""
+
+if command -v tmux >/dev/null 2>&1; then
+  TMUX_VER="$(tmux -V | cut -d' ' -f2)"
+  ok "tmux found ($TMUX_VER)"
+
+  TMUX_CONF="$HOME/.tmux.conf"
+  if [[ -f "$TMUX_CONF" ]]; then
+    if grep -q "extended-keys" "$TMUX_CONF"; then
+      ok "tmux extended-keys configuration found in $(basename "$TMUX_CONF")"
+    else
+      warn "tmux found but 'extended-keys' not configured in $(basename "$TMUX_CONF")"
+      info "For best pi experience (Shift+Enter support), add to your $(basename "$TMUX_CONF"):"
+      echo "    set -g extended-keys on"
+      echo "    set -g extended-keys-format csi-u"
+    fi
+  else
+    warn "tmux found but no ~/.tmux.conf found"
+    info "For best pi experience (Shift+Enter support), create ~/.tmux.conf with:"
+    echo "    set -g extended-keys on"
+    echo "    set -g extended-keys-format csi-u"
+  fi
+else
+  info "tmux not found (Optional, but recommended for pi multitasking)"
+  if command -v brew >/dev/null 2>&1; then
+    info "You can install it with: brew install tmux"
+  fi
 fi
 
