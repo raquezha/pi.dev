@@ -1,0 +1,34 @@
+~/Developer/project-alpha/documentation (main)
+↑2.2k ↓156 $0.002 (sub) 0.2%/1.0M (auto)                (google-antigravity) gemini-3-flash • medium/Users/raquezha/.pi/agent/extensions/minimal-header/index.ts:48
+            separator,
+            ^
+
+ReferenceError: separator is not defined
+    at Object.render (/Users/raquezha/.pi/agent/extensions/minimal-header/index.ts:48:13)
+    at Container.render (file:///opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-tui/dist/tui.js:64:38)
+    at TUI.render (file:///opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-tui/dist/tui.js:64:38)
+    at TUI.doRender (file:///opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-tui/dist/tui.js:691:29)
+    at Timeout._onTimeout (file:///opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-tui/dist/tui.js:350:18)
+    at listOnTimeout (node:internal/timers:608:17)
+    at process.processTimers (node:internal/timers:543:7)
+
+---
+
+it's still not aligned: Last login: Mon Apr 20 13:39:58 on ttys001
+raquezha@raquezhas-MacBook-Air pi.dev % pi
+
+  pi v0.67.68 | Mon Apr 20 2026 | 13:41:15 | hello raquezha!
+  ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Skills  adb, compose, gradle, logcat-smart, project-setup
+  Exts      clean-repo, vim-mode, fff-health, fff-rescan
+  Help      ctrl+c exit · / commands · ! bash · ctrl+o more
+  ────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+ 🔒 env-protection active — secrets are guarded
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────
+-- INSERT -- ~/Developer/pi.dev (main)
+$0.000 (sub) 0.0%/1.0M                                      (google-antigravity) gemini-3-flash • medium
