@@ -1,7 +1,3 @@
-wait a minute i can't see anything now hha
-
----
-
 this is what i see: 
  🔒 env-protection active — secrets are guarded
 
