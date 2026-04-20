@@ -1,0 +1,1 @@
+when working with pi and tmux, the setup.sh should be update? though tmux is optional hmm
