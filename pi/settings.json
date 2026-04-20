@@ -4,6 +4,7 @@
   "defaultThinkingLevel": "medium",
   "showHardwareCursor": true,
   "hideThinkingBlock": false,
+  "quietStartup": true,
   "theme": "dark",
   "editorPaddingX": 2,
   "packages": [
