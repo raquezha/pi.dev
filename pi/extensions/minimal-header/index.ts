@@ -41,6 +41,10 @@ export default function (pi: ExtensionAPI) {
               `${theme.fg("accent", "Extensions ")} ${theme.fg("text", extensions || "none")}`,
               `${theme.fg("accent", "Theme      ")} ${theme.fg("text", "Darcula")}`,
               theme.fg("dim", "─".repeat(width)),
+              theme.fg("dim", "escape interrupt · ctrl+c/ctrl+d clear/exit · / commands · ! bash · ctrl+o more"),
+              theme.fg("dim", "Press ctrl+o to show full startup help and loaded resources."),
+              "",
+              theme.fg("muted", "Pi can explain its own features and look up its docs. Ask it how to use or extend Pi."),
               "",
             ];
 
