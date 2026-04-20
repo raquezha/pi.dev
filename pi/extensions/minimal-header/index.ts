@@ -11,7 +11,8 @@ export default function (pi: ExtensionAPI) {
             const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
             const dateStr = now.toDateString();
             
-            const header = theme.fg("accent", `pi v0.67.68`) + 
+            const indent = "   ";
+            const header = indent + theme.fg("accent", `pi v0.67.68`) + 
                            theme.fg("dim", ` | `) + 
                            theme.fg("success", `${dateStr} | ${timeStr}`) +
                            theme.fg("dim", ` | `) +
@@ -25,7 +26,7 @@ export default function (pi: ExtensionAPI) {
               if (commands && Array.isArray(commands)) {
                 skills = commands
                   .filter(c => c && c.source === "skill")
-                  .map(c => c.name.replace("android-", ""))
+                  .map(c => c.name.replace("skill:", "").replace("android-", ""))
                   .join(", ") || "none";
                 
                 extensions = commands
@@ -39,7 +40,6 @@ export default function (pi: ExtensionAPI) {
 
             const safeWidth = Math.max(0, width - 3);
             const separator = theme.fg("dim", "─".repeat(safeWidth));
-            const indent = "   ";
 
             const lines = [
               "",
