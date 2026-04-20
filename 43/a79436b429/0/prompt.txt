@@ -1,0 +1,17 @@
+i like thie centerring but id on't like the alingment if you mkae it like table2 column may it will be fixed?
+
+---
+
+~/Developer/project-alpha/documentation (main)
+↑2.2k ↓156 $0.002 (sub) 0.2%/1.0M (auto)                (google-antigravity) gemini-3-flash • medium/Users/raquezha/.pi/agent/extensions/minimal-header/index.ts:48
+            separator,
+            ^
+
+ReferenceError: separator is not defined
+    at Object.render (/Users/raquezha/.pi/agent/extensions/minimal-header/index.ts:48:13)
+    at Container.render (file:///opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-tui/dist/tui.js:64:38)
+    at TUI.render (file:///opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-tui/dist/tui.js:64:38)
+    at TUI.doRender (file:///opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-tui/dist/tui.js:691:29)
+    at Timeout._onTimeout (file:///opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-tui/dist/tui.js:350:18)
+    at listOnTimeout (node:internal/timers:608:17)
+    at process.processTimers (node:internal/timers:543:7)
