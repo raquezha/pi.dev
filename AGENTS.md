@@ -81,7 +81,10 @@ pi.dev/
 │   ├── extensions/              # Pi extensions
 │   │   ├── clean-repo/          #   /clean-repo command
 │   │   └── env-protection/      #   Secret file protection
-│   ├── skills/                  # Pi skills (SKILL.md dirs)
+│   ├── skills/                  # Pi skills (categorized)
+│   │   ├── android/             #   Android-specific skills
+│   │   ├── devops/              #   (Planned) GitLab/CI skills
+│   │   └── ...
 │   ├── prompts/                 # Prompt templates (.md)
 │   ├── themes/                  # Custom themes (.json)
 │   ├── settings.json            # Global pi settings

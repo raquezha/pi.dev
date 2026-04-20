@@ -5,8 +5,9 @@ This directory contains specialized skills for the `pi` coding agent. Skills are
 ## Categories
 
 ### 📱 [Android](./android/ROADMAP.md)
-Core skills for Android development, including ADB, Gradle, Compose, and Smart Logcat analysis.
-- **Status**: 🟢 Active / Core Tooling Done
+Core skills for Android development.
+- **Status**: 🟢 Core Tooling Done
+- **Next Up**: Manifest & Resource Management, Test Automation.
 
 ### ♾️ GitLab & DevOps (Planned)
 Skills for managing GitLab CI/CD pipelines, MR reviews, and environment deployments.
