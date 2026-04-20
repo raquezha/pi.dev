@@ -3,7 +3,7 @@
   "checkpoint_id": "3080b1955cc9",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 2,
+  "checkpoints_count": 7,
   "files_touched": [
     ".eslintrc.js",
     ".githooks/pre-commit",
@@ -18,13 +18,19 @@
       "transcript": "/30/80b1955cc9/0/full.jsonl",
       "content_hash": "/30/80b1955cc9/0/content_hash.txt",
       "prompt": "/30/80b1955cc9/0/prompt.txt"
+    },
+    {
+      "metadata": "/30/80b1955cc9/1/metadata.json",
+      "transcript": "/30/80b1955cc9/1/full.jsonl",
+      "content_hash": "/30/80b1955cc9/1/content_hash.txt",
+      "prompt": "/30/80b1955cc9/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 24723,
+    "input_tokens": 48441,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 52207,
-    "output_tokens": 3197,
-    "api_call_count": 6
+    "cache_read_tokens": 90991,
+    "output_tokens": 8251,
+    "api_call_count": 11
   }
 }
