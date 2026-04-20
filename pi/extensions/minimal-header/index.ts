@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { truncateToWidth } from "@mariozechner/pi-tui";
+import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
 
 export default function (pi: ExtensionAPI) {
   pi.on("session_start", async (_event, ctx) => {
@@ -11,8 +11,7 @@ export default function (pi: ExtensionAPI) {
             const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
             const dateStr = now.toDateString();
             
-            const indent = "   ";
-            const header = indent + theme.fg("accent", `pi v0.67.68`) + 
+            const header = theme.fg("accent", `pi v0.67.68`) + 
                            theme.fg("dim", ` | `) + 
                            theme.fg("success", `${dateStr} | ${timeStr}`) +
                            theme.fg("dim", ` | `) +
@@ -38,22 +37,27 @@ export default function (pi: ExtensionAPI) {
               skills = "loading...";
             }
 
-            const safeWidth = Math.max(0, width - 3);
+            const safeWidth = Math.min(width, 100); 
             const separator = theme.fg("dim", "─".repeat(safeWidth));
 
-            const lines = [
+            const rawLines = [
               "",
               header,
-              indent + separator,
-              `${indent}${theme.fg("accent", "Skills ")} ${theme.fg("text", skills)}`,
-              `${indent}${theme.fg("accent", "Exts   ")} ${theme.fg("text", extensions)}`,
-              `${indent}${theme.fg("accent", "Help   ")} ${theme.fg("dim", "ctrl+c exit · / commands · ! bash · ctrl+o more")}`,
-              indent + separator,
+              separator,
+              `${theme.fg("accent", "Skills ")} ${theme.fg("text", skills)}`,
+              `${theme.fg("accent", "Exts   ")} ${theme.fg("text", extensions)}`,
+              `${theme.fg("accent", "Help   ")} ${theme.fg("dim", "ctrl+c exit · / commands · ! bash · ctrl+o more")}`,
+              separator,
               "",
             ];
 
-            // Truncate all lines to fit terminal width
-            return lines.map(line => truncateToWidth(line, safeWidth));
+            // Center each line individually
+            return rawLines.map(line => {
+              const truncated = truncateToWidth(line, width);
+              const vWidth = visibleWidth(truncated);
+              const padding = Math.floor(Math.max(0, width - vWidth) / 2);
+              return " ".repeat(padding) + truncated;
+            });
           },
           invalidate() {},
         };
