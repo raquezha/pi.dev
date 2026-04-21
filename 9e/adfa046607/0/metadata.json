@@ -1,0 +1,53 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "9eadfa046607",
+  "session_id": "019da9e5-5839-72b2-ae99-4112413737d8",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-21T01:07:34.00586Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "pi/skills/android/android-agp9-migration/SKILL.md"
+  ],
+  "agent": "Pi",
+  "model": "",
+  "turn_id": "c02c56c6dba6",
+  "token_usage": {
+    "input_tokens": 94873,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 41445,
+    "output_tokens": 5569,
+    "api_call_count": 15
+  },
+  "session_metrics": {
+    "turn_count": 4
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-21T01:07:33.999883Z",
+    "agent_lines": 76,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 76,
+    "total_lines_changed": 76,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 25,
+      "agent_lines_removed": 0
+    }
+  ]
+}
