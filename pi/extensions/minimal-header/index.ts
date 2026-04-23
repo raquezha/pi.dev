@@ -36,8 +36,22 @@ export default function (pi: ExtensionAPI) {
               skills = "loading...";
             }
 
-            // 3. Define the data block
+            // 3. Define the data block (include session context)
+            let contextInfo = "none";
+            try {
+              const sessionFile = ctx?.sessionManager?.getSessionFile?.();
+              const cwd = ctx?.cwd;
+              if (sessionFile) {
+                contextInfo = sessionFile;
+              } else if (cwd) {
+                contextInfo = cwd;
+              }
+            } catch (e) {
+              contextInfo = "loading...";
+            }
+
             const rows = [
+              ["Context", theme.fg("dim", contextInfo)],
               ["Skills", skills],
               ["Exts", extensions],
               ["Help", theme.fg("dim", "/cmds · !bash · ctrl+c exit · ctrl+o more")]
