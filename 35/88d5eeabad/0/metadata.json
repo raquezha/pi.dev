@@ -1,0 +1,46 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "3588d5eeabad",
+  "session_id": "019db92a-5b6c-77ab-9483-f93da5fee5ce",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-23T07:43:06.352066Z",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "files_touched": [],
+  "agent": "Pi",
+  "model": "",
+  "turn_id": "65de793ff343",
+  "token_usage": {
+    "input_tokens": 260791,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 473582,
+    "output_tokens": 16733,
+    "api_call_count": 44
+  },
+  "session_metrics": {
+    "turn_count": 8
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 2,
+      "agent_lines_removed": 2
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    }
+  ]
+}
