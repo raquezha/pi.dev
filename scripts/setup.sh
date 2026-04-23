@@ -204,6 +204,7 @@ if [[ -f "$SECRETS_FILE" ]]; then
   if ! grep -q "BRAVE_SEARCH_API_KEY" "$SECRETS_FILE"; then
     warn "BRAVE_SEARCH_API_KEY is missing from ~/.pi-secrets/.env"
     info "Get one at: https://api.search.brave.com/app/dashboard"
+    info "To add it, run: echo \"BRAVE_SEARCH_API_KEY=your_key_here\" >> $SECRETS_FILE"
   fi
 else
   warn "No ~/.pi-secrets/.env found"
