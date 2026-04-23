@@ -15,7 +15,7 @@ This skill provides web search capabilities using the Brave Search API.
 
 ## Usage
 
-The agent can use the following commands to search the web. The results include web pages, infoboxes (summaries), and FAQs.
+The agent can use the following commands to search the web or read specific pages.
 
 ### Search Web
 ```bash
@@ -25,6 +25,11 @@ The agent can use the following commands to search the web. The results include 
 ### Search and Output as Markdown Table
 ```bash
 ./search.sh "your search query" --table
+```
+
+### Read a Specific URL
+```bash
+./read.sh "https://example.com"
 ```
 
 ### Search and Get Summaries
