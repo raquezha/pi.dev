@@ -83,3 +83,39 @@ The skill uses a helper script `search.sh` to interact with the API.
 </skill>
 
 what is the meaning of life
+
+---
+
+<skill name="brave-search" location="/Users/raquezha/.pi/agent/skills/search/brave-search/SKILL.md">
+References are relative to /Users/raquezha/.pi/agent/skills/search/brave-search.
+
+# Brave Search Skill
+
+This skill provides web search capabilities using the Brave Search API.
+
+## Prerequisites
+
+- [Brave Search API Key](https://api.search.brave.com/app/dashboard)
+- `BRAVE_SEARCH_API_KEY` environment variable set in `~/.pi-secrets/.env`
+- `jq` installed for JSON processing
+
+## Usage
+
+The agent can use the following commands to search the web. The results include web pages, infoboxes (summaries), and FAQs.
+
+### Search Web
+```bash
+./search.sh "your search query"
+```
+
+### Search and Get Summaries
+```bash
+./search.sh "your search query" --summarize
+```
+
+## Implementation
+
+The skill uses a helper script `search.sh` to interact with the API.
+</skill>
+
+search the current top ranking of ai harness output shoulbe in table foramt
