@@ -153,3 +153,7 @@ The agent can use the following commands to search the web. The results include 
 
 The skill uses a helper script `search.sh` to interact with the API.
 </skill>
+
+---
+
+when i use .setup.sh in other device it will get this right? i should setup the brave api too it shoudl guid em
