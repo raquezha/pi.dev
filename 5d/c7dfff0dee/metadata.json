@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "5dc7dfff0dee",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "pi/skills/search/brave-search/SKILL.md",
+    "pi/skills/search/brave-search/search.sh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/5d/c7dfff0dee/0/metadata.json",
+      "transcript": "/5d/c7dfff0dee/0/full.jsonl",
+      "content_hash": "/5d/c7dfff0dee/0/content_hash.txt",
+      "prompt": "/5d/c7dfff0dee/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 175994,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 210772,
+    "output_tokens": 9072,
+    "api_call_count": 28
+  }
+}

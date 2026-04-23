@@ -1,0 +1,76 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "5dc7dfff0dee",
+  "session_id": "019db92a-5b6c-77ab-9483-f93da5fee5ce",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-23T07:27:22.895736Z",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "pi/skills/search/brave-search/SKILL.md",
+    "pi/skills/search/brave-search/search.sh"
+  ],
+  "agent": "Pi",
+  "model": "",
+  "turn_id": "cc577d7a902e",
+  "token_usage": {
+    "input_tokens": 175994,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 210772,
+    "output_tokens": 9072,
+    "api_call_count": 28
+  },
+  "session_metrics": {
+    "turn_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-23T07:27:22.889778Z",
+    "agent_lines": 106,
+    "agent_removed": 0,
+    "human_added": 5,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 111,
+    "total_lines_changed": 111,
+    "agent_percentage": 95.4954954954955,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 2,
+      "user_lines_removed": 2,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "pi/models.json": 1,
+        "pi/settings.json": 1
+      },
+      "user_removed_per_file": {
+        "pi/models.json": 1,
+        "pi/settings.json": 1
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 108,
+      "agent_lines_removed": 2
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 108,
+      "agent_lines_removed": 2
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 108,
+      "agent_lines_removed": 2
+    }
+  ]
+}

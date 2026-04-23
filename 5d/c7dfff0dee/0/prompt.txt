@@ -1,0 +1,9 @@
+i want to integrate this skill in my pi dev, iwant when i say search it automatically pick up this skill: https://github.com/brave/brave-search-skills?tab=readme-ov-file
+
+---
+
+i have api keys for web give me 1 line to update the pi-secrets
+
+---
+
+make sure the .setup.sh i supdate also how can i try ithis
