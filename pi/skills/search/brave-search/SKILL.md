@@ -22,6 +22,11 @@ The agent can use the following commands to search the web. The results include 
 ./search.sh "your search query"
 ```
 
+### Search and Output as Markdown Table
+```bash
+./search.sh "your search query" --table
+```
+
 ### Search and Get Summaries
 ```bash
 ./search.sh "your search query" --summarize
