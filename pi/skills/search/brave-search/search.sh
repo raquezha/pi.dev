@@ -9,37 +9,29 @@ fi
 
 QUERY="$1"
 if [ -z "$QUERY" ]; then
-  echo "Usage: ./search.sh \"query\" [--summarize]"
+  echo "Usage: ./search.sh \"query\" [--summarize] [--table]"
   exit 1
 fi
 
+# Flags
+shift || true
 SUMMARIZE=false
-if [ "$2" == "--summarize" ]; then
-  SUMMARIZE=true
-fi
+TABLE=false
+for arg in "$@"; do
+  case "$arg" in
+    --summarize) SUMMARIZE=true ;;
+    --table) TABLE=true ;;
+  esac
+done
 
 # Brave Search API endpoint
 ENDPOINT="https://api.search.brave.com/res/v1/web/search"
 
 # Perform search
-# Note: We use -H "Accept-Encoding: gzip" and pipe to gunzip because Brave API recommends it,
-# but for simplicity in a script, let's see if we can just get plain JSON.
-# Actually, the API supports plain JSON if we don't ask for gzip.
-
-if [ "$SUMMARIZE" = true ]; then
-  # If summarizing, we might want to use the 'summary' parameter if available, 
-  # but standard web search returns snippets.
-  # Brave also has a 'summarizer' endpoint, but let's stick to web search for now.
-  RESPONSE=$(curl -s -G "$ENDPOINT" \
-    --data-urlencode "q=$QUERY" \
-    -H "Accept: application/json" \
-    -H "X-Subscription-Token: $BRAVE_SEARCH_API_KEY")
-else
-  RESPONSE=$(curl -s -G "$ENDPOINT" \
-    --data-urlencode "q=$QUERY" \
-    -H "Accept: application/json" \
-    -H "X-Subscription-Token: $BRAVE_SEARCH_API_KEY")
-fi
+RESPONSE=$(curl -s -G "$ENDPOINT" \
+  --data-urlencode "q=$QUERY" \
+  -H "Accept: application/json" \
+  -H "X-Subscription-Token: $BRAVE_SEARCH_API_KEY")
 
 # Check for errors in response
 if echo "$RESPONSE" | jq -e '.message' > /dev/null 2>&1; then
@@ -47,7 +39,19 @@ if echo "$RESPONSE" | jq -e '.message' > /dev/null 2>&1; then
   exit 1
 fi
 
-# Output results in a readable format for the agent
+# If table output requested, render Markdown table of web results
+if [ "$TABLE" = true ]; then
+  echo "$RESPONSE" | jq -r '
+    if .web and .web.results then
+      .web.results | to_entries | ( ["| Rank | Title | URL | Description |","|---:|---|---|---:|"] ), ( .[] | "| " + ((.key+1)|tostring) + " | " + (.value.title // "") | gsub("\n"; " ") | gsub("\|"; "\\|") + " | " + (.value.url // "") + " | " + ((.value.description // "") | gsub("\n"; " ") | gsub("\|"; "\\|")) + " |" )
+    else
+      "No web.results in response"
+    end
+  '
+  exit 0
+fi
+
+# Default human-readable output
 echo "--- RESULTS FOR: $QUERY ---"
 
 # Check for Infobox
