@@ -1,0 +1,1 @@
+i notice in @pi/extensions/minimal-header/you did not add the Context that you pick up
