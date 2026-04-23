@@ -9,6 +9,11 @@ Core skills for Android development.
 - **Status**: 🟢 Core Tooling Done
 - **Next Up**: Manifest & Resource Management, Test Automation.
 
+### 🔍 Search
+Web search and information retrieval.
+- **Status**: 🟢 Brave Search Integrated
+- **Next Up**: Content extraction, Goggles integration.
+
 ### ♾️ GitLab & DevOps (Planned)
 Skills for managing GitLab CI/CD pipelines, MR reviews, and environment deployments.
 - **Status**: ⚪ Planned
