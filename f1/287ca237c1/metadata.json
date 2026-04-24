@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "f1287ca237c1",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 8,
+  "files_touched": [
+    "pi/skills/README.md",
+    "pi/skills/meta/pi-skill-creator/SKILL.md",
+    "pi/skills/meta/pi-skill-creator/references/pi-skill-checklist.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/f1/287ca237c1/0/metadata.json",
+      "transcript": "/f1/287ca237c1/0/full.jsonl",
+      "content_hash": "/f1/287ca237c1/0/content_hash.txt",
+      "prompt": "/f1/287ca237c1/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 66016,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 654336,
+    "output_tokens": 20510,
+    "api_call_count": 29
+  }
+}
