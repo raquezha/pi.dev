@@ -50,3 +50,15 @@ yeah it should tailor fit to work with pi so it's kind pi-skill-creator
 ---
 
 rename to pi-skill-creator and proceed go go go
+
+---
+
+nice commit and push and guide me 
+
+
+i will cd to my prefered repo right
+
+cd ci-componenet
+
+
+and then what's netxt use pi-skill-creator to create a skill?
