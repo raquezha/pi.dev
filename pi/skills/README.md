@@ -22,6 +22,11 @@ Skills for managing GitLab CI/CD pipelines, MR reviews, and environment deployme
 Skills for Fastlane, App Store/Play Store automated releases, and TestFlight management.
 - **Status**: ⚪ Planned
 
+### 🛠 Meta
+Skills for creating and maintaining pi skills and other agent-facing building blocks.
+- **Status**: 🟢 Pi Skill Creator Added
+- **Skills**: `meta/pi-skill-creator`
+
 ### ✍️ Documentation (Planned)
 Skills for generating API docs, maintaining READMEs, and technical writing assistance.
 - **Status**: ⚪ Planned
