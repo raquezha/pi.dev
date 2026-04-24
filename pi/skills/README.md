@@ -8,6 +8,7 @@ This directory contains specialized skills for the `pi` coding agent. Skills are
 Core skills for Android development.
 - **Status**: 🟢 Core Tooling Done
 - **Next Up**: Manifest & Resource Management, Test Automation.
+- **Skills**: `android-adb`, `android-agp9-migration`, `android-compose`, `android-gradle`, `android-logcat-smart`, `android-project-setup`, `android-ci-component-adoption`
 
 ### 🔍 Search
 Web search and information retrieval.

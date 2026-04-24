@@ -37,6 +37,7 @@ This document outlines the strategy for integrating specialized Android developm
 | `android-logcat-smart` | Crash analysis and "Smart Synthesis" of fixes. |
 | `android-gradle` | Build, test, lint, with Build & Rollback safety. |
 | `android-compose` | Jetpack Compose UI generation and refactoring. |
+| `android-ci-component-adoption` | Audit, classify, and migrate Android, Android TV, and KMP repos to the shared ci-component GitLab CI standard. |
 | `android-manifest` | Manifest analysis and modification. |
 | `android-resources` | Resource management (strings, colors, drawables). |
 | `android-test` | Test execution and result analysis. |
