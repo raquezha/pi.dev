@@ -88,3 +88,7 @@ but we need to guide the user you want to put it in .pi.deve butut haha fuck bec
 ---
 
 because adding it there should commit and push also
+
+---
+
+proceed update it
