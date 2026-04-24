@@ -84,6 +84,7 @@ pi.dev/
 │   ├── skills/                  # Pi skills (categorized)
 │   │   ├── android/             #   Android-specific skills
 │   │   ├── devops/              #   (Planned) GitLab/CI skills
+│   │   ├── meta/                #   Pi skill authoring and maintenance
 │   │   └── ...
 │   ├── prompts/                 # Prompt templates (.md)
 │   ├── themes/                  # Custom themes (.json)
@@ -107,7 +108,7 @@ npm install -g @mariozechner/pi-coding-agent
 git clone https://github.com/raquezha/pi.dev ~/Developer/pi.dev
 cd ~/Developer/pi.dev && ./scripts/setup.sh
 
-# After editing extensions:
+# After editing skills or extensions:
 # In pi, type /reload to pick up changes
 ```
 
@@ -117,4 +118,6 @@ cd ~/Developer/pi.dev && ./scripts/setup.sh
 
 - **models.json**: Use environment variable names for API keys, never literal secrets.
 - Keep commits **atomic** — one logical change per commit.
+- New or updated reusable pi skills should live in `pi/skills/...` in this repository, even when they are derived from an external source-of-truth repo.
+- After adding or updating a skill, run `./scripts/setup.sh` and then `/reload` in pi.
 - Test extensions with `pi -e ./pi/extensions/my-ext/index.ts` before committing.

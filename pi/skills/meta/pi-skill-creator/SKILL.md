@@ -31,7 +31,10 @@ Always optimize for pi.dev, not generic skill systems.
 4. Prefer the smallest useful skill structure, but do not force everything into one `SKILL.md` when references or examples would make the skill more reliable.
 5. Never hardcode secrets. Reference environment variables only.
 6. Update `pi/skills/README.md` when adding a new category or notable new skill.
-7. After creating or updating a skill, remind the user they can run `./scripts/setup.sh` and `/reload` in pi.
+7. For pi.dev work, default the generated skill destination to `pi/skills/...` in the current `pi.dev` repository, even when studying an external source repo.
+8. Treat external repos as source material by default, not as the destination for the generated skill, unless the user explicitly asks for a project-local skill.
+9. After creating or updating a skill in pi.dev, remind the user they can run `./scripts/setup.sh` and `/reload` in pi.
+10. If the user asks, commit and push the new skill changes in `pi.dev` using Conventional Commits.
 
 ## Skill classes
 
@@ -93,6 +96,8 @@ Depending on the task, this may include:
 - examples and templates
 - external skills or docs the user referenced
 
+If the user points to another repository, treat it as context to study first. For pi.dev authoring workflows, still create the resulting skill under `pi/skills/...` unless the user clearly asks for a project-local skill in that external repo.
+
 If web context is needed, use the `brave-search` skill.
 
 ### 3. Build a design brief
@@ -107,6 +112,9 @@ Before generating files, synthesize what you learned into a compact design brief
 - what edge cases matter
 - what validation is needed
 - what file structure the skill should use
+- where the generated skill should be written
+
+For pi.dev-centered workflows, explicitly note that the destination is `pi/skills/...` in the current repository unless the user requested a different destination.
 
 Do not skip this step for complex skills.
 
@@ -159,7 +167,17 @@ Check that:
 - references and scripts are only included when useful
 - instructions match pi, not another harness
 - repo paths mentioned in the skill actually exist
+- the destination repo is correct for the user's workflow
 - no security or secret-handling rules are violated
+
+### 8. Finish the pi.dev workflow
+When the generated skill is added to `pi.dev`:
+
+1. summarize what was created or changed
+2. update `pi/skills/README.md` if needed
+3. if the user asks, commit the changes with a Conventional Commit
+4. if the user asks, push the branch
+5. remind the user to run `./scripts/setup.sh` and `/reload`
 
 ## Description guidance
 

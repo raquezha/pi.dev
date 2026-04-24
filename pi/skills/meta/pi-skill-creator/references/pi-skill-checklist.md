@@ -8,6 +8,7 @@ Use this checklist when creating or reviewing a skill for `pi.dev`.
 - [ ] Enough authoritative context was gathered before drafting
 - [ ] A short design brief exists for complex skills
 - [ ] The final structure matches the complexity of the task
+- [ ] The destination repo is explicit: `pi.dev` by default, project-local only if requested
 
 ## Discovery and naming
 
@@ -31,6 +32,7 @@ Use this checklist when creating or reviewing a skill for `pi.dev`.
 - [ ] The category fits the existing repository layout
 - [ ] `pi/skills/README.md` is updated when needed
 - [ ] Paths and commands match this repo
+- [ ] External repos were treated as source context unless the user requested a project-local skill
 - [ ] The skill does not rely on non-pi-only commands unless clearly justified
 
 ## Security
@@ -46,5 +48,7 @@ Before wrapping up, summarize:
 1. what files were added or changed
 2. what context was used to shape the skill
 3. why the skill should trigger correctly
-4. any follow-up validation the user should run
-5. whether they should run `./scripts/setup.sh` and `/reload`
+4. whether the skill was created in `pi.dev` or project-local and why
+5. any follow-up validation the user should run
+6. whether they should run `./scripts/setup.sh` and `/reload`
+7. whether the user wants commit and push in `pi.dev`
