@@ -1,0 +1,81 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "08ba872556f0",
+  "session_id": "019dbe19-ca83-74b3-b3ca-230160eb3875",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-24T07:04:45.222056Z",
+  "branch": "main",
+  "checkpoints_count": 8,
+  "files_touched": [],
+  "agent": "Pi",
+  "model": "",
+  "turn_id": "817ee4d7b805",
+  "token_usage": {
+    "input_tokens": 78920,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1397120,
+    "output_tokens": 28005,
+    "api_call_count": 45
+  },
+  "session_metrics": {
+    "turn_count": 15
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 3,
+      "agent_lines_removed": 3
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 3,
+      "agent_lines_removed": 3
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 3,
+      "agent_lines_removed": 3
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 3,
+      "agent_lines_removed": 3
+    },
+    {
+      "checkpoint_number": 7,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 3,
+      "agent_lines_removed": 3
+    },
+    {
+      "checkpoint_number": 8,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 3,
+      "agent_lines_removed": 3
+    },
+    {
+      "checkpoint_number": 9,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 3,
+      "agent_lines_removed": 3
+    }
+  ]
+}

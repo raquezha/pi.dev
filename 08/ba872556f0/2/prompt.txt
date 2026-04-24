@@ -1,0 +1,90 @@
+I want to create a SKILL Creator kinda similar with https://github.com/anthropics/skills/tree/main/skills/skill-creator use web serach skill to get the data here the skill creator should be tied to pi.dev
+
+---
+
+okay #1 and #2 explain it
+
+---
+
+Okay I approve #1 
+but explain #2 i don't undersatnd
+
+---
+
+okay before you implement what i want is i have a ci-component repo right?  then i want 
+1. arm yourself with context 
+2. comprehensively create a plan on how to use the repor
+3. basically the goal is to use the our ci-component 100% accuracy
+4. then since you know the context now create a skill on how to use that ci-component
+5. that skill will load on our android/kmp or related projects then it will proceed to update that rpoejct
+
+ohh kinda like the xml-to-compose skill of android "Kinda same usecase"  use web search skill to read thsi: https://github.com/android/skills/tree/main/jetpack-compose/migration/migrate-xml-views-to-jetpack-compose
+
+
+so the skill creator on what i magine is getting the 100% context first then create a SKILL.md right? ir am i wrong
+
+---
+
+okay do 2 first
+
+---
+
+wait 
+ 1. understand your canonical ci-component repo
+ 2. load in Android / KMP / related repos
+ 3. inspect the target repo
+ 4. determine the correct way to apply your CI component
+ 5. update the target repo safely
+ 6. do it with very high reliability
+
+ So this is basically a:
+
+this is a example
+
+hahahaa I want  a strong SKILL CREATOR that adatps to what i want it to create a skill
+
+---
+
+yeah it should tailor fit to work with pi so it's kind pi-skill-creator
+
+---
+
+rename to pi-skill-creator and proceed go go go
+
+---
+
+nice commit and push and guide me 
+
+
+i will cd to my prefered repo right
+
+cd ci-componenet
+
+
+and then what's netxt use pi-skill-creator to create a skill?
+
+---
+
+nahh commit and pushh is good
+
+---
+
+wait there's is a problem the skill will be on that repo, it should be in loaded in pi-dev and i will run setup then reload lol
+
+---
+
+wait what if the skill knows it
+
+---
+
+why " not skill destination."
+
+---
+
+In that case, writing into the external repo is correct. ok agrreed.
+
+but we need to guide the user you want to put it in .pi.deve butut haha fuck becaue i will use this ksill creator and it's mine  lol
+
+---
+
+because adding it there should commit and push also
