@@ -1,0 +1,49 @@
+clear
+
+---
+
+i want to create ai workflow or orchetrastion, in my mind i thin using pi.dev we should be always in tmux and it will selfspawn but that's too advance we start with use pi intmux first we are talking and R&D on how would i do this
+
+---
+
+<skill name="brave-search" location="/Users/raquezha/.pi/agent/skills/search/brave-search/SKILL.md">
+References are relative to /Users/raquezha/.pi/agent/skills/search/brave-search.
+
+# Brave Search Skill
+
+This skill provides web search capabilities using the Brave Search API.
+
+## Prerequisites
+
+- [Brave Search API Key](https://api.search.brave.com/app/dashboard)
+- `BRAVE_SEARCH_API_KEY` environment variable set in `~/.pi-secrets/.env`
+- `jq` installed for JSON processing
+
+## Usage
+
+The agent can use the following commands to search the web. The results include web pages, infoboxes (summaries), and FAQs.
+
+### Search Web
+```bash
+./search.sh "your search query"
+```
+
+### Search and Get Summaries
+```bash
+./search.sh "your search query" --summarize
+```
+
+## Implementation
+
+The skill uses a helper script `search.sh` to interact with the API.
+</skill>
+
+---
+
+nahhh
+
+---
+
+we are just talking no implementation. 
+
+i really don't know what i want to do here so i'm trial and error this is part of the orchestration,  i reall don't want sub agents now just one agent is enough, but i don't know how what should i tyake becuae i can crate subagents here in pi but is ti good toen bloat? i dont nw

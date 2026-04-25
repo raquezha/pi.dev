@@ -1,0 +1,57 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "e1d1b22223fe",
+  "session_id": "019db81c-ea21-7388-8906-600993eaed73",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-25T12:38:49.525674Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "pi/skills/meta/pi-skill-creator/SKILL.md",
+    "pi/skills/meta/pi-skill-creator/references/pi-skill-checklist.md"
+  ],
+  "agent": "Pi",
+  "model": "",
+  "turn_id": "dded35a4847b",
+  "token_usage": {
+    "input_tokens": 19961,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 17536,
+    "output_tokens": 7098,
+    "api_call_count": 7
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-25T12:38:49.521587Z",
+    "agent_lines": 55,
+    "agent_removed": 111,
+    "human_added": 104,
+    "human_modified": 11,
+    "human_removed": 0,
+    "total_committed": 170,
+    "total_lines_changed": 281,
+    "agent_percentage": 59.07473309608541,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 15,
+      "user_lines_removed": 14,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "pi/settings.json": 3,
+        "pi/skills/meta/pi-skill-creator/SKILL.md": 9,
+        "pi/skills/meta/pi-skill-creator/references/pi-skill-checklist.md": 3
+      },
+      "user_removed_per_file": {
+        "pi/settings.json": 3,
+        "pi/skills/meta/pi-skill-creator/SKILL.md": 8,
+        "pi/skills/meta/pi-skill-creator/references/pi-skill-checklist.md": 3
+      }
+    }
+  ]
+}
