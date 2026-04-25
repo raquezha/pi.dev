@@ -3,7 +3,7 @@
   "checkpoint_id": "e1d1b22223fe",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 16,
+  "checkpoints_count": 17,
   "files_touched": [
     "pi/skills/meta/pi-skill-creator/SKILL.md",
     "pi/skills/meta/pi-skill-creator/references/description-guide.md",
@@ -23,6 +23,12 @@
       "transcript": "/e1/d1b22223fe/1/full.jsonl",
       "content_hash": "/e1/d1b22223fe/1/content_hash.txt",
       "prompt": "/e1/d1b22223fe/1/prompt.txt"
+    },
+    {
+      "metadata": "/e1/d1b22223fe/2/metadata.json",
+      "transcript": "/e1/d1b22223fe/2/full.jsonl",
+      "content_hash": "/e1/d1b22223fe/2/content_hash.txt",
+      "prompt": "/e1/d1b22223fe/2/prompt.txt"
     }
   ],
   "token_usage": {
@@ -30,6 +36,6 @@
     "cache_creation_tokens": 0,
     "cache_read_tokens": 3718016,
     "output_tokens": 51357,
-    "api_call_count": 88
+    "api_call_count": 89
   }
 }

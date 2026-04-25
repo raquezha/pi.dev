@@ -1,0 +1,8 @@
+{"type":"session","version":3,"id":"019dc1ea-6958-71d3-8c6e-2501e1b3c6c5","timestamp":"2026-04-24T23:54:18.334Z","cwd":"/Users/raquezha/Developer/pi.dev"}
+{"type":"model_change","id":"9064fabc","parentId":null,"timestamp":"2026-04-24T23:54:19.648Z","provider":"openai-codex","modelId":"gpt-5.4"}
+{"type":"thinking_level_change","id":"53b428f8","parentId":"9064fabc","timestamp":"2026-04-24T23:54:19.648Z","thinkingLevel":"medium"}
+{"type":"model_change","id":"19ab1522","parentId":"53b428f8","timestamp":"2026-04-24T23:54:39.428Z","provider":"openai-codex","modelId":"gpt-5.5"}
+{"type":"message","id":"99893b11","parentId":"19ab1522","timestamp":"2026-04-24T23:54:41.481Z","message":{"role":"user","content":[{"type":"text","text":"hello!"}],"timestamp":1777074881338}}
+{"type":"message","id":"31fcec74","parentId":"99893b11","timestamp":"2026-04-24T23:54:50.053Z","message":{"role":"assistant","content":[],"api":"openai-codex-responses","provider":"openai-codex","model":"gpt-5.5","usage":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"totalTokens":0,"cost":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"total":0}},"stopReason":"error","timestamp":1777074881487,"errorMessage":"{\"detail\":\"The 'gpt-5.5' model is not supported when using Codex with a ChatGPT account.\"}"}}
+{"type":"model_change","id":"585e3972","parentId":"31fcec74","timestamp":"2026-04-25T00:01:52.264Z","provider":"github-copilot","modelId":"gpt-5.4-mini"}
+{"type":"message","id":"4faa1431","parentId":"585e3972","timestamp":"2026-04-25T00:01:55.642Z","message":{"role":"user","content":[{"type":"text","text":"hi"}],"timestamp":1777075315441}}
