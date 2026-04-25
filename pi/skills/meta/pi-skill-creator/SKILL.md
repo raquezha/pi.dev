@@ -5,43 +5,49 @@ description: Create or improve skills specifically for the pi coding agent and t
 
 # Pi Skill Creator
 
-Create and refine skills that are tailored for **pi** and this **pi.dev** repository.
+Create and refine skills tailored for **pi** and this **pi.dev** repository.
 
-Do not jump straight into writing `SKILL.md`. First understand what kind of skill is needed, gather authoritative context, extract the repeatable workflow, and then generate the right skill package.
+Do not jump straight into writing `SKILL.md`. First understand the requested skill, gather authoritative context, extract the repeatable workflow, and then generate the right package.
+
+## Core process
+
+1. Gather requirements and authoritative context.
+2. Classify the skill type.
+3. Build a design brief.
+4. Review the brief with the user when the task is non-trivial.
+5. Draft the skill package.
+6. Refine, finalize, and optionally commit/push.
 
 ## What this skill should produce
 
-A finished or improved skill under `pi/skills/<category>/<skill-name>/` that:
+A finished or improved skill under `pi/skills/<category>/<skill-name>/` in `~/Developer/pi.dev` by default, unless the user explicitly asks for a project-local skill elsewhere. It should:
 
-- follows the pi / Agent Skills format
-- uses a valid lowercase hyphenated `name`
-- keeps the `name` equal to the parent directory name
-- has a strong `description` that clearly says **what the skill does** and **when to use it**
-- includes extra files only when they add real value (`references/`, `scripts/`, `assets/`)
-- fits pi.dev repository conventions and skill categories
-- reflects real source-of-truth context instead of generic placeholder guidance
+- follow the pi / Agent Skills format
+- use a valid lowercase hyphenated `name`
+- keep the `name` equal to the parent directory name
+- have a strong `description` that clearly says what the skill does and when to use it
+- include extra files only when they add real value
+- fit pi.dev conventions and categories
+- reflect real source-of-truth context instead of placeholder guidance
 
-## Pi-native operating principles
-
-Always optimize for pi.dev, not generic skill systems.
+## Pi-native operating rules
 
 1. Read local patterns first: `pi/skills/README.md`, nearby skills in the same category, and relevant pi docs.
 2. If the skill touches pi features, read the relevant pi docs before drafting instructions.
-3. If the user points to an external skill or source repo, study it first and adapt it to pi instead of copying it literally.
-4. Prefer the smallest useful skill structure, but do not force everything into one `SKILL.md` when references or examples would make the skill more reliable.
-5. Never hardcode secrets. Reference environment variables only.
+3. If the user points to an external repo or skill, study it first and adapt it to pi instead of copying it literally.
+4. Default the generated reusable skill destination to `~/Developer/pi.dev/pi/skills/...`.
+5. Treat external repos as source context by default, not as the destination, unless the user explicitly asks for a project-local skill.
 6. Update `pi/skills/README.md` when adding a new category or notable new skill.
-7. For pi.dev work, default the generated skill destination to `pi/skills/...` in the current `pi.dev` repository, even when studying an external source repo.
-8. Treat external repos as source material by default, not as the destination for the generated skill, unless the user explicitly asks for a project-local skill.
-9. After creating or updating a skill in pi.dev, remind the user they can run `./scripts/setup.sh` and `/reload` in pi.
-10. If the user asks, commit and push the new skill changes in `pi.dev` using Conventional Commits.
+7. Never hardcode secrets. Reference environment variables only.
+8. After creating or updating a skill in pi.dev, remind the user about `./scripts/setup.sh` and `/reload`.
+9. If the user asks, commit and push the pi.dev changes using Conventional Commits.
 
 ## Skill classes
 
-Before writing files, classify the requested skill. The structure should follow the job.
+Classify the request before drafting.
 
 ### 1. Helper skill
-Small reusable behaviors or formatting guidance.
+Small reusable behavior, formatting guidance, or lightweight instruction set.
 
 Typical output:
 - `SKILL.md` only
@@ -51,27 +57,27 @@ Step-by-step operational process.
 
 Typical output:
 - `SKILL.md`
-- optional `references/` checklist or deeper guide
+- optional `references/`
 
 ### 3. Migration or adoption skill
-Moves a project from one state to another, such as XML to Compose, legacy CI to shared CI, or old config to a new standard.
+Moves a project from one state to another.
 
 Typical output:
 - `SKILL.md`
 - `references/` for decision trees, patterns, edge cases, validation
-- optional `assets/` examples
+- optional `assets/`
 
 ### 4. Repo-specific operational skill
-Teaches pi how to correctly use a source-of-truth repo, internal framework, component library, or org-standard workflow.
+Teaches pi how to correctly use a source-of-truth repo, framework, component, or org-standard workflow.
 
 Typical output:
 - `SKILL.md`
 - `references/` that distill the source repo
-- optional `scripts/` or `assets/` if they improve consistency
+- optional `scripts/` or `assets/`
 
-If unclear, ask enough questions to classify the skill before drafting.
+If unclear, ask enough questions to classify the skill first.
 
-## Context-first workflow
+## Workflow
 
 ### 1. Capture the target skill
 Clarify:
@@ -80,14 +86,12 @@ Clarify:
 - when it should trigger
 - whether it creates, updates, migrates, reviews, or standardizes something
 - whether it is tied to a specific repo, framework, platform, or internal standard
-- what a successful outcome looks like
+- what success looks like
 
 Reuse context already present in the conversation before asking repetitive questions.
 
 ### 2. Gather authoritative context
-Arm yourself with the right source material before writing the skill.
-
-Depending on the task, this may include:
+Use the right source material before writing:
 
 - source-of-truth repos
 - local repository files
@@ -96,45 +100,39 @@ Depending on the task, this may include:
 - examples and templates
 - external skills or docs the user referenced
 
-If the user points to another repository, treat it as context to study first. For pi.dev authoring workflows, still create the resulting skill under `pi/skills/...` unless the user clearly asks for a project-local skill in that external repo.
+If the user points to another repository, treat it as context to study first. For pi.dev authoring workflows, still create the resulting skill under `~/Developer/pi.dev/pi/skills/...` unless the user clearly asks for a project-local skill.
 
 If web context is needed, use the `brave-search` skill.
 
 ### 3. Build a design brief
-Before generating files, synthesize what you learned into a compact design brief. It should answer:
+Before generating files, synthesize what you learned into a compact design brief that covers:
 
-- what kind of skill this is
-- who or what it applies to
-- when it should trigger
-- what inputs it inspects
-- what outputs or changes it should produce
-- what decisions it must make
-- what edge cases matter
-- what validation is needed
-- what file structure the skill should use
-- where the generated skill should be written
+- skill type
+- audience or target repo/context
+- trigger conditions
+- inputs inspected
+- outputs or changes produced
+- decisions and edge cases
+- validation needs
+- file structure
+- destination path
 
-For pi.dev-centered workflows, explicitly note that the destination is `pi/skills/...` in the current repository unless the user requested a different destination.
+For pi.dev-centered workflows, explicitly note that the destination is `pi/skills/...` in `~/Developer/pi.dev` unless the user requested a different destination.
 
-Do not skip this step for complex skills.
+### 4. Review the brief with the user when needed
+For migration skills, repo-specific operational skills, or anything based on a source-of-truth repo, present the design brief before finalizing files.
 
-### 4. Choose the right structure
-Use the simplest structure that still preserves reliability.
+Confirm at least:
 
-Start here:
+- skill name and category
+- destination path
+- trigger conditions
+- expected structure
+- assumptions or risky gaps
 
-```text
-pi/skills/<category>/<skill-name>/
-└── SKILL.md
-```
+If the user is still shaping the skill, pause for confirmation before drafting the full package.
 
-Add directories only when justified:
-
-- `references/` for source-of-truth notes, decision trees, schemas, or edge cases
-- `scripts/` for deterministic repeatable tasks
-- `assets/` for templates, examples, or starter files
-
-### 5. Write the skill package
+### 5. Draft the skill package
 Create instructions that are practical, pi-native, and actionable.
 
 Preferred sections include:
@@ -147,7 +145,7 @@ Preferred sections include:
 - repo-specific notes
 - references to bundled files
 
-Write for an agent. Be direct. Explain why steps matter when that improves reliability.
+Write for an agent. Be direct and concise.
 
 ### 6. Adapt external material instead of copying it
 When the user gives an external skill, article, or repo:
@@ -156,7 +154,7 @@ When the user gives an external skill, article, or repo:
 2. extract the useful workflow and concepts
 3. strip harness-specific behavior that does not fit pi
 4. rewrite examples, paths, and tooling to match pi.dev
-5. preserve the underlying idea, but make the result feel native to pi
+5. preserve the useful idea, but make the result feel native to pi
 
 ### 7. Validate before finishing
 Check that:
@@ -181,78 +179,34 @@ When the generated skill is added to `pi.dev`:
 
 ## Description guidance
 
-A pi skill description should say both **what the skill does** and **when to use it**.
+The description is the main trigger surface. Make it say both what the skill does and when to use it.
 
-Strong descriptions usually:
+Use this default pattern:
 
-- name the capability clearly
-- include the user intents that should trigger it
-- mention adjacent phrases the user might use
-- describe the target repo, framework, or workflow when relevant
+- first sentence: what the skill does
+- second sentence: `Use when ...`
 
-Avoid vague descriptions like:
-- "helps with skills"
-- "assists with development"
+For deeper guidance, see [references/description-guide.md](references/description-guide.md).
 
-## Default scaffold template
+## Structure guidance
 
-Use this as a starting point when drafting a new skill:
+Start with the smallest structure that works.
 
-````markdown
----
-name: skill-name
-description: Explain what the skill does and exactly when to use it.
----
+For heuristics on when to add `references/`, `scripts/`, or `assets/`, see [references/structure-guide.md](references/structure-guide.md).
 
-# Skill Title
-
-Brief summary of the capability.
-
-## When to use
-
-Use this skill when...
-
-## Workflow
-
-1. Inspect the current context
-2. Gather required inputs or source material
-3. Apply the skill-specific process
-4. Write or modify files
-5. Validate the results
-
-## Notes
-
-- Important repo-specific rule
-- Important reliability rule
-
-## References
-
-- See [reference-name](references/reference-name.md) when deeper guidance is needed.
-````
-
-## Deliverable mindset
-
-For simple skills, a strong `SKILL.md` may be enough.
-
-For complex skills, the real deliverable is often a package:
-
-- `SKILL.md` for the operational workflow
-- `references/` for source-of-truth knowledge and decision logic
-- `scripts/` for repeatable deterministic behavior
-- `assets/` for examples or templates
-
-Choose based on the problem, not habit.
+For a reusable starter template, see [references/scaffold-template.md](references/scaffold-template.md).
 
 ## Pi-specific checklist
 
 Before finishing, confirm:
 
-- the skill lives under `pi/skills/`
+- the skill lives under `~/Developer/pi.dev/pi/skills/` by default unless the user requested project-local placement
 - frontmatter is valid
 - the directory name and `name` match exactly
 - the description is explicit enough to trigger reliably
 - extra files are referenced with relative paths
 - `pi/skills/README.md` was updated if needed
 - the user is reminded about `./scripts/setup.sh` and `/reload`
+- the user is asked whether they want commit and push in `pi.dev`
 
-For a reusable review checklist and planning prompts, see [references/pi-skill-checklist.md](references/pi-skill-checklist.md).
+For a reusable review checklist, see [references/pi-skill-checklist.md](references/pi-skill-checklist.md).
