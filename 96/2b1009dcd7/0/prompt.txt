@@ -1,0 +1,248 @@
+I want to create a SKILL Creator kinda similar with https://github.com/anthropics/skills/tree/main/skills/skill-creator use web serach skill to get the data here the skill creator should be tied to pi.dev
+
+---
+
+okay #1 and #2 explain it
+
+---
+
+Okay I approve #1 
+but explain #2 i don't undersatnd
+
+---
+
+okay before you implement what i want is i have a ci-component repo right?  then i want 
+1. arm yourself with context 
+2. comprehensively create a plan on how to use the repor
+3. basically the goal is to use the our ci-component 100% accuracy
+4. then since you know the context now create a skill on how to use that ci-component
+5. that skill will load on our android/kmp or related projects then it will proceed to update that rpoejct
+
+ohh kinda like the xml-to-compose skill of android "Kinda same usecase"  use web search skill to read thsi: https://github.com/android/skills/tree/main/jetpack-compose/migration/migrate-xml-views-to-jetpack-compose
+
+
+so the skill creator on what i magine is getting the 100% context first then create a SKILL.md right? ir am i wrong
+
+---
+
+okay do 2 first
+
+---
+
+wait 
+ 1. understand your canonical ci-component repo
+ 2. load in Android / KMP / related repos
+ 3. inspect the target repo
+ 4. determine the correct way to apply your CI component
+ 5. update the target repo safely
+ 6. do it with very high reliability
+
+ So this is basically a:
+
+this is a example
+
+hahahaa I want  a strong SKILL CREATOR that adatps to what i want it to create a skill
+
+---
+
+yeah it should tailor fit to work with pi so it's kind pi-skill-creator
+
+---
+
+rename to pi-skill-creator and proceed go go go
+
+---
+
+nice commit and push and guide me 
+
+
+i will cd to my prefered repo right
+
+cd ci-componenet
+
+
+and then what's netxt use pi-skill-creator to create a skill?
+
+---
+
+nahh commit and pushh is good
+
+---
+
+wait there's is a problem the skill will be on that repo, it should be in loaded in pi-dev and i will run setup then reload lol
+
+---
+
+wait what if the skill knows it
+
+---
+
+why " not skill destination."
+
+---
+
+In that case, writing into the external repo is correct. ok agrreed.
+
+but we need to guide the user you want to put it in .pi.deve butut haha fuck becaue i will use this ksill creator and it's mine  lol
+
+---
+
+because adding it there should commit and push also
+
+---
+
+proceed update it
+
+---
+
+wait give me the prompt again to use the skill?
+
+---
+
+wait no no no haha pi-native but i want to get it also haha put it in pi.dev/pi/skills/android
+
+---
+
+can you refine the pi-skill-creator more it's based on anthropic right. use websearch skill read this: https://github.com/mattpocock/skills/blob/main/write-a-skill/SKILL.md and let's check on how we can improve our skill createor
+
+---
+
+okay pull the latest changes in main and critique 
+
+this is wrong: ## What this skill should produce
+  13 │
+  14 │ A finished or improved skill under `pi/skills/<category>/<skill-name>/`
+
+
+it sshould be under ~/Developer/pi.dev/pi/skills/<category>/<skill-name>/
+
+---
+
+can you summarize the contents of what will you do?
+
+---
+
+so this is Anthropic-style depth + Matt Pocock-style  right
+
+---
+
+proceed
+
+---
+
+proceed
+
+---
+
+okay do a 3pass crituqe check
+
+---
+
+proceed with all recommendations
+
+---
+
+go micropolish, wait can you use web search i know skills should be  short only right?
+
+---
+
+what's the best appraoch
+
+---
+
+proceed
+
+---
+
+1
+
+---
+
+push
+
+---
+
+okay i use the pi-skill-createor and it create a skill forme but upon reading it it's loong and when i ask the agent
+  it knows it too long here's it's response:
+
+""
+Yes — a bit too long for a skill that should trigger reliably and stay operational.                                                                                                                     
+                                                                                                                                                                                                         
+ My recommendation                                                                                                                                                                                       
+                                                                                                                                                                                                         
+ Keep:                                                                                                                                                                                                   
+ - SKILL.md concise and decisive                                                                                                                                                                         
+ - references for detail                                                                                                                                                                                 
+                                                                                                                                                                                                         
+ Good target                                                                                                                                                                                             
+                                                                                                                                                                                                         
+ - SKILL.md: ~120–180 lines                                                                                                                                                                              
+ - references: hold the long-form checklists and edge cases                                                                                                                                              
+                                                                                                                                                                                                         
+ What to trim first                                                                                                                                                                                      
+                                                                                                                                                                                                         
+ From SKILL.md, reduce:                                                                                                                                                                                  
+ - repeated explanations of manual boundaries                                                                                                                                                            
+ - repeated include/input explanations                                                                                                                                                                   
+ - long bullet lists that already exist in references                                                                                                                                                    
+ - detailed examples better kept in references/*.md                                                                                                                                                      
+                                                                                                                                                                                                         
+ Keep in SKILL.md only:                                                                                                                                                                                  
+ 1. what the skill does                                                                                                                                                                                  
+ 2. when to use it                                                                                                                                                                                       
+ 3. hard rules                                                                                                                                                                                           
+ 4. workflow                                                                                                                                                                                             
+ 5. output contract                                                                                                                                                                                      
+ 6. reference links                                                                                                                                                                                      
+                                                                                                                                                                                                         
+ Best structure                                                                                                                                                                                          
+                                                                                                                                                                                                         
+ ### SKILL.md                                                                                                                                                                                            
+                                                                                                                                                                                                         
+ - purpose                                                                                                                                                                                               
+ - when to use                                                                                                                                                                                           
+ - operating rules                                                                                                                                                                                       
+ - manual boundary                                                                                                                                                                                       
+ - workflow                                                                                                                                                                                              
+ - completion states                                                                                                                                                                                     
+ - output format                                                                                                                                                                                         
+ - references                                                                                                                                                                                            
+                                                                                                                                                                                                         
+ ### references/                                                                                                                                                                                         
+                                                                                                                                                                                                         
+ - adoption checklist                                                                                                                                                                                    
+ - migration patterns                                                                                                                                                                                    
+ - manual GitLab actions                                                                                                                                                                                 
+ - source-of-truth summary                                                                                                                                                                               
+                                                                                                                                                                                                         
+ What I would shorten                                                                                                                                                                                    
+                                                                                                                                                                                                         
+ I’d compress:                                                                                                                                                                                           
+ - Manual boundary                                                                                                                                                                                       
+ - Decision rules                                                                                                                                                                                        
+ - Validation                                                                                                                                                                                            
+ - Output format                                                                                                                                                                                         
+                                                                                                                                                                                                         
+ without losing behavior.                                                                                                                                                                                
+                                                                                                                                                                                                         
+ Practical rule                                                                                                                                                                                          
+                                                                                                                                                                                                         
+ If a sentence teaches the agent how to behave every time, keep it in SKILL.md.                                                                                                                          
+ If it teaches examples, variations, edge cases, or long checklists, move it to references.                                                                                                              
+                                                                                                                                                                                                         
+ Recommendation                                                                                                                                                                                          
+                                                                                                                                                                                                         
+ Yes, trim it once.                                                                                                                                                                                      
+                                                                                                                                                                                                         
+ If you want, I can do a tightening pass now and make SKILL.md much shorter while preserving the new manual-boundary behavior. 
+"""
+
+now shouldn't the pi-skill-creator knows this? why does it did still make it longer? what can we do ti pi-skill-creator>?
+
+---
+
+proceed to update
+
+---
+
+okay help me because previosluy it ceate  /skill:android-ci-component-adoption which i want ed but now we have updated th pi-skill-creator what should be my prompt, hsoudl i elete it and regeenrate ?
