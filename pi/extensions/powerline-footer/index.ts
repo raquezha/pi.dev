@@ -29,12 +29,11 @@ export default function (pi: ExtensionAPI) {
           const mFormat = (num: number) => (num / 1000000).toFixed(1) + "M";
 
           // Dracula-inspired segments
-          // Note: Using theme keys that map to Dracula colors in your terminal
           const segments = [
-            { text: ` ↑${kFormat(totalInput)} `, bg: "syntaxType", fg: "borderMuted" },
-            { text: ` ↓${kFormat(totalOutput)} `, bg: "accent", fg: "borderMuted" },
-            { text: ` $${totalCost.toFixed(3)} `, bg: "border", fg: "text" },
-            { text: ` ${contextPercent}%/${mFormat(contextWindow)} `, bg: "success", fg: "borderMuted" },
+            { text: ` ↑${kFormat(totalInput)} `, bg: "customMessageBg", fg: "syntaxType" },
+            { text: ` ↓${kFormat(totalOutput)} `, bg: "customMessageBg", fg: "accent" },
+            { text: ` $${totalCost.toFixed(3)} `, bg: "toolPendingBg", fg: "text" },
+            { text: ` ${contextPercent}%/${mFormat(contextWindow)} `, bg: "customMessageBg", fg: "success" },
           ];
 
           let line = "";

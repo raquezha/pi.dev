@@ -1,6 +1,6 @@
 {
-  "defaultProvider": "google-antigravity",
-  "defaultModel": "gemini-3-flash",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.4",
   "defaultThinkingLevel": "off",
   "showHardwareCursor": true,
   "hideThinkingBlock": true,
