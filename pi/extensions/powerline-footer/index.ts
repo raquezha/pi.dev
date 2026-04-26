@@ -31,10 +31,10 @@ export default function (pi: ExtensionAPI) {
           // Dracula-inspired segments
           // Note: Using theme keys that map to Dracula colors in your terminal
           const segments = [
-            { text: ` ↑${kFormat(totalInput)} `, bg: "syntaxType", fg: "customMessageBg" },
-            { text: ` ↓${kFormat(totalOutput)} `, bg: "accent", fg: "customMessageBg" },
+            { text: ` ↑${kFormat(totalInput)} `, bg: "syntaxType", fg: "userMessageBg" },
+            { text: ` ↓${kFormat(totalOutput)} `, bg: "accent", fg: "userMessageBg" },
             { text: ` $${totalCost.toFixed(3)} `, bg: "border", fg: "text" },
-            { text: ` ${contextPercent}%/${mFormat(contextWindow)} `, bg: "success", fg: "customMessageBg" },
+            { text: ` ${contextPercent}%/${mFormat(contextWindow)} `, bg: "success", fg: "userMessageBg" },
           ];
 
           let line = "";
