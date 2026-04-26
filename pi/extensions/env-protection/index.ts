@@ -171,11 +171,5 @@ export default function (pi: ExtensionAPI) {
     return undefined;
   });
 
-  // ── Startup notification ───────────────────────────────────────────
 
-  pi.on("session_start", async (_event, ctx) => {
-    if (ctx.hasUI) {
-      ctx.ui.notify("🔒 env-protection active — secrets are guarded", "info");
-    }
-  });
 }
