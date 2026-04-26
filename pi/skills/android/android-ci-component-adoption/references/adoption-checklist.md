@@ -23,6 +23,7 @@ Use this checklist when auditing or migrating a consumer repo.
 - [ ] Or uses `project:` include while testing unpublished changes
 - [ ] No invalid or undocumented input keys
 - [ ] No conflicting top-level variables that silently override desired inputs
+- [ ] Platform-specific inputs use current names such as `enable_desktop_macos`, not stale variants
 
 ## 4. Inspect Gradle versioning
 
@@ -50,9 +51,10 @@ For Android mobile and KMP Android paths:
 
 - [ ] `GITLAB_PACKAGE_REGISTRY` requirement is documented or already provisioned
 - [ ] `PACKAGE_NAME` is present when Play/Firebase flows need it
-- [ ] `GOOGLE_PLAY_SERVICE_ACCOUNT` expectation is documented
+- [ ] `GOOGLE_PLAY_SERVICE_ACCOUNT` expectation is documented when Play validation or deploy is required
 - [ ] Firebase tester groups and service account files are documented when applicable
 - [ ] `CI_JOB_TOKEN` push permission requirement is documented
+- [ ] `android_image` or `ANDROID_IMAGE` override is called out when the repo needs a different JDK
 
 ## 8. Inspect KMP extras when enabled
 
@@ -63,14 +65,23 @@ For Android mobile and KMP Android paths:
 
 ## 9. Inspect high-risk override traps
 
-- [ ] Stale GitLab UI variables are not overriding `APP_MODULE`, `RUNNER_TAG`, `PLAY_STORE_RELEASE_TRACK`, `ENABLE_DRY_RUN`, or `ANDROID_IMAGE`
+- [ ] Stale GitLab UI variables are not overriding `APP_MODULE`, `RUNNER_TAG`, `PLAY_STORE_RELEASE_TRACK`, `ENABLE_DRY_RUN`, `ANDROID_IMAGE`, or `GOOGLE_SERVICES_JSON_PATH`
 - [ ] Job-level overrides are intentional and documented
 - [ ] Toolchain requests match the chosen Android image
 
-## 10. Final deliverable to the user
+## 10. Separate manual GitLab work from repo work
+
+- [ ] Remaining Secure Files actions are listed separately
+- [ ] Remaining CI/CD variable actions are listed separately
+- [ ] Required project settings changes are listed separately
+- [ ] Runner prerequisites are listed separately
+- [ ] Safe confirmation guidance avoids requesting secrets
+
+## 11. Final deliverable to the user
 
 - [ ] Summary of what already matches the component standard
 - [ ] Summary of gaps that require repo code changes
 - [ ] Summary of gaps that require GitLab UI or Secure Files configuration
 - [ ] Ordered migration plan
 - [ ] Validation steps the user should run next
+- [ ] Explicit completion state

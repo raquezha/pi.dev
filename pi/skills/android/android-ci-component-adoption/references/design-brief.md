@@ -20,24 +20,23 @@ Use this skill when the user wants to:
 - migrate from legacy `.gitlab-ci.yml` logic to the shared component
 - repair a broken adoption after template, variable, or project-structure drift
 - prepare Android, Android TV, or KMP repos for review/staging/production flows
+- separate repo automation work from manual GitLab setup work
 
 ## Source-of-truth studied
 
 This skill was designed from the local source repo contents, especially:
 
-- `README.md`
+- `AGENTS.md`
 - `templates/README.md`
 - `templates/android-mobile/template.yml`
+- `templates/android-tv/template.yml`
 - `templates/kmp/template.yml`
-- `templates/base/versioning.yml`
 - `docs/template-usage.md`
 - `docs/inputs-vs-variables.md`
 - `docs/ci-variables.md`
 - `docs/android-mobile-quickstart.md`
 - `docs/android-tv-quickstart.md`
 - `docs/kmp-quickstart.md`
-- `docs/troubleshooting.md`
-- `docs/changelog-workflow.md`
 
 ## What the skill inspects
 
@@ -45,6 +44,7 @@ This skill was designed from the local source repo contents, especially:
    - Android mobile
    - Android TV
    - KMP
+   - library/toolbox false positives
 2. CI entrypoint
    - `.gitlab-ci.yml`
    - include style: `component:`, `project:`, or `local:`
@@ -69,6 +69,7 @@ This skill was designed from the local source repo contents, especially:
    - `inputs:` vs `variables:` precedence
    - stale GitLab UI variables silently overriding repo config
    - Java toolchain / `ANDROID_IMAGE` mismatches
+   - wrong KMP input names such as desktop toggles
 
 ## What the skill should produce
 
@@ -78,8 +79,9 @@ Depending on the request:
 - a migration plan ordered by risk
 - direct code changes to `.gitlab-ci.yml`, Gradle files, and `settings.gradle.kts`
 - creation or repair of `version.properties`
-- snippets the user still must apply manually in GitLab UI / Secure Files
+- a separate manual handoff for GitLab UI, Secure Files, settings, and runner tasks
 - validation notes and follow-up checks
+- an explicit completion state
 
 ## Decisions the skill must make
 
@@ -88,6 +90,7 @@ Depending on the request:
 - Whether repo variables should stay in `inputs:` or `variables:`
 - Whether the repo already follows the required module, flavor, and signing conventions
 - Whether missing pieces are code changes or GitLab settings changes
+- Whether remaining work blocks audit only, migration completion, or full adoption
 
 ## Important edge cases
 
@@ -98,6 +101,7 @@ Depending on the request:
 - Repo requests a Java toolchain not present in the default Android image
 - TV repos should not be migrated to Firebase-centric mobile flows
 - Sensitive files such as `keystore.properties` may be referenced but must not be read if protected by policy
+- Manual GitLab work exists but the user expects the agent to finish it directly
 
 ## Validation expected
 
@@ -107,16 +111,19 @@ Depending on the request:
 - signing lookup uses `STORE_FILE` from `keystore.properties`
 - Android/KMP app module name follows `app-*`
 - instructions clearly separate repo changes from GitLab UI / Secure Files actions
+- remaining manual tasks are listed with safe verification guidance
 
 ## Chosen package structure
 
 ```text
-pi/skills/android/android-ci-component-adoption/
+android-ci-component-adoption/
 ├── SKILL.md
 └── references/
+    ├── adoption-checklist.md
     ├── design-brief.md
-    ├── source-of-truth-summary.md
-    └── adoption-checklist.md
+    ├── manual-gitlab-actions.md
+    ├── migration-patterns.md
+    └── source-of-truth-summary.md
 ```
 
-References are included because this skill needs stable decision rules, distilled source-of-truth constraints, and a reusable audit checklist.
+References are included because this skill needs stable decision rules, distilled source-of-truth constraints, a reusable audit checklist, and a clear boundary around manual GitLab work.

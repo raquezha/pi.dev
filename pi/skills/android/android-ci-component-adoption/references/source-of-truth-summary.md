@@ -81,6 +81,7 @@ include:
 
 - Use `inputs:` for published platform components
 - Use `variables:` for runtime env vars and for local/project include patterns
+- Platform templates map inputs directly into environment variables
 - GitLab UI variables can silently override both `inputs:` and YAML `variables:`
 
 Effective precedence:
@@ -88,6 +89,14 @@ Effective precedence:
 ```text
 GitLab UI variables > job-level variables > pipeline variables > mapped inputs > spec defaults
 ```
+
+High-risk override targets include:
+- `APP_MODULE`
+- `RUNNER_TAG`
+- `PLAY_STORE_RELEASE_TRACK`
+- `ENABLE_DRY_RUN`
+- `ANDROID_IMAGE`
+- `GOOGLE_SERVICES_JSON_PATH`
 
 ### 7. Runner defaults
 
@@ -97,13 +106,15 @@ Canonical runner pool for Android/KMP work is:
 
 Platform templates map `runner_tag` input into `RUNNER_TAG`.
 
+KMP iOS and desktop macOS paths need a real `mac-shell` runner.
+
 ### 8. Key GitLab variables
 
 Common repo/runtime requirements:
 
 - `GITLAB_PACKAGE_REGISTRY` — required for Gradle dependency resolution; Masked, not Protected
 - `PACKAGE_NAME` — production base package name for flavor-aware Firebase/Play flows
-- `GOOGLE_PLAY_SERVICE_ACCOUNT` — protected + masked for Play validation/deploy
+- `GOOGLE_PLAY_SERVICE_ACCOUNT` — protected + masked for Play validation/deploy when required
 - `FIREBASE_REVIEW_TESTERS`, `FIREBASE_STAGING_TESTERS`, `FIREBASE_PRODUCTION_TESTERS` — when Firebase distribution is used
 - `AI_PROVIDER`, `AI_API_KEY`, `ENABLE_AI_RELEASE_NOTES` — optional release notes path
 
@@ -116,17 +127,43 @@ Consumer repos must enable:
 
 ### 10. Java toolchain rule
 
-Default Android image is pinned around JDK 21. If the repo requests another Java toolchain, override `android_image` or `ANDROID_IMAGE` to a compatible image instead of relying on Foojay auto-download.
+Default Android image is pinned around JDK 21. If the repo requests another Java toolchain, override `android_image` or `ANDROID_IMAGE` to a compatible image instead of relying on Gradle toolchain auto-download.
 
-### 11. KMP specifics
+### 11. Current useful platform inputs
 
-KMP repos normally need:
+Commonly relevant current inputs include:
+- `app_module`
+- `runner_tag`
+- `android_image`
+- `gradle_options`
+- `enable_dry_run`
+- `play_store_release_track`
+- `version_util_ref`
+- `version_util_version`
 
-- Android app module `app-*`
-- shared module, usually `shared`
-- optional `enable_ios` and `enable_desktop_macos`
-- `mac-shell` prerequisites for iOS/Desktop paths
+Android mobile also exposes:
+- `google_services_json_path`
+
+KMP also exposes:
+- `shared_module`
+- `enable_ios`
+- `enable_desktop_macos`
+
+Android TV also exposes:
+- `enable_collision_check`
 
 ### 12. Android TV specifics
 
 Android TV relies on Play tracks, not Firebase App Distribution as the main QA model. Do not force mobile-only Firebase assumptions onto TV repos.
+
+`enable_collision_check` is optional and defaults false for TV.
+
+### 13. Manual boundary
+
+The agent can prepare repo code for adoption, but the following remain manual human tasks:
+- Secure Files uploads
+- CI/CD variable creation and editing
+- project settings changes
+- runner provisioning and permission changes
+
+The skill should report these separately and ask only for safe confirmation, never secret contents.

@@ -89,23 +89,47 @@ Before enabling KMP extras, verify:
 - shared module name is correct
 - `iosApp` or equivalent exists before enabling iOS
 - mac-shell/Xcode prerequisites are real before enabling iOS/Desktop in CI
+- the repo uses the current desktop toggle name: `enable_desktop_macos`
 
 If those prerequisites are absent, keep the KMP adoption focused on the Android path first.
 
-## 8. GitLab-side actions that remain manual
+## 8. Toolchain and image decisions
+
+If the repo needs a different JDK than the default Android image provides:
+- prefer overriding `android_image` in `inputs:` or `ANDROID_IMAGE` in runtime variables
+- do not assume Gradle toolchain auto-download will fix the pipeline
+
+Useful knobs when matching source-of-truth branch or package behavior:
+- `version_util_ref`
+- `version_util_version`
+- `google_services_json_path`
+
+## 9. GitLab-side actions that remain manual
 
 Do not treat these as repo code changes. Call them out separately:
 - CI/CD variables
 - Secure Files uploads
-- Job token push permission
+- job token push permission
 - inherited GitLab UI variable cleanup when overrides are suspected
 - runner availability and tag assumptions
 
-## 9. High-risk drift indicators
+## 10. High-risk drift indicators
 
 Escalate these explicitly in your report:
 - app module still named `app`
 - stale top-level `variables:` overriding desired `inputs:`
-- GitLab UI variable likely overriding `ENABLE_DRY_RUN`, `APP_MODULE`, or `ANDROID_IMAGE`
+- GitLab UI variable likely overriding `ENABLE_DRY_RUN`, `APP_MODULE`, `ANDROID_IMAGE`, or `GOOGLE_SERVICES_JSON_PATH`
 - repo requests Java toolchain incompatible with default Android image
 - KMP repo trying to enable iOS/Desktop without mac-shell prerequisites
+- TV repo migrated as if Firebase-first mobile rules always apply
+
+## 11. Completion language
+
+Use these states consistently:
+- `audit complete`
+- `repo migration complete`
+- `manual GitLab setup required`
+- `validation pending human setup`
+- `adoption complete`
+
+Reserve `adoption complete` for cases where both repo work and blocking manual setup are finished.
