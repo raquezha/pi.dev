@@ -21,11 +21,14 @@ Use this checklist when creating or reviewing a skill for `pi.dev`.
 ## Content quality
 
 - [ ] The body is concise and task-oriented
+- [ ] `SKILL.md` is optimized for activation-time behavior, not long-form documentation
 - [ ] Instructions are written for the agent
 - [ ] The workflow is explicit enough to be repeatable
 - [ ] Decision rules or validation steps are included when needed
 - [ ] The description clearly states both capability and trigger conditions
 - [ ] Large material is moved into `references/` when that improves reliability
+- [ ] Long checklists, examples, edge cases, and source-of-truth summaries are not bloating `SKILL.md`
+- [ ] The draft received a trim pass before finalizing
 - [ ] Repetitive deterministic work is moved into `scripts/` when useful
 - [ ] Examples are compatible with pi and this repository
 
@@ -42,6 +45,13 @@ Use this checklist when creating or reviewing a skill for `pi.dev`.
 - [ ] No secrets are embedded
 - [ ] Any credentials are referenced via environment variables only
 - [ ] The skill does not instruct the agent to inspect protected secret files
+
+## Length targets
+
+- [ ] Helper skills are usually around 60-120 lines in `SKILL.md`
+- [ ] Workflow skills are usually around 80-150 lines in `SKILL.md`
+- [ ] Migration or repo-specific skills are usually around 120-180 lines in `SKILL.md`
+- [ ] If `SKILL.md` is longer than the target range, there is a good reason and more detail could not be moved into `references/`
 
 ## Finish-up prompt
 

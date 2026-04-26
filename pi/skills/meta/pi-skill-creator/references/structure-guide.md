@@ -33,6 +33,38 @@ Only add files when they improve clarity, reuse, or reliability.
 
 ## Practical target
 
-- keep `SKILL.md` focused and operational
-- move detailed material into `references/`
-- prefer one-level-deep references from `SKILL.md`
+Use these default line-budget targets:
+
+- helper skills: 60-120 lines
+- workflow skills: 80-150 lines
+- migration or repo-specific skills: 120-180 lines
+
+If a draft goes beyond its target, trim it or move more detail into `references/`.
+
+## Keep in `SKILL.md`
+
+- what the skill does
+- when to use it
+- hard rules or boundaries
+- core workflow
+- output contract
+- short validation summary
+- links to references
+
+## Move into `references/`
+
+- long checklists
+- examples
+- edge cases
+- migration patterns
+- source-of-truth summaries
+- detailed manual procedures
+
+## Trim pass
+
+Before finalizing, ask:
+
+- what must stay in `SKILL.md` on nearly every run?
+- what is repetitive?
+- what is example material rather than operational guidance?
+- what can move into `references/` without hurting reliability?

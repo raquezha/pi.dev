@@ -1,9 +1,9 @@
 {
-  "defaultProvider": "github-copilot",
-  "defaultModel": "gpt-5-mini",
-  "defaultThinkingLevel": "medium",
+  "defaultProvider": "google-antigravity",
+  "defaultModel": "gemini-3-flash",
+  "defaultThinkingLevel": "off",
   "showHardwareCursor": true,
-  "hideThinkingBlock": false,
+  "hideThinkingBlock": true,
   "quietStartup": true,
   "theme": "dark",
   "editorPaddingX": 2,
@@ -11,5 +11,5 @@
     "npm:@leohenon/pi-vim",
     "npm:@heyhuynhgiabuu/pi-pretty"
   ],
-  "lastChangelogVersion": "0.69.0"
+  "lastChangelogVersion": "0.70.2"
 }

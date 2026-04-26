@@ -147,7 +147,38 @@ Preferred sections include:
 
 Write for an agent. Be direct and concise.
 
-### 6. Adapt external material instead of copying it
+Optimize `SKILL.md` for activation, not documentation. Keep only the material the agent needs on nearly every run:
+
+- what the skill does
+- when to use it
+- hard rules or boundaries
+- core workflow
+- output contract
+- short validation summary
+- links to references
+
+Move long checklists, examples, edge cases, migration patterns, source-of-truth summaries, and detailed manual procedures into `references/`.
+
+### 6. Run a trim pass before finalizing
+Before you finish any non-trivial skill, do an explicit compression pass.
+
+Ask:
+
+- what must stay in `SKILL.md` every time?
+- what can move into `references/`?
+- what is repetitive?
+- what is example or edge-case material rather than operational guidance?
+- what would still work if this section were half as long?
+
+Default line-budget targets:
+
+- helper skills: 60-120 lines
+- workflow skills: 80-150 lines
+- migration or repo-specific skills: 120-180 lines
+
+If a draft goes beyond its target, shorten it aggressively or move material into `references/`. Only exceed the range when the extra length is clearly necessary for reliable execution.
+
+### 7. Adapt external material instead of copying it
 When the user gives an external skill, article, or repo:
 
 1. read it fully
@@ -156,7 +187,7 @@ When the user gives an external skill, article, or repo:
 4. rewrite examples, paths, and tooling to match pi.dev
 5. preserve the useful idea, but make the result feel native to pi
 
-### 7. Validate before finishing
+### 8. Validate before finishing
 Check that:
 
 - the skill name is valid and matches the directory
@@ -168,7 +199,7 @@ Check that:
 - the destination repo is correct for the user's workflow
 - no security or secret-handling rules are violated
 
-### 8. Finish the pi.dev workflow
+### 9. Finish the pi.dev workflow
 When the generated skill is added to `pi.dev`:
 
 1. summarize what was created or changed
@@ -191,6 +222,18 @@ For deeper guidance, see [references/description-guide.md](references/descriptio
 ## Structure guidance
 
 Start with the smallest structure that works.
+
+Keep in `SKILL.md` only the activation-time essentials:
+
+- purpose
+- when to use
+- hard rules or boundaries
+- workflow
+- output contract
+- short validation summary
+- links to references
+
+Move examples, long checklists, migration patterns, edge cases, source-of-truth summaries, and detailed manual procedures into `references/`.
 
 For heuristics on when to add `references/`, `scripts/`, or `assets/`, see [references/structure-guide.md](references/structure-guide.md).
 
