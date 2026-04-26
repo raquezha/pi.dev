@@ -3,7 +3,7 @@
   "checkpoint_id": "962b1009dcd7",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 9,
+  "checkpoints_count": 11,
   "files_touched": [
     "pi/skills/android/android-ci-component-adoption/SKILL.md",
     "pi/skills/android/android-ci-component-adoption/references/adoption-checklist.md",
@@ -23,13 +23,19 @@
       "transcript": "/96/2b1009dcd7/1/full.jsonl",
       "content_hash": "/96/2b1009dcd7/1/content_hash.txt",
       "prompt": "/96/2b1009dcd7/1/prompt.txt"
+    },
+    {
+      "metadata": "/96/2b1009dcd7/2/metadata.json",
+      "transcript": "/96/2b1009dcd7/2/full.jsonl",
+      "content_hash": "/96/2b1009dcd7/2/content_hash.txt",
+      "prompt": "/96/2b1009dcd7/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 118560,
+    "input_tokens": 122649,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 552064,
-    "output_tokens": 7723,
-    "api_call_count": 22
+    "cache_read_tokens": 555904,
+    "output_tokens": 11250,
+    "api_call_count": 24
   }
 }

@@ -1,0 +1,13 @@
+hi
+
+---
+
+i want to test a capability where the main agent this pi.dev there's only 1 agent
+ right wait i'm confuse what is agent and what is harness and what is agent harness
+ also the cability or maybe extension is that
+
+ this request should be transpowert to a tmux session and it should proceess it there
+ and close session after it finish and return there
+
+ I type query -> received by -> [terminal session or tmux] -> spawns itself creates
+ tmux session and proceess the query -> close session and return to previous master
