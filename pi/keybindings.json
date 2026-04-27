@@ -1,11 +1,11 @@
 {
   "keybindings": [
     {
-      "key": "f8",
+      "key": "ctrl+h",
       "command": "cycle-theme"
     },
     {
-      "key": "f10",
+      "key": "ctrl+\\",
       "command": "cycle-theme"
     }
   ]

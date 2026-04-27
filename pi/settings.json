@@ -3,7 +3,7 @@
   "defaultModel": "gemini-3-flash",
   "defaultThinkingLevel": "off",
   "showHardwareCursor": true,
-  "hideThinkingBlock": true,
+  "hideThinkingBlock": false,
   "quietStartup": false,
   "theme": "dracula-vibrant",
   "editorPaddingX": 2,

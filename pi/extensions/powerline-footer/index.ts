@@ -99,8 +99,12 @@ export default function (pi: ExtensionAPI) {
     handler: async (_args, ctx) => {
       const current = ctx.ui.theme.name;
       const next = current === "dracula-vibrant" ? "dracula-pale" : "dracula-vibrant";
-      pi.setTheme(next);
-      ctx.ui.notify(`Theme: ${next}`, "info");
+      const result = ctx.ui.setTheme(next);
+      if (result.success) {
+        ctx.ui.notify(`Theme: ${next}`, "info");
+      } else {
+        ctx.ui.notify(`Failed to switch theme: ${result.error}`, "error");
+      }
     },
   });
 
