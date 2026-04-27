@@ -109,11 +109,15 @@ export default function (pi: ExtensionAPI) {
     },
   });
 
-  pi.on("session_start", async (_event, ctx) => {
+  pi.on("session_start", async (event, ctx) => {
     if (!ctx.hasUI) return;
 
+    const projectName = basename(ctx.cwd || process.cwd()) || "pi.dev";
+    
+    // Set terminal title
+    ctx.ui.setTitle(`π ${projectName}`);
+
     ctx.ui.setHeader((tui, theme) => {
-      const projectName = basename(ctx.cwd || process.cwd()) || "project";
       let timeout: ReturnType<typeof setTimeout> | undefined;
       let interval: ReturnType<typeof setInterval> | undefined;
 
@@ -138,6 +142,9 @@ export default function (pi: ExtensionAPI) {
           const now = new Date();
           const themeName = (theme.name || "theme").toLowerCase();
           const p = themeName === "ghostly-pale" ? PALE : VIBRANT;
+          
+          // Keep title in sync with theme
+          ctx.ui.setTitle(`π ${projectName} • ${themeName}`);
 
           const segments: Segment[] = [
             { text: ` 󰌽 raquezha `, bg: p.pink, fg: p.bg },
