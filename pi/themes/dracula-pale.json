@@ -2,24 +2,24 @@
   "$schema": "https://raw.githubusercontent.com/badlogic/pi-mono/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json",
   "name": "dracula-pale",
   "vars": {
-    "bg": "#383a4a",
-    "panel": "#383a4a",
-    "panelAlt": "#4a4c5a",
-    "selected": "#4a4c5a",
-    "border": "#62647a",
-    "accent": "#c2c2d6",
-    "cyan": "#c2e0e0",
-    "green": "#c2d6c2",
-    "red": "#d6b8b8",
-    "yellow": "#d6d6c2",
-    "orange": "#d6c2b8",
-    "pink": "#d6c2d6",
-    "purple": "#c2c2d6",
+    "bg": "#1e1f29",
+    "panel": "#1e1f29",
+    "panelAlt": "#2d2f3b",
+    "selected": "#2d2f3b",
+    "border": "#44475a",
+    "accent": "#b39ddb",
+    "cyan": "#80deea",
+    "green": "#a5d6a7",
+    "red": "#ef9a9a",
+    "yellow": "#fff59d",
+    "orange": "#ffcc80",
+    "pink": "#f48fb1",
+    "purple": "#b39ddb",
     "text": "#f8f8f2",
-    "muted": "#c2c6d8",
-    "dim": "#7f88aa",
-    "toolSuccessBg": "#3d423e",
-    "toolErrorBg": "#423d3e"
+    "muted": "#9ea0a4",
+    "dim": "#6272a4",
+    "toolSuccessBg": "#24332a",
+    "toolErrorBg": "#332426"
   },
   "colors": {
     "accent": "accent",
@@ -75,8 +75,8 @@
     "bashMode": "green"
   },
   "export": {
-    "pageBg": "#383a4a",
-    "cardBg": "#383a4a",
-    "infoBg": "#4a4c5a"
+    "pageBg": "#1e1f29",
+    "cardBg": "#1e1f29",
+    "infoBg": "#2d2f3b"
   }
 }

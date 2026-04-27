@@ -13,15 +13,15 @@ const VIBRANT = {
   yellow: "#f1fa8c",
 };
 
-// Dracula PALE Palette (Ultra-Pale)
+// Dracula PALE Palette (Midnight Pastel)
 const PALE = {
-  bg: "#383a4a",
-  cyan: "#c2e0e0",
-  green: "#c2d6c2",
-  orange: "#d6c2b8",
-  pink: "#d6c2d6",
-  purple: "#c2c2d6",
-  yellow: "#d6d6c2",
+  bg: "#1e1f29",
+  cyan: "#80deea",
+  green: "#a5d6a7",
+  orange: "#ffcc80",
+  pink: "#f48fb1",
+  purple: "#b39ddb",
+  yellow: "#fff59d",
 };
 
 type Segment = {
