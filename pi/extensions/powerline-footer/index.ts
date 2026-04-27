@@ -9,12 +9,12 @@ type BgToken =
   | "toolPendingBg"
   | "toolSuccessBg"
   | "toolErrorBg"
-  | "syntaxKeyword"
-  | "syntaxFunction"
-  | "syntaxString"
-  | "syntaxNumber"
-  | "syntaxType"
-  | "syntaxOperator";
+  | "purpleBg"
+  | "accentBg"
+  | "greenBg"
+  | "orangeBg"
+  | "yellowBg"
+  | "cyanBg";
 
 type FgToken =
   | "text"
@@ -157,10 +157,10 @@ export default function (pi: ExtensionAPI) {
           const now = new Date();
           const themeName = (theme.name || "theme").toLowerCase();
           const segments: Segment[] = [
-            { text: ` 󰌽 raquezha `, bg: "syntaxKeyword", fg: "userMessageBg" },
-            { text: ` π ${projectName} `, bg: "syntaxString", fg: "userMessageBg" },
-            { text: ` 󰥔 ${formatHeaderTime(now)} `, bg: "syntaxFunction", fg: "userMessageBg" },
-            { text: ` 󰏘 ${themeName} `, bg: "syntaxOperator", fg: "userMessageBg" },
+            { text: ` 󰌽 raquezha `, bg: "purpleBg", fg: "userMessageBg" },
+            { text: ` π ${projectName} `, bg: "greenBg", fg: "userMessageBg" },
+            { text: ` 󰥔 ${formatHeaderTime(now)} `, bg: "accentBg", fg: "userMessageBg" },
+            { text: ` 󰏘 ${themeName} `, bg: "cyanBg", fg: "userMessageBg" },
           ];
 
           return [truncateToWidth(renderPowerline(theme, segments), width, "")];
@@ -201,13 +201,13 @@ export default function (pi: ExtensionAPI) {
 
           const segments: Segment[] = [
             ...(branch
-              ? [{ text: `  ${branch} `, bg: "syntaxKeyword", fg: "userMessageBg" }]
+              ? [{ text: `  ${branch} `, bg: "purpleBg", fg: "userMessageBg" }]
               : []),
-            { text: ` ↑${kFormat(totalInput)} `, bg: "syntaxString", fg: "userMessageBg" },
-            { text: ` ↓${kFormat(totalOutput)} `, bg: "syntaxFunction", fg: "userMessageBg" },
-            { text: ` $${formatCost(totalCost)} `, bg: "syntaxNumber", fg: "userMessageBg" },
-            { text: ` ◔ ${contextPercent}% `, bg: "syntaxType", fg: "userMessageBg" },
-            { text: ` ✦ ${modelText} `, bg: "syntaxOperator", fg: "userMessageBg" },
+            { text: ` ↑${kFormat(totalInput)} `, bg: "greenBg", fg: "userMessageBg" },
+            { text: ` ↓${kFormat(totalOutput)} `, bg: "accentBg", fg: "userMessageBg" },
+            { text: ` $${formatCost(totalCost)} `, bg: "orangeBg", fg: "userMessageBg" },
+            { text: ` ◔ ${contextPercent}% `, bg: "yellowBg", fg: "userMessageBg" },
+            { text: ` ✦ ${modelText} `, bg: "cyanBg", fg: "userMessageBg" },
           ];
 
           const left = renderPowerline(theme, segments);

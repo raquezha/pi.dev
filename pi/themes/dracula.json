@@ -71,7 +71,13 @@
     "thinkingMedium": "cyan",
     "thinkingHigh": "purple",
     "thinkingXhigh": "red",
-    "bashMode": "green"
+    "bashMode": "green",
+    "purpleBg": "purple",
+    "greenBg": "green",
+    "accentBg": "accent",
+    "orangeBg": "orange",
+    "yellowBg": "yellow",
+    "cyanBg": "cyan"
   },
   "export": {
     "pageBg": "#282a36",
