@@ -1,15 +1,12 @@
 {
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.4",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "minimal",
   "showHardwareCursor": true,
   "hideThinkingBlock": true,
   "quietStartup": true,
   "theme": "dark",
   "editorPaddingX": 2,
-  "packages": [
-    "npm:@leohenon/pi-vim",
-    "npm:@heyhuynhgiabuu/pi-pretty"
-  ],
+  "packages": [],
   "lastChangelogVersion": "0.70.2"
 }
