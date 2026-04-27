@@ -1,12 +1,15 @@
 {
-  "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.4",
-  "defaultThinkingLevel": "minimal",
+  "defaultProvider": "github-copilot",
+  "defaultModel": "gpt-5-mini",
+  "defaultThinkingLevel": "high",
   "showHardwareCursor": true,
   "hideThinkingBlock": true,
-  "quietStartup": true,
-  "theme": "dark",
+  "quietStartup": false,
+  "theme": "dracula",
   "editorPaddingX": 2,
-  "packages": [],
+  "packages": [
+    "git:https://github.com/hasit/pi-community-themes",
+    "npm:pi-rose-pine"
+  ],
   "lastChangelogVersion": "0.70.2"
 }

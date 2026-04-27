@@ -138,6 +138,11 @@ echo ""
 info "Linking themes..."
 echo ""
 
+# Ensure dracula theme (from hasit/pi-community-themes) is linked explicitly
+if [[ -f "$PI_DIR/themes/dracula.json" ]]; then
+  link_file "$PI_DIR/themes/dracula.json" "$AGENT_DIR/themes/dracula.json" "themes/dracula.json"
+fi
+
 has_themes=false
 for theme_file in "$PI_DIR"/themes/*.json; do
   if [[ -f "$theme_file" ]]; then
