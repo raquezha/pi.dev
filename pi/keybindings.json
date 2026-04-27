@@ -3,6 +3,10 @@
     {
       "key": "alt+t",
       "command": "cycle-theme"
+    },
+    {
+      "key": "f10",
+      "command": "cycle-theme"
     }
   ]
 }
