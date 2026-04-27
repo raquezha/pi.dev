@@ -2,76 +2,51 @@ import { basename } from "node:path";
 import type { ExtensionAPI, Theme } from "@mariozechner/pi-coding-agent";
 import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
 
-type BgToken =
-  | "selectedBg"
-  | "userMessageBg"
-  | "customMessageBg"
-  | "toolPendingBg"
-  | "toolSuccessBg"
-  | "toolErrorBg"
-  | "purpleBg"
-  | "accentBg"
-  | "greenBg"
-  | "orangeBg"
-  | "yellowBg"
-  | "cyanBg";
-
-type FgToken =
-  | "text"
-  | "accent"
-  | "muted"
-  | "dim"
-  | "success"
-  | "error"
-  | "warning"
-  | "border"
-  | "borderAccent"
-  | "borderMuted"
-  | "userMessageText"
-  | "customMessageText"
-  | "customMessageLabel"
-  | "toolTitle"
-  | "toolOutput"
-  | "toolDiffAdded"
-  | "toolDiffRemoved"
-  | "toolDiffContext"
-  | "mdHeading"
-  | "mdLink"
-  | "mdLinkUrl"
-  | "mdCode"
-  | "mdCodeBlock"
-  | "mdCodeBlockBorder"
-  | "mdQuote"
-  | "mdQuoteBorder"
-  | "mdHr"
-  | "mdListBullet"
-  | "syntaxComment"
-  | "syntaxKeyword"
-  | "syntaxFunction"
-  | "syntaxVariable"
-  | "syntaxString"
-  | "syntaxNumber"
-  | "syntaxType"
-  | "syntaxOperator"
-  | "syntaxPunctuation"
-  | "thinkingOff"
-  | "thinkingMinimal"
-  | "thinkingLow"
-  | "thinkingMedium"
-  | "thinkingHigh"
-  | "thinkingXhigh"
-  | "bashMode"
-  | "userMessageBg";
+// Dracula Palette
+const DRACULA = {
+  bg: "#282a36",
+  fg: "#f8f8f2",
+  selection: "#44475a",
+  comment: "#6272a4",
+  cyan: "#8be9fd",
+  green: "#50fa7b",
+  orange: "#ffb86c",
+  pink: "#ff79c6",
+  purple: "#bd93f9",
+  red: "#ff5555",
+  yellow: "#f1fa8c",
+};
 
 type Segment = {
   text: string;
-  bg: BgToken;
-  fg: FgToken;
+  bg: string; // Hex
+  fg: string; // Hex
 };
 
 const LEFT_CAP = "█";
 const SEPARATOR = "";
 const SPACE = " ";
+
+function hexToRgb(hex: string) {
+  const cleaned = hex.replace("#", "");
+  const r = parseInt(cleaned.substring(0, 2), 16);
+  const g = parseInt(cleaned.substring(2, 4), 16);
+  const b = parseInt(cleaned.substring(4, 6), 16);
+  return { r, g, b };
+}
+
+function toAnsiBg(hex: string): string {
+  const { r, g, b } = hexToRgb(hex);
+  return `\x1b[48;2;${r};${g};${b}m`;
+}
+
+function toAnsiFg(hex: string): string {
+  const { r, g, b } = hexToRgb(hex);
+  return `\x1b[38;2;${r};${g};${b}m`;
+}
+
+const ANSI_RESET_BG = "\x1b[49m";
+const ANSI_RESET_FG = "\x1b[39m";
 
 function kFormat(num: number): string {
   if (!Number.isFinite(num)) return "0";
@@ -87,40 +62,32 @@ function mFormat(num: number): string {
 
 function formatCost(cost: number): string {
   if (!Number.isFinite(cost) || cost <= 0) return "0.00";
-
   const twoDecimalValue = Number(cost.toFixed(2));
   if (twoDecimalValue === 0) return cost.toFixed(3);
-
   return cost.toFixed(2);
-}
-
-function formatHeaderDate(date: Date): string {
-  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  return `${weekdays[date.getDay()]} ${String(date.getDate()).padStart(2, "0")} ${months[date.getMonth()]}`;
 }
 
 function formatHeaderTime(date: Date): string {
   return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
 }
 
-function renderPowerline(theme: Theme, segments: Segment[]): string {
+function renderPowerline(segments: Segment[]): string {
   let line = "";
   const firstSeg = segments[0];
   if (firstSeg) {
-    line += theme.bg(firstSeg.bg, theme.fg(firstSeg.bg, LEFT_CAP));
+    line += toAnsiFg(firstSeg.bg) + toAnsiBg(firstSeg.bg) + LEFT_CAP;
   }
 
   for (let i = 0; i < segments.length; i++) {
     const seg = segments[i]!;
     const nextSeg = segments[i + 1];
 
-    line += theme.bg(seg.bg, theme.fg(seg.fg, seg.text));
+    line += toAnsiBg(seg.bg) + toAnsiFg(seg.fg) + seg.text;
 
     if (nextSeg) {
-      line += theme.bg(nextSeg.bg, theme.fg(seg.bg, SEPARATOR));
+      line += toAnsiBg(nextSeg.bg) + toAnsiFg(seg.bg) + SEPARATOR;
     } else {
-      line += theme.fg(seg.bg, SEPARATOR);
+      line += ANSI_RESET_BG + toAnsiFg(seg.bg) + SEPARATOR + ANSI_RESET_FG;
     }
   }
 
@@ -157,13 +124,13 @@ export default function (pi: ExtensionAPI) {
           const now = new Date();
           const themeName = (theme.name || "theme").toLowerCase();
           const segments: Segment[] = [
-            { text: ` 󰌽 raquezha `, bg: "purpleBg", fg: "userMessageBg" },
-            { text: ` π ${projectName} `, bg: "greenBg", fg: "userMessageBg" },
-            { text: ` 󰥔 ${formatHeaderTime(now)} `, bg: "accentBg", fg: "userMessageBg" },
-            { text: ` 󰏘 ${themeName} `, bg: "cyanBg", fg: "userMessageBg" },
+            { text: ` 󰌽 raquezha `, bg: DRACULA.pink, fg: DRACULA.bg },
+            { text: ` π ${projectName} `, bg: DRACULA.green, fg: DRACULA.bg },
+            { text: ` 󰥔 ${formatHeaderTime(now)} `, bg: DRACULA.purple, fg: DRACULA.bg },
+            { text: ` 󰏘 ${themeName} `, bg: DRACULA.cyan, fg: DRACULA.bg },
           ];
 
-          return [truncateToWidth(renderPowerline(theme, segments), width, "")];
+          return [truncateToWidth(renderPowerline(segments), width, "")];
         },
       };
     });
@@ -181,7 +148,6 @@ export default function (pi: ExtensionAPI) {
 
           for (const entry of ctx.sessionManager.getEntries()) {
             if (entry.type !== "message" || entry.message.role !== "assistant") continue;
-
             totalInput += entry.message.usage?.input ?? 0;
             totalOutput += entry.message.usage?.output ?? 0;
             totalCost += entry.message.usage?.cost.total ?? 0;
@@ -201,16 +167,16 @@ export default function (pi: ExtensionAPI) {
 
           const segments: Segment[] = [
             ...(branch
-              ? [{ text: `  ${branch} `, bg: "purpleBg", fg: "userMessageBg" }]
+              ? [{ text: `  ${branch} `, bg: DRACULA.pink, fg: DRACULA.bg }]
               : []),
-            { text: ` ↑${kFormat(totalInput)} `, bg: "greenBg", fg: "userMessageBg" },
-            { text: ` ↓${kFormat(totalOutput)} `, bg: "accentBg", fg: "userMessageBg" },
-            { text: ` $${formatCost(totalCost)} `, bg: "orangeBg", fg: "userMessageBg" },
-            { text: ` ◔ ${contextPercent}% `, bg: "yellowBg", fg: "userMessageBg" },
-            { text: ` ✦ ${modelText} `, bg: "cyanBg", fg: "userMessageBg" },
+            { text: ` ↑${kFormat(totalInput)} `, bg: DRACULA.green, fg: DRACULA.bg },
+            { text: ` ↓${kFormat(totalOutput)} `, bg: DRACULA.purple, fg: DRACULA.bg },
+            { text: ` $${formatCost(totalCost)} `, bg: DRACULA.orange, fg: DRACULA.bg },
+            { text: ` ◔ ${contextPercent}% `, bg: DRACULA.yellow, fg: DRACULA.bg },
+            { text: ` ✦ ${modelText} `, bg: DRACULA.cyan, fg: DRACULA.bg },
           ];
 
-          const left = renderPowerline(theme, segments);
+          const left = renderPowerline(segments);
 
           const statuses = Array.from(footerData.getExtensionStatuses().values())
             .filter((value): value is string => Boolean(value))
