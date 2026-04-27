@@ -13,15 +13,15 @@ const VIBRANT = {
   yellow: "#f1fa8c",
 };
 
-// Dracula PALE Palette (Ultra-Faded)
+// Dracula PALE Palette (Visible Ghost)
 const PALE = {
   bg: "#1e1f29",
-  cyan: "#919595",
-  green: "#919591",
-  orange: "#959391",
-  pink: "#959193",
-  purple: "#919195",
-  yellow: "#959591",
+  cyan: "#8da0a0",
+  green: "#8da08d",
+  orange: "#a0948d",
+  pink: "#b09ba5",
+  purple: "#9b9bb0",
+  yellow: "#b0b09b",
 };
 
 type Segment = {
