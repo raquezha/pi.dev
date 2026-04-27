@@ -131,6 +131,25 @@ info "Linking default minimal extensions..."
 echo ""
 
 link_dir "$PI_DIR/extensions/powerline-footer" "$AGENT_DIR/extensions/powerline-footer" "extensions/powerline-footer"
+link_dir "$PI_DIR/extensions/clean-repo"       "$AGENT_DIR/extensions/clean-repo"       "extensions/clean-repo"
+
+# ── Link prompts ─────────────────────────────────────────────────────
+
+echo ""
+info "Linking prompts..."
+echo ""
+
+has_prompts=false
+for prompt_file in "$PI_DIR"/prompts/*.md; do
+  if [[ -f "$prompt_file" ]]; then
+    prompt_name="$(basename "$prompt_file")"
+    link_file "$prompt_file" "$AGENT_DIR/prompts/$prompt_name" "prompts/$prompt_name"
+    has_prompts=true
+  fi
+done
+if [[ "$has_prompts" == false ]]; then
+  info "No prompts yet (add .md files to pi/prompts/)"
+fi
 
 # ── Link themes ──────────────────────────────────────────────────────
 
@@ -174,8 +193,8 @@ if [[ -f "$PI_DIR/themes/ghostly-pale.json" ]]; then
 fi
 
 echo ""
-info "Skipped by default to avoid context bloat: AGENTS.md, skills, prompts"
-info "Skipped by default to keep behavior predictable: clean-repo, custom-footer, env-protection"
+info "Skipped by default to avoid context bloat: AGENTS.md, skills"
+info "Skipped by default to keep behavior predictable: custom-footer, env-protection"
 info "Enable these manually when needed."
 
 # ── Secrets check ────────────────────────────────────────────────────
