@@ -169,8 +169,8 @@ fi
 if [[ -f "$PI_DIR/themes/dracula-vibrant.json" ]]; then
   link_file "$PI_DIR/themes/dracula-vibrant.json" "$AGENT_DIR/themes/dracula-vibrant.json" "themes/dracula-vibrant.json"
 fi
-if [[ -f "$PI_DIR/themes/dracula-pale.json" ]]; then
-  link_file "$PI_DIR/themes/dracula-pale.json" "$AGENT_DIR/themes/dracula-pale.json" "themes/dracula-pale.json"
+if [[ -f "$PI_DIR/themes/ghostly-pale.json" ]]; then
+  link_file "$PI_DIR/themes/ghostly-pale.json" "$AGENT_DIR/themes/ghostly-pale.json" "themes/ghostly-pale.json"
 fi
 
 echo ""

@@ -13,15 +13,15 @@ const VIBRANT = {
   yellow: "#f1fa8c",
 };
 
-// Dracula PALE Palette (Ghostly Pale)
+// Dracula PALE Palette (Ultra-Faded)
 const PALE = {
   bg: "#1e1f29",
-  cyan: "#9ba8a8",
-  green: "#9ba89b",
-  orange: "#a8a19b",
-  pink: "#a89ba1",
-  purple: "#9b9ca8",
-  yellow: "#a8a89b",
+  cyan: "#919595",
+  green: "#919591",
+  orange: "#959391",
+  pink: "#959193",
+  purple: "#919195",
+  yellow: "#959591",
 };
 
 type Segment = {
@@ -98,7 +98,7 @@ export default function (pi: ExtensionAPI) {
     description: "Cycle between vibrant and pale Dracula themes",
     handler: async (_args, ctx) => {
       const current = ctx.ui.theme.name;
-      const next = current === "dracula-vibrant" ? "dracula-pale" : "dracula-vibrant";
+      const next = current === "dracula-vibrant" ? "ghostly-pale" : "dracula-vibrant";
       
       const result = ctx.ui.setTheme(next);
       if (result.success) {
@@ -137,7 +137,7 @@ export default function (pi: ExtensionAPI) {
         render(width: number): string[] {
           const now = new Date();
           const themeName = (theme.name || "theme").toLowerCase();
-          const p = themeName === "dracula-pale" ? PALE : VIBRANT;
+          const p = themeName === "ghostly-pale" ? PALE : VIBRANT;
 
           const segments: Segment[] = [
             { text: ` 󰌽 raquezha `, bg: p.pink, fg: p.bg },
@@ -179,7 +179,7 @@ export default function (pi: ExtensionAPI) {
           const modelText = ctx.model?.reasoning ? `${modelId} • ${thinkingLevel}` : modelId;
 
           const themeName = (theme.name || "theme").toLowerCase();
-          const p = themeName === "dracula-pale" ? PALE : VIBRANT;
+          const p = themeName === "ghostly-pale" ? PALE : VIBRANT;
 
           const segments: Segment[] = [
             ...(branch ? [{ text: `  ${branch} `, bg: p.pink, fg: p.bg }] : []),
