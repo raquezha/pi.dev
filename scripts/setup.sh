@@ -111,67 +111,26 @@ link_dir() {
   ok "Linked $label"
 }
 
-# ── Link config files ────────────────────────────────────────────────
+# ── Link low-context-bloat defaults ──────────────────────────────────
 
 echo ""
-info "Linking config files..."
+info "Linking low-context-bloat defaults..."
 echo ""
 
-link_file "$PI_DIR/settings.json"   "$AGENT_DIR/settings.json"   "settings.json"
-link_file "$PI_DIR/models.json"     "$AGENT_DIR/models.json"     "models.json"
+# Safe defaults: config, models, keybindings, themes, and a single UI extension.
+# Intentionally NOT linked by default: AGENTS.md, skills, prompts, most extensions.
+# Those are opt-in because they increase startup context or behavior surface.
+link_file "$PI_DIR/settings.json"    "$AGENT_DIR/settings.json"    "settings.json"
+link_file "$PI_DIR/models.json"      "$AGENT_DIR/models.json"      "models.json"
 link_file "$PI_DIR/keybindings.json" "$AGENT_DIR/keybindings.json" "keybindings.json"
-link_file "$PI_DIR/AGENTS.md"       "$AGENT_DIR/AGENTS.md"       "AGENTS.md"
 
-# ── Link extensions ──────────────────────────────────────────────────
-
-echo ""
-info "Linking extensions..."
-echo ""
-
-for ext_dir in "$PI_DIR"/extensions/*/; do
-  if [[ -d "$ext_dir" ]]; then
-    ext_name="$(basename "$ext_dir")"
-    link_dir "$ext_dir" "$AGENT_DIR/extensions/$ext_name" "extensions/$ext_name"
-  fi
-done
-
-# ── Link skills ──────────────────────────────────────────────────────
+# ── Link default extension set (minimal) ─────────────────────────────
 
 echo ""
-info "Linking skills..."
+info "Linking default minimal extensions..."
 echo ""
 
-has_skills=false
-for skill_dir in "$PI_DIR"/skills/*/; do
-  if [[ -d "$skill_dir" ]]; then
-    # We link any top-level directory in pi/skills/
-    # pi handles recursive discovery of SKILL.md files within them.
-    skill_name="$(basename "$skill_dir")"
-    link_dir "$skill_dir" "$AGENT_DIR/skills/$skill_name" "skills/$skill_name"
-    has_skills=true
-  fi
-done
-if [[ "$has_skills" == false ]]; then
-  info "No skills yet (add dirs with SKILL.md to pi/skills/)"
-fi
-
-# ── Link prompts ─────────────────────────────────────────────────────
-
-echo ""
-info "Linking prompts..."
-echo ""
-
-has_prompts=false
-for prompt_file in "$PI_DIR"/prompts/*.md; do
-  if [[ -f "$prompt_file" ]]; then
-    prompt_name="$(basename "$prompt_file")"
-    link_file "$prompt_file" "$AGENT_DIR/prompts/$prompt_name" "prompts/$prompt_name"
-    has_prompts=true
-  fi
-done
-if [[ "$has_prompts" == false ]]; then
-  info "No prompts yet (add .md files to pi/prompts/)"
-fi
+link_dir "$PI_DIR/extensions/powerline-footer" "$AGENT_DIR/extensions/powerline-footer" "extensions/powerline-footer"
 
 # ── Link themes ──────────────────────────────────────────────────────
 
@@ -190,6 +149,11 @@ done
 if [[ "$has_themes" == false ]]; then
   info "No themes yet (add .json files to pi/themes/)"
 fi
+
+echo ""
+info "Skipped by default to avoid context bloat: AGENTS.md, skills, prompts"
+info "Skipped by default to keep behavior predictable: clean-repo, custom-footer, env-protection"
+info "Enable these manually when needed."
 
 # ── Secrets check ────────────────────────────────────────────────────
 
