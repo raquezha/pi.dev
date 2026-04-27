@@ -5,7 +5,7 @@
   "showHardwareCursor": true,
   "hideThinkingBlock": false,
   "quietStartup": false,
-  "theme": "dracula-vibrant",
+  "theme": "dracula-pale",
   "editorPaddingX": 2,
   "packages": [],
   "lastChangelogVersion": "0.70.2"

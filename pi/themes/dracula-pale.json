@@ -2,24 +2,24 @@
   "$schema": "https://raw.githubusercontent.com/badlogic/pi-mono/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json",
   "name": "dracula-pale",
   "vars": {
-    "bg": "#2d2f3b",
-    "panel": "#2d2f3b",
-    "panelAlt": "#414458",
-    "selected": "#414458",
-    "border": "#5a6996",
-    "accent": "#c5a3ff",
-    "cyan": "#a4f1ff",
-    "green": "#98f7a7",
-    "red": "#ffa4a4",
-    "yellow": "#ffffb3",
-    "orange": "#ffca91",
-    "pink": "#ffb3d9",
-    "purple": "#d1b3ff",
+    "bg": "#383a4a",
+    "panel": "#383a4a",
+    "panelAlt": "#4a4c5a",
+    "selected": "#4a4c5a",
+    "border": "#62647a",
+    "accent": "#c2c2d6",
+    "cyan": "#c2e0e0",
+    "green": "#c2d6c2",
+    "red": "#d6b8b8",
+    "yellow": "#d6d6c2",
+    "orange": "#d6c2b8",
+    "pink": "#d6c2d6",
+    "purple": "#c2c2d6",
     "text": "#f8f8f2",
     "muted": "#c2c6d8",
     "dim": "#7f88aa",
-    "toolSuccessBg": "#2d352f",
-    "toolErrorBg": "#3b2d30"
+    "toolSuccessBg": "#3d423e",
+    "toolErrorBg": "#423d3e"
   },
   "colors": {
     "accent": "accent",
@@ -75,8 +75,8 @@
     "bashMode": "green"
   },
   "export": {
-    "pageBg": "#2d2f3b",
-    "cardBg": "#2d2f3b",
-    "infoBg": "#3b3d4a"
+    "pageBg": "#383a4a",
+    "cardBg": "#383a4a",
+    "infoBg": "#4a4c5a"
   }
 }
