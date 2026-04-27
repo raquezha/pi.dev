@@ -7,9 +7,6 @@
   "quietStartup": false,
   "theme": "dracula",
   "editorPaddingX": 2,
-  "packages": [
-    "git:https://github.com/hasit/pi-community-themes",
-    "npm:pi-rose-pine"
-  ],
+  "packages": [],
   "lastChangelogVersion": "0.70.2"
 }

@@ -138,21 +138,38 @@ echo ""
 info "Linking themes..."
 echo ""
 
-# Ensure dracula theme (from hasit/pi-community-themes) is linked explicitly
-if [[ -f "$PI_DIR/themes/dracula.json" ]]; then
-  link_file "$PI_DIR/themes/dracula.json" "$AGENT_DIR/themes/dracula.json" "themes/dracula.json"
+# Aggressively remove any existing user-visible themes and installed theme packages,
+# then link only the dracula theme from this repo.
+if [[ -d "$AGENT_DIR/themes" ]]; then
+  shopt -s nullglob
+  for f in "$AGENT_DIR/themes"/*; do
+    base="$(basename "$f")"
+    if [[ "$base" == ".gitkeep" ]]; then
+      continue
+    fi
+    if [[ -L "$f" || -f "$f" || -d "$f" ]]; then
+      rm -rf "$f"
+      ok "Removed $AGENT_DIR/themes/$base"
+    fi
+  done
+  shopt -u nullglob
 fi
 
-has_themes=false
-for theme_file in "$PI_DIR"/themes/*.json; do
-  if [[ -f "$theme_file" ]]; then
-    theme_name="$(basename "$theme_file")"
-    link_file "$theme_file" "$AGENT_DIR/themes/$theme_name" "themes/$theme_name"
-    has_themes=true
-  fi
-done
-if [[ "$has_themes" == false ]]; then
-  info "No themes yet (add .json files to pi/themes/)"
+# Remove installed package directories that provide extra themes
+if [[ -d "$AGENT_DIR/git/github.com/hasit/pi-community-themes" ]]; then
+  rm -rf "$AGENT_DIR/git/github.com/hasit/pi-community-themes"
+  ok "Removed installed package: hasit/pi-community-themes"
+fi
+if [[ -d "$AGENT_DIR/npm/pi-rose-pine" ]]; then
+  rm -rf "$AGENT_DIR/npm/pi-rose-pine"
+  ok "Removed installed package: pi-rose-pine"
+fi
+
+# Link only dracula from this repo
+if [[ -f "$PI_DIR/themes/dracula.json" ]]; then
+  link_file "$PI_DIR/themes/dracula.json" "$AGENT_DIR/themes/dracula.json" "themes/dracula.json"
+else
+  warn "dracula.json not found in repo (expected at $PI_DIR/themes/dracula.json)"
 fi
 
 echo ""
