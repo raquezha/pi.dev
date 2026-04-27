@@ -124,7 +124,42 @@ export default function (pi: ExtensionAPI) {
   pi.on("session_start", async (_event, ctx) => {
     if (!ctx.hasUI) return;
 
-    // Restore built-in header (do not override)
+    ctx.ui.setHeader((tui, theme) => {
+      const projectName = basename(ctx.cwd || process.cwd()) || "project";
+      let timeout: ReturnType<typeof setTimeout> | undefined;
+      let interval: ReturnType<typeof setInterval> | undefined;
+
+      const scheduleClock = () => {
+        const now = new Date();
+        const delay = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+        timeout = setTimeout(() => {
+          tui.requestRender();
+          interval = setInterval(() => tui.requestRender(), 60_000);
+        }, Math.max(1, delay));
+      };
+
+      scheduleClock();
+
+      return {
+        dispose() {
+          if (timeout) clearTimeout(timeout);
+          if (interval) clearInterval(interval);
+        },
+        invalidate() {},
+        render(width: number): string[] {
+          const now = new Date();
+          const themeName = (theme.name || "theme").toLowerCase();
+          const segments: Segment[] = [
+            { text: ` 󰌽 raquezha `, bg: "customMessageBg", fg: "customMessageLabel" },
+            { text: ` π ${projectName} `, bg: "userMessageBg", fg: "syntaxKeyword" },
+            { text: ` 󰥔 ${formatHeaderDate(now)} • ${formatHeaderTime(now)} `, bg: "selectedBg", fg: "accent" },
+            { text: ` 󰏘 ${themeName} `, bg: "customMessageBg", fg: "syntaxFunction" },
+          ];
+
+          return [truncateToWidth(renderPowerline(theme, segments), width, "")];
+        },
+      };
+    });
 
     ctx.ui.setFooter((tui, theme, footerData) => {
       const dispose = footerData.onBranchChange(() => tui.requestRender());
@@ -159,13 +194,13 @@ export default function (pi: ExtensionAPI) {
 
           const segments: Segment[] = [
             ...(branch
-              ? [{ text: `  ${branch} `, bg: "customMessageBg" as BgToken, fg: "mdHeading" as FgToken }]
+              ? [{ text: `  ${branch} `, bg: "customMessageBg" as BgToken, fg: "syntaxKeyword" as FgToken }]
               : []),
-            { text: ` ↑${kFormat(totalInput)} `, bg: "userMessageBg", fg: "warning" },
-            { text: ` ↓${kFormat(totalOutput)} `, bg: "selectedBg", fg: "syntaxType" },
-            { text: ` $${formatCost(totalCost)} `, bg: "toolPendingBg", fg: "syntaxString" },
-            { text: ` ◔ ${contextPercent}%/${mFormat(contextWindow)} `, bg: "toolSuccessBg", fg: "accent" },
-            { text: ` ✦ ${modelText} `, bg: "toolErrorBg", fg: "text" },
+            { text: ` ↑${kFormat(totalInput)} `, bg: "userMessageBg", fg: "syntaxFunction" },
+            { text: ` ↓${kFormat(totalOutput)} `, bg: "selectedBg", fg: "accent" },
+            { text: ` $${formatCost(totalCost)} `, bg: "customMessageBg", fg: "syntaxString" },
+            { text: ` ◔ ${contextPercent}%/${mFormat(contextWindow)} `, bg: "userMessageBg", fg: "syntaxType" },
+            { text: ` ✦ ${modelText} `, bg: "selectedBg", fg: "text" },
           ];
 
           const left = renderPowerline(theme, segments);
