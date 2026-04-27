@@ -1,1 +1,8 @@
-{}
+{
+  "keybindings": [
+    {
+      "key": "ctrl+t",
+      "command": "cycle-theme"
+    }
+  ]
+}

@@ -165,11 +165,12 @@ if [[ -d "$AGENT_DIR/npm/pi-rose-pine" ]]; then
   ok "Removed installed package: pi-rose-pine"
 fi
 
-# Link only dracula from this repo
-if [[ -f "$PI_DIR/themes/dracula.json" ]]; then
-  link_file "$PI_DIR/themes/dracula.json" "$AGENT_DIR/themes/dracula.json" "themes/dracula.json"
-else
-  warn "dracula.json not found in repo (expected at $PI_DIR/themes/dracula.json)"
+# Link custom dracula themes from this repo
+if [[ -f "$PI_DIR/themes/dracula-vibrant.json" ]]; then
+  link_file "$PI_DIR/themes/dracula-vibrant.json" "$AGENT_DIR/themes/dracula-vibrant.json" "themes/dracula-vibrant.json"
+fi
+if [[ -f "$PI_DIR/themes/dracula-pale.json" ]]; then
+  link_file "$PI_DIR/themes/dracula-pale.json" "$AGENT_DIR/themes/dracula-pale.json" "themes/dracula-pale.json"
 fi
 
 echo ""

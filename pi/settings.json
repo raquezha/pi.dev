@@ -1,11 +1,11 @@
 {
-  "defaultProvider": "github-copilot",
-  "defaultModel": "gpt-5-mini",
+  "defaultProvider": "google-antigravity",
+  "defaultModel": "gemini-3-flash",
   "defaultThinkingLevel": "off",
   "showHardwareCursor": true,
   "hideThinkingBlock": true,
   "quietStartup": false,
-  "theme": "dracula",
+  "theme": "dracula-vibrant",
   "editorPaddingX": 2,
   "packages": [],
   "lastChangelogVersion": "0.70.2"
