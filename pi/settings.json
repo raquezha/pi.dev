@@ -1,6 +1,6 @@
 {
   "defaultProvider": "google-antigravity",
-  "defaultModel": "gemini-3.1-pro-low",
+  "defaultModel": "gemini-3-flash",
   "defaultThinkingLevel": "high",
   "showHardwareCursor": true,
   "hideThinkingBlock": false,
