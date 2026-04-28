@@ -53,9 +53,9 @@ mkdir -p "$AGENT_DIR/prompts"
 mkdir -p "$AGENT_DIR/themes"
 mkdir -p "$HOME/.pi-secrets"
 
-# ── Symlink helper ────────────────────────────────────────────────────
+# ── Symlink helpers ───────────────────────────────────────────────────
 
-link_file() {
+link_item() {
   local src="$1"
   local dest="$2"
   local label="$3"
@@ -65,6 +65,14 @@ link_file() {
     return
   fi
 
+  # If destination exists and is not a symlink, back it up
+  if [[ -e "$dest" && ! -L "$dest" ]]; then
+    local backup="$dest.backup.$(date +%s)"
+    mv "$dest" "$backup"
+    warn "Backed up existing $label → $(basename "$backup")"
+  fi
+
+  # If it's a symlink, check if it points to the right place
   if [[ -L "$dest" ]]; then
     local current_target
     current_target="$(readlink "$dest")"
@@ -73,42 +81,33 @@ link_file() {
       return
     fi
     rm "$dest"
-  elif [[ -e "$dest" ]]; then
-    local backup="$dest.backup.$(date +%s)"
-    mv "$dest" "$backup"
-    warn "Backed up existing $label → $(basename "$backup")"
   fi
 
   ln -s "$src" "$dest"
   ok "Linked $label"
 }
 
-link_dir() {
-  local src="$1"
-  local dest="$2"
+# prune_dir <target_dir> <source_dir> <label>
+# Removes symlinks in target_dir that don't have a corresponding item in source_dir
+prune_links() {
+  local target_dir="$1"
+  local source_dir="$2"
   local label="$3"
 
-  if [[ ! -d "$src" ]]; then
-    warn "Skipping $label (source not found)"
-    return
-  fi
+  if [[ ! -d "$target_dir" ]]; then return; fi
 
-  if [[ -L "$dest" ]]; then
-    local current_target
-    current_target="$(readlink "$dest")"
-    if [[ "$current_target" == "$src" ]]; then
-      ok "$label (already linked)"
-      return
+  shopt -s nullglob
+  for link in "$target_dir"/*; do
+    if [[ -L "$link" ]]; then
+      local filename
+      filename="$(basename "$link")"
+      if [[ ! -e "$source_dir/$filename" ]]; then
+        rm "$link"
+        warn "Pruned orphaned link: $label/$filename"
+      fi
     fi
-    rm "$dest"
-  elif [[ -d "$dest" ]]; then
-    local backup="$dest.backup.$(date +%s)"
-    mv "$dest" "$backup"
-    warn "Backed up existing $label → $(basename "$backup")"
-  fi
-
-  ln -s "$src" "$dest"
-  ok "Linked $label"
+  done
+  shopt -u nullglob
 }
 
 # ── Link low-context-bloat defaults ──────────────────────────────────
@@ -120,30 +119,37 @@ echo ""
 # Safe defaults: config, models, keybindings, themes, and a single UI extension.
 # Intentionally NOT linked by default: AGENTS.md, skills, prompts, most extensions.
 # Those are opt-in because they increase startup context or behavior surface.
-link_file "$PI_DIR/settings.json"    "$AGENT_DIR/settings.json"    "settings.json"
-link_file "$PI_DIR/models.json"      "$AGENT_DIR/models.json"      "models.json"
-link_file "$PI_DIR/keybindings.json" "$AGENT_DIR/keybindings.json" "keybindings.json"
+link_item "$PI_DIR/settings.json"    "$AGENT_DIR/settings.json"    "settings.json"
+link_item "$PI_DIR/models.json"      "$AGENT_DIR/models.json"      "models.json"
+link_item "$PI_DIR/keybindings.json" "$AGENT_DIR/keybindings.json" "keybindings.json"
 
-# ── Link default extension set (minimal) ─────────────────────────────
+# ── Link extensions ──────────────────────────────────────────────────
 
 echo ""
-info "Linking default minimal extensions..."
+info "Syncing extensions..."
 echo ""
 
-link_dir "$PI_DIR/extensions/powerline-footer" "$AGENT_DIR/extensions/powerline-footer" "extensions/powerline-footer"
-link_dir "$PI_DIR/extensions/clean-repo"       "$AGENT_DIR/extensions/clean-repo"       "extensions/clean-repo"
+# Prune extensions no longer in repo
+prune_links "$AGENT_DIR/extensions" "$PI_DIR/extensions" "extensions"
+
+# Link specific extensions (opt-in)
+link_item "$PI_DIR/extensions/powerline-footer" "$AGENT_DIR/extensions/powerline-footer" "extensions/powerline-footer"
+link_item "$PI_DIR/extensions/clean-repo"       "$AGENT_DIR/extensions/clean-repo"       "extensions/clean-repo"
 
 # ── Link prompts ─────────────────────────────────────────────────────
 
 echo ""
-info "Linking prompts..."
+info "Syncing prompts..."
 echo ""
+
+# Prune prompts no longer in repo
+prune_links "$AGENT_DIR/prompts" "$PI_DIR/prompts" "prompts"
 
 has_prompts=false
 for prompt_file in "$PI_DIR"/prompts/*.md; do
   if [[ -f "$prompt_file" ]]; then
     prompt_name="$(basename "$prompt_file")"
-    link_file "$prompt_file" "$AGENT_DIR/prompts/$prompt_name" "prompts/$prompt_name"
+    link_item "$prompt_file" "$AGENT_DIR/prompts/$prompt_name" "prompts/$prompt_name"
     has_prompts=true
   fi
 done
@@ -186,16 +192,45 @@ fi
 
 # Link custom dracula themes from this repo
 if [[ -f "$PI_DIR/themes/dracula-vibrant.json" ]]; then
-  link_file "$PI_DIR/themes/dracula-vibrant.json" "$AGENT_DIR/themes/dracula-vibrant.json" "themes/dracula-vibrant.json"
+  link_item "$PI_DIR/themes/dracula-vibrant.json" "$AGENT_DIR/themes/dracula-vibrant.json" "themes/dracula-vibrant.json"
 fi
 if [[ -f "$PI_DIR/themes/ghostly-pale.json" ]]; then
-  link_file "$PI_DIR/themes/ghostly-pale.json" "$AGENT_DIR/themes/ghostly-pale.json" "themes/ghostly-pale.json"
+  link_item "$PI_DIR/themes/ghostly-pale.json" "$AGENT_DIR/themes/ghostly-pale.json" "themes/ghostly-pale.json"
 fi
+
+# ── Available Inventory Summary ──────────────────────────────────────
+
+echo ""
+info "Checking available (not linked) items..."
+echo ""
+
+show_available() {
+  local src_dir="$1"
+  local dest_dir="$2"
+  local label="$3"
+
+  echo -e "${YELLOW}$label library:${NC}"
+  local count=0
+  for item in "$src_dir"/*; do
+    local name
+    name="$(basename "$item")"
+    if [[ ! -e "$dest_dir/$name" ]]; then
+      echo "  - $name"
+      count=$((count + 1))
+    fi
+  done
+  if [[ $count -eq 0 ]]; then
+    echo "  (all linked)"
+  fi
+}
+
+show_available "$PI_DIR/skills" "$AGENT_DIR/skills" "Skills"
+echo ""
+show_available "$PI_DIR/extensions" "$AGENT_DIR/extensions" "Extensions"
 
 echo ""
 info "Skipped by default to avoid context bloat: AGENTS.md, skills"
-info "Skipped by default to keep behavior predictable: custom-footer, env-protection"
-info "Enable these manually when needed."
+info "Enable skills manually by linking them to $AGENT_DIR/skills/"
 
 # ── Secrets check ────────────────────────────────────────────────────
 
@@ -238,6 +273,21 @@ if [[ -f "$HOME/.zshrc" ]]; then
   SHELL_RC="$HOME/.zshrc"
 elif [[ -f "$HOME/.bashrc" ]]; then
   SHELL_RC="$HOME/.bashrc"
+fi
+
+INTEGRATION_FILE="$REPO_DIR/pi/shell_integration.sh"
+SOURCE_LINE="[ -f $INTEGRATION_FILE ] && source $INTEGRATION_FILE"
+
+if [[ -n "$SHELL_RC" ]]; then
+  if grep -q "shell_integration.sh" "$SHELL_RC" 2>/dev/null; then
+    ok "Shell sources pi.dev shell_integration.sh (found in $(basename "$SHELL_RC"))"
+  else
+    echo "$SOURCE_LINE" >> "$SHELL_RC"
+    ok "Added shell_integration.sh to $(basename "$SHELL_RC")"
+    info "Run 'source $SHELL_RC' or open a new terminal to enable 'pi android' etc."
+  fi
+else
+  warn "Could not find .zshrc or .bashrc to add shell integration."
 fi
 
 if [[ -n "$SHELL_RC" ]] && grep -q "pi-secrets" "$SHELL_RC" 2>/dev/null; then

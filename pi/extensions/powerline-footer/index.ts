@@ -168,17 +168,26 @@ export default function (pi: ExtensionAPI) {
           let totalInput = 0;
           let totalOutput = 0;
           let totalCost = 0;
+          let totalCacheRead = 0;
 
           for (const entry of ctx.sessionManager.getEntries()) {
             if (entry.type !== "message" || entry.message.role !== "assistant") continue;
-            totalInput += entry.message.usage?.input ?? 0;
-            totalOutput += entry.message.usage?.output ?? 0;
-            totalCost += entry.message.usage?.cost.total ?? 0;
+            const usage = entry.message.usage;
+            if (usage) {
+              totalInput += usage.input;
+              totalOutput += usage.output;
+              totalCost += usage.cost.total;
+              totalCacheRead += (usage as any).cacheRead ?? 0;
+            }
           }
 
           const contextUsage = ctx.getContextUsage?.();
           const contextPercent =
-            typeof contextUsage?.percent === "number" ? contextUsage.percent.toFixed(1) : "?";
+            typeof contextUsage?.percent === "number" ? Math.round(contextUsage.percent) : "?";
+          
+          const cachePercent = totalInput > 0 
+            ? Math.round((totalCacheRead / totalInput) * 100) 
+            : 0;
 
           const branch = footerData.getGitBranch();
           const modelId = ctx.model?.id ?? "no-model";
@@ -193,7 +202,8 @@ export default function (pi: ExtensionAPI) {
             { text: ` ↑${kFormat(totalInput)} `, bg: p.green, fg: p.bg },
             { text: ` ↓${kFormat(totalOutput)} `, bg: p.purple, fg: p.bg },
             { text: ` $${formatCost(totalCost)} `, bg: p.orange, fg: p.bg },
-            { text: ` ◔ ${contextPercent}% `, bg: p.yellow, fg: p.bg },
+            { text: ` 󰌪 ${cachePercent}% `, bg: p.yellow, fg: p.bg },
+            { text: ` ◔ ${contextPercent}% `, bg: p.pink, fg: p.bg },
             { text: ` ✦ ${modelText} `, bg: p.cyan, fg: p.bg },
           ];
 
