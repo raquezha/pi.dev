@@ -185,8 +185,8 @@ export default function (pi: ExtensionAPI) {
           const contextPercent =
             typeof contextUsage?.percent === "number" ? Math.round(contextUsage.percent) : "?";
           
-          const cachePercent = totalInput > 0 
-            ? Math.round((totalCacheRead / totalInput) * 100) 
+          const cachePercent = (totalInput + totalCacheRead) > 0 
+            ? Math.round((totalCacheRead / (totalInput + totalCacheRead)) * 100) 
             : 0;
 
           const branch = footerData.getGitBranch();
@@ -201,8 +201,8 @@ export default function (pi: ExtensionAPI) {
             ...(branch ? [{ text: `  ${branch} `, bg: p.pink, fg: p.bg }] : []),
             { text: ` ↑${kFormat(totalInput)} `, bg: p.green, fg: p.bg },
             { text: ` ↓${kFormat(totalOutput)} `, bg: p.purple, fg: p.bg },
-            { text: ` $${formatCost(totalCost)} `, bg: p.orange, fg: p.bg },
             { text: ` 󰌪 ${cachePercent}% `, bg: p.yellow, fg: p.bg },
+            { text: ` $${formatCost(totalCost)} `, bg: p.orange, fg: p.bg },
             { text: ` ◔ ${contextPercent}% `, bg: p.pink, fg: p.bg },
             { text: ` ✦ ${modelText} `, bg: p.cyan, fg: p.bg },
           ];
