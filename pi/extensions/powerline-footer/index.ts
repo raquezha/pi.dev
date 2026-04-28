@@ -57,8 +57,12 @@ const ANSI_RESET_FG = "\x1b[39m";
 
 function kFormat(num: number): string {
   if (!Number.isFinite(num)) return "0";
-  if (Math.abs(num) < 1000) return `${Math.round(num)}`;
-  return `${(num / 1000).toFixed(1)}k`;
+  const abs = Math.abs(num);
+  if (abs < 1000) return `${Math.round(num)}`;
+  if (abs < 1000000) return `${(num / 1000).toFixed(1)}k`;
+  if (abs < 1000000000) return `${(num / 1000000).toFixed(2)}m`;
+  if (abs < 1000000000000) return `${(num / 1000000000).toFixed(2)}b`;
+  return `${(num / 1000000000000).toFixed(2)}t`;
 }
 
 function formatCost(cost: number): string {
