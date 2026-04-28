@@ -201,7 +201,7 @@ export default function (pi: ExtensionAPI) {
             ...(branch ? [{ text: `  ${branch} `, bg: p.pink, fg: p.bg }] : []),
             { text: ` ↑${kFormat(totalInput)} `, bg: p.green, fg: p.bg },
             { text: ` ↓${kFormat(totalOutput)} `, bg: p.purple, fg: p.bg },
-            { text: ` 󰌪 ${cachePercent}% `, bg: p.yellow, fg: p.bg },
+            { text: ` 󰌪 ${kFormat(totalCacheRead)} `, bg: p.yellow, fg: p.bg },
             { text: ` $${formatCost(totalCost)} `, bg: p.orange, fg: p.bg },
             { text: ` ◔ ${contextPercent}% `, bg: p.pink, fg: p.bg },
             { text: ` ✦ ${modelText} `, bg: p.cyan, fg: p.bg },
