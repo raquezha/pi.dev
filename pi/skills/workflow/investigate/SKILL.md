@@ -12,7 +12,7 @@ Investigate first. This is Phase 0 of the workflow: gather evidence, inspect the
 - Separate **facts**, **hypotheses**, and **unknowns**.
 - If reproduction is expensive or impossible, say so clearly and work from available evidence.
 - Do not create `PLAN.md` or start implementation from this skill.
-- Recommend `/frame-problem` once the issue is clear enough for `Problem.md`.
+- Recommend `/frame-problem` once the issue is clear enough for `PROBLEM.md`.
 
 End with a compact summary:
 - **Observed facts**

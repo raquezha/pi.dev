@@ -1,7 +1,7 @@
 # PLAN.md Template
 
 # Plan: [Actionable Title]
-*Linked Problem: [Link to Problem.md]*
+*Linked Problem: [Link to PROBLEM.md]*
 
 ## Objective
 [Brief summary of the goal.]

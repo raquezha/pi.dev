@@ -1,4 +1,4 @@
-# Problem.md Template
+# PROBLEM.md Template
 
 # Problem Statement: [Clear, Actionable Title]
 

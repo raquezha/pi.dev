@@ -25,6 +25,6 @@ Use this checklist to keep investigation grounded.
 Stop investigating and recommend the next step when:
 - the likely culprit is clear enough to describe
 - open questions are known and bounded
-- a `Problem.md` can now be written without major guessing
+- a `PROBLEM.md` can now be written without major guessing
 
 Do not stop early just because a plausible explanation exists.

@@ -1,5 +1,5 @@
 ---
-description: Generate a TDD-first PLAN.md file based on a Problem.md or chat context. This is the core "Planner" skill for the R&D Agentic Workflow, covering code (Android, CI/CD) and non-code tasks.
+description: Generate a TDD-first PLAN.md file based on a PROBLEM.md or chat context. This is the core "Planner" skill for the R&D Agentic Workflow, covering code (Android, CI/CD) and non-code tasks.
 ---
 
 # Skill: write-a-plan
@@ -7,7 +7,7 @@ description: Generate a TDD-first PLAN.md file based on a Problem.md or chat con
 Transform a problem into a phased, verifiable implementation strategy with a mandatory TDD (Phase 0) start.
 
 ## Core Process
-1. **Analyze Input**: Read `Problem.md` and current project context. Determine if this is a **Code Task** or a **Non-Code Task**.
+1. **Analyze Input**: Read `PROBLEM.md` and current project context. Determine if this is a **Code Task** or a **Non-Code Task**.
 2. **Select Verification Method**:
    - *Code:* Identify the test framework (JUnit, Jest, etc.) and the specific test to write.
    - *Non-Code:* Identify a "proof of failure" check (e.g., a grep command or a manual observation).
@@ -30,6 +30,6 @@ Regardless of the project type, use this structure:
 - **Premium Model Switch**: After generating the plan, recommend the user switch to a premium model for implementation.
 
 ## Quality Bar
-- Does the plan solve the "Success Criteria" from `Problem.md`?
+- Does the plan solve the "Success Criteria" from `PROBLEM.md`?
 - Is there a clear "Rollback" strategy?
 - Are Non-Goals respected?

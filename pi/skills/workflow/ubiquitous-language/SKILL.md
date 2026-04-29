@@ -7,7 +7,7 @@ description: Create and maintain a UBIQUITOUS_LANGUAGE.md file to align domain t
 Build a shared vocabulary to reduce verbosity and ensure the agent uses the same domain terms as the codebase.
 
 ## Core Process
-1. **Terminology Extraction**: Scan the current codebase (especially directory names, core classes, and `Problem.md`) to identify key domain terms.
+1. **Terminology Extraction**: Scan the current codebase (especially directory names, core classes, and `PROBLEM.md`) to identify key domain terms.
 2. **Draft Table**: Create/update a Markdown table with the following columns:
    - **Term**: The specific word used in the code/business.
    - **Meaning**: A concise definition (max 1 sentence).

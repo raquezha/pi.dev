@@ -60,15 +60,13 @@ function kFormat(num: number): string {
   const abs = Math.abs(num);
   if (abs < 1000) return `${Math.round(num)}`;
   if (abs < 1000000) return `${(num / 1000).toFixed(1)}k`;
-  if (abs < 1000000000) return `${(num / 1000000).toFixed(2)}m`;
-  if (abs < 1000000000000) return `${(num / 1000000000).toFixed(2)}b`;
-  return `${(num / 1000000000000).toFixed(2)}t`;
+  if (abs < 1000000000) return `${(num / 1000000).toFixed(1)}M`;
+  if (abs < 1000000000000) return `${(num / 1000000000).toFixed(1)}B`;
+  return `${(num / 1000000000000).toFixed(1)}T`;
 }
 
 function formatCost(cost: number): string {
   if (!Number.isFinite(cost) || cost <= 0) return "0.00";
-  const twoDecimalValue = Number(cost.toFixed(2));
-  if (twoDecimalValue === 0) return cost.toFixed(3);
   return cost.toFixed(2);
 }
 
@@ -215,10 +213,17 @@ export default function (pi: ExtensionAPI) {
             { text: ` 󰁝 ${kFormat(totalInput)} `, bg: p.green, fg: p.bg },
             { text: ` 󰁅 ${kFormat(totalOutput)} `, bg: p.purple, fg: p.bg },
             { text: ` 󰌪 ${kFormat(totalCacheRead)} `, bg: p.yellow, fg: p.bg },
-            { text: ` 󰠭 ${formatCost(totalCost)} `, bg: p.orange, fg: p.bg },
-            { text: ` 󰍛 ${contextPercent}% `, bg: p.pink, fg: p.bg },
-            { text: ` 󱐋 ${modelText} `, bg: p.cyan, fg: p.bg },
+            { text: ` 󱍢 $${formatCost(totalCost)} `, bg: p.orange, fg: p.bg },
+            { text: ` 󰆼 ${contextPercent}% `, bg: p.cyan, fg: p.bg },
+            { text: ` 󱐋 ${modelId} `, bg: p.purple, fg: p.bg },
           ];
+
+          // Add mindset if active
+          const mindset = process.env.PI_MINDSET || (pi as any).getMindset?.() || (pi as any).getMindsetName?.();
+          if (mindset) {
+            segments.push({ text: ` 🎩 ${mindset} `, bg: p.pink, fg: p.bg });
+          }
+
 
           const left = renderPowerline(segments);
 

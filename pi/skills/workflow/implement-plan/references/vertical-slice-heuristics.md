@@ -14,6 +14,6 @@ To "own" the implementation like a Staff Engineer, avoid the "Horizontal Layer" 
   3. **Slice 3:** Add "Edit Name" functionality. (Verifiable)
 
 ### How to identify a slice:
-1. Look at a single **Success Criterion** in `Problem.md`.
+1. Look at a single **Success Criterion** in `PROBLEM.md`.
 2. Identify the minimum code needed across all layers (Foundations, Mechanics, Surface) to satisfy *only* that criterion.
 3. Build, test, and commit that slice before moving to the next.

@@ -14,7 +14,7 @@ Execute a technical plan with precision, ensuring vertical implementation, TDD l
 2. **Environment Setup**:
    - Ensure a dedicated branch exists (create from `PLAN.md` suggestion if needed).
    - Create a **Draft PR/MR** immediately. 
-   - **MR Description Rule**: Use the structure defined in `references/mr-template.md`. The content MUST be derived from the `Objective` and `Success Criteria` in the `Problem.md` and `PLAN.md`. It should summarize the functional changes and why they matter, formatted for a human reviewer. Avoid "agent-speak".
+   - **MR Description Rule**: Use the structure defined in `references/mr-template.md`. The content MUST be derived from the `Objective` and `Success Criteria` in the `PROBLEM.md` and `PLAN.md`. It should summarize the functional changes and why they matter, formatted for a human reviewer. Avoid "agent-speak".
 3. **The Vertical Slice Loop**:
    - **Phase 0 (TDD)**: Implement the failing test for the current slice. Verify failure.
    - **Phase 1-3 (Build)**: Implement the code from the bottom (foundations) to the top (integration).

@@ -1,6 +1,6 @@
 # Quality Bar: Problem Framing
 
-A high-quality `Problem.md` must pass these checks:
+A high-quality `PROBLEM.md` must pass these checks:
 
 1. **The "So What?" Check**: Does the "Why it matters" section explain the cost of inaction?
 2. **The "Measurability" Check**: Is there at least one concrete success criterion? (e.g., "Build passes", "Feature X is visible", "Latency is reduced").

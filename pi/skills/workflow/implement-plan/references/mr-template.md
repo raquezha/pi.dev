@@ -1,6 +1,6 @@
 # Standard MR/PR Description Template
 
-Use this template when creating Merge Requests in GitLab or Pull Requests in GitHub. Populate the bracketed sections using the `Problem.md`, `PLAN.md`, and the actual code changes.
+Use this template when creating Merge Requests in GitLab or Pull Requests in GitHub. Populate the bracketed sections using the `PROBLEM.md`, `PLAN.md`, and the actual code changes.
 
 ---
 
@@ -13,7 +13,7 @@ Use this template when creating Merge Requests in GitLab or Pull Requests in Git
 - **Domain Alignment**: [Note any naming or pattern updates].
 
 ## 🔗 Related Resources
-- **Problem**: Link to Problem.md.
+- **Problem**: Link to PROBLEM.md.
 - **Plan**: Link to PLAN.md.
 
 ## ✅ Verification Results
