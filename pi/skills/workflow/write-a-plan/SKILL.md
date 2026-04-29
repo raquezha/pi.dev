@@ -19,9 +19,9 @@ Transform a problem into a phased, verifiable implementation strategy with a man
 ## Universal Phases
 Regardless of the project type, use this structure:
 - **Phase 0: The Feedback Loop (TDD)**: Create the failing test or proof of current failure.
-- **Phase 1: Foundations**: Set up data structures, schemas, or base config.
-- **Phase 2: Mechanics**: Implement the core logic, presenters, or processing loops.
-- **Phase 3: Integration**: Connect to the UI, CLI, or external systems.
+- **Phase 1: Foundations**: Set up data structures, schemas, or base config. Update relevant documentation (README, mkdocs) in parallel.
+- **Phase 2: Mechanics**: Implement core logic and processing loops. Maintain "Truth" in documentation as logic evolves.
+- **Phase 3: Integration & Knowledge Sync**: Connect to UI/CLI and perform a final check of all project artifacts (Static sites, schemas, guides).
 
 ## Rules
 - **TDD-First**: Do not skip Phase 0.

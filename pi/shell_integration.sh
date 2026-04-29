@@ -22,7 +22,7 @@ pi() {
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/android")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/investigate")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/implement-plan")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify-code-changes")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify-changes")
         shift
         ;;
       --plan)
