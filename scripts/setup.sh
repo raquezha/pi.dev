@@ -228,6 +228,11 @@ show_available "$PI_DIR/skills" "$AGENT_DIR/skills" "Skills"
 echo ""
 show_available "$PI_DIR/extensions" "$AGENT_DIR/extensions" "Extensions"
 
+# ── Auto-link workflow skills (Core to R&D Workflow) ─────────────────
+
+# Skipped auto-linking; these are injected via 'pi --plan' shell integration
+# to avoid context bloat in standard sessions.
+
 echo ""
 info "Skipped by default to avoid context bloat: AGENTS.md, skills"
 info "Enable skills manually by linking them to $AGENT_DIR/skills/"
@@ -296,7 +301,9 @@ else
   warn "Add this to your $(basename "${SHELL_RC:-~/.zshrc}") so API keys load on shell start:"
   echo ""
   echo "    # pi secrets"
-  echo "    [ -f ~/.pi-secrets/.env ] && source ~/.pi-secrets/.env"
+  echo "    if [ -f ~/.pi-secrets/.env ]; then"
+  echo "      export \$(grep -v '^#' ~/.pi-secrets/.env | xargs)"
+  echo "    fi"
   echo ""
 fi
 

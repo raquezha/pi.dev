@@ -1,12 +1,12 @@
 {
   "defaultProvider": "google-antigravity",
   "defaultModel": "gemini-3-flash",
-  "defaultThinkingLevel": "high",
+  "defaultThinkingLevel": "minimal",
   "showHardwareCursor": true,
   "hideThinkingBlock": false,
   "quietStartup": false,
   "theme": "ghostly-pale",
   "editorPaddingX": 2,
   "packages": [],
-  "lastChangelogVersion": "0.70.5"
+  "lastChangelogVersion": "0.70.6"
 }

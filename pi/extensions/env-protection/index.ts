@@ -14,6 +14,20 @@ import * as os from "node:os";
  * are unaffected — they run outside pi.
  */
 export default function (pi: ExtensionAPI) {
+  // Log activation message when the extension is loaded
+  try {
+    // prefer pi.log if available, otherwise console
+    if (typeof (pi as any).log === "function") {
+      (pi as any).log("🔒 env-protection active — secrets are guarded");
+    } else {
+      console.log("🔒 env-protection active — secrets are guarded");
+    }
+  } catch (e) {
+    // best-effort: don't crash extension on logging failure
+    try { console.log("🔒 env-protection active — secrets are guarded"); } catch {}
+  }
+
+
   // ── File-name patterns (matched against basename + full path) ──────
   const blockedFilePatterns = [
     ".env",
@@ -46,6 +60,10 @@ export default function (pi: ExtensionAPI) {
     path.join(os.homedir(), ".pi", "agent", "auth.json"),
   ];
 
+  // Pre-calculate sets for faster lookups
+  const blockedFileSet = new Set(blockedFilePatterns);
+  const blockedDirSet = new Set(blockedDirPatterns);
+
   // ── Helpers ────────────────────────────────────────────────────────
 
   function checkPath(filePath: string): string | undefined {
@@ -53,25 +71,30 @@ export default function (pi: ExtensionAPI) {
 
     const resolved = path.resolve(filePath);
     const lower = resolved.toLowerCase();
-    const basename = path.basename(filePath).toLowerCase();
-
-    // Check absolute blocked paths
+    
+    // Check absolute blocked paths (most specific)
     for (const bp of blockedAbsolutePaths) {
-      if (resolved.startsWith(bp) || resolved === bp) {
+      if (resolved.startsWith(bp)) {
         return `path is under protected location "${bp}"`;
       }
     }
 
-    // Check directory patterns anywhere in the path
-    for (const dp of blockedDirPatterns) {
-      if (lower.includes(`/${dp}/`) || lower.includes(`/${dp}`) || lower.endsWith(`/${dp}`)) {
-        return `path contains protected directory "${dp}"`;
+    // Check directory patterns via path segments (faster than full string includes)
+    const segments = lower.split(path.sep);
+    for (const segment of segments) {
+      if (blockedDirSet.has(segment)) {
+        return `path contains protected directory "${segment}"`;
       }
     }
 
     // Check file-name patterns
+    const basename = path.basename(filePath).toLowerCase();
+    if (blockedFileSet.has(basename)) {
+       return `file matches blocked pattern "${basename}"`;
+    }
+    // Prefix match for things like .env.local
     for (const fp of blockedFilePatterns) {
-      if (basename === fp || basename.startsWith(fp)) {
+      if (basename.startsWith(fp)) {
         return `file matches blocked pattern "${fp}"`;
       }
     }
@@ -79,43 +102,35 @@ export default function (pi: ExtensionAPI) {
     return undefined;
   }
 
+  // Regex for fast command checking
+  const readPrefixes = [
+    "cat", "less", "more", "head", "tail", "grep", "egrep", "fgrep", "rg",
+    "sed", "awk", "cp", "mv", "scp", "vi", "vim", "nvim", "nano", "code",
+    "open", "bat", "source", "\\.", "base64", "xxd", "hexdump"
+  ];
+  const readRegex = new RegExp(`\\b(${readPrefixes.join("|")})\\b`);
+  const filePatternRegex = new RegExp(`(${blockedFilePatterns.map(p => p.replace(/\./g, "\\.")).join("|")})`);
+
   function checkBashCommand(command: string): string | undefined {
     const cmd = command.toLowerCase();
 
-    // Always block commands referencing protected directories
+    // 1. Fast check for blocked directory names
     for (const dp of blockedDirPatterns) {
       if (cmd.includes(dp)) {
         return `command references protected directory "${dp}"`;
       }
     }
 
-    // Block commands referencing absolute protected paths
+    // 2. Fast check for absolute paths
     for (const bp of blockedAbsolutePaths) {
       if (cmd.includes(bp.toLowerCase())) {
         return `command references protected path "${bp}"`;
       }
     }
 
-    // Block read-type commands that target sensitive file patterns
-    const readPrefixes = [
-      "cat ", "less ", "more ", "head ", "tail ",
-      "grep ", "egrep ", "fgrep ", "rg ",
-      "sed ", "awk ",
-      "cp ", "mv ", "scp ",
-      "vi ", "vim ", "nvim ", "nano ", "code ",
-      "open ", "bat ", "source ", ". ",
-      "base64 ", "xxd ", "hexdump ",
-      "curl -d @", "curl --data @",
-    ];
-
-    for (const fp of blockedFilePatterns) {
-      if (!cmd.includes(fp)) continue;
-      // Only block if it looks like a read/access command
-      for (const prefix of readPrefixes) {
-        if (cmd.includes(prefix)) {
-          return `command appears to read sensitive file matching "${fp}"`;
-        }
-      }
+    // 3. Combined regex check for read commands + sensitive files
+    if (filePatternRegex.test(cmd) && readRegex.test(cmd)) {
+      return `command appears to read sensitive files`;
     }
 
     return undefined;
@@ -123,48 +138,41 @@ export default function (pi: ExtensionAPI) {
 
   // ── Intercept tool calls ───────────────────────────────────────────
 
+  pi.on("session_start", async (event, ctx) => {
+    if (ctx.hasUI) {
+      ctx.ui.setExtensionStatus("env-protection", "🔒");
+    }
+  });
+
   pi.on("tool_call", async (event, _ctx) => {
-    // Block read on sensitive files
-    if (isToolCallEventType("read", event)) {
-      const reason = checkPath(event.input.path);
-      if (reason) {
-        return { block: true, reason: `🔒 Blocked: ${reason}` };
-      }
-    }
+    const { toolName, input } = event;
 
-    // Block write to sensitive files
-    if (isToolCallEventType("write", event)) {
-      const reason = checkPath(event.input.path);
-      if (reason) {
-        return { block: true, reason: `🔒 Blocked: ${reason}` };
+    // Fast switch on tool name
+    switch (toolName) {
+      case "read":
+      case "write":
+      case "edit": {
+        const reason = checkPath((input as any).path);
+        if (reason) return { block: true, reason: `🔒 Blocked: ${reason}` };
+        break;
       }
-    }
 
-    // Block edit on sensitive files
-    if (isToolCallEventType("edit", event)) {
-      const reason = checkPath(event.input.path);
-      if (reason) {
-        return { block: true, reason: `🔒 Blocked: ${reason}` };
+      case "bash": {
+        const reason = checkBashCommand((input as any).command);
+        if (reason) return { block: true, reason: `🔒 Blocked: ${reason}` };
+        break;
       }
-    }
 
-    // Block bash commands that reference sensitive files
-    if (isToolCallEventType("bash", event)) {
-      const reason = checkBashCommand(event.input.command);
-      if (reason) {
-        return { block: true, reason: `🔒 Blocked: ${reason}` };
-      }
-    }
-
-    // Block grep/find/ls on sensitive paths
-    const pathTools = ["grep", "multi_grep", "find", "ls"];
-    if (pathTools.includes(event.toolName)) {
-      const pathArg = (event.input as Record<string, unknown>).path as string | undefined;
-      if (pathArg) {
-        const reason = checkPath(pathArg);
-        if (reason) {
-          return { block: true, reason: `🔒 Blocked: ${reason}` };
+      case "grep":
+      case "multi_grep":
+      case "find":
+      case "ls": {
+        const pathArg = (input as any).path;
+        if (pathArg) {
+          const reason = checkPath(pathArg);
+          if (reason) return { block: true, reason: `🔒 Blocked: ${reason}` };
         }
+        break;
       }
     }
 

@@ -2,53 +2,51 @@
 #
 # pi.dev shell integration
 #
-# This file provides a wrapper function for the 'pi' command to support 
-# custom workflows (subcommands) like 'pi android' or 'pi plan'.
+# This wrapper handles custom flags like --android, --plan, etc.
+# to inject specialized skills and mindsets into the 'pi' session.
 
 pi() {
   local REPO_DIR="$HOME/Developer/pi.dev"
   local SKILLS_DIR="$REPO_DIR/pi/skills"
+  
+  local ARGS=()
+  local EXTRA_SKILLS=()
+  local MINDSET=""
 
-  # Case 1: 'pi android' - Load all android-related skills
-  if [[ "$1" == "android" ]]; then
-    shift
-    echo -e "\033[0;36m▸\033[0m Mindset: \033[0;32mAndroid Developer\033[0m"
-    command pi --skill "$SKILLS_DIR/android" "$@"
-    return
+  # Parse custom flags
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --android)
+        MINDSET="\033[0;32mAndroid Developer\033[0m"
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/android")
+        shift
+        ;;
+      --plan)
+        MINDSET="\033[0;33mArchitect/Planner\033[0m"
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search" "--skill" "$SKILLS_DIR/workflow")
+        shift
+        ;;
+      --meta)
+        MINDSET="\033[0;35mAgent Architect (Meta)\033[0m"
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/meta" "--skill" "$SKILLS_DIR/search" "--extension" "$REPO_DIR/pi/extensions/env-protection/index.ts")
+        shift
+        ;;
+      --write)
+        MINDSET="\033[0;34mTechnical Writer\033[0m"
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
+        shift
+        ;;
+      *)
+        ARGS+=("$1")
+        shift
+        ;;
+    esac
+  done
+
+  if [[ -n "$MINDSET" ]]; then
+    echo -e "\033[0;36m▸\033[0m Mindset: $MINDSET"
   fi
 
-  # Case 2: 'pi plan' - Load planning and search skills
-  if [[ "$1" == "plan" ]]; then
-    shift
-    echo -e "\033[0;36m▸\033[0m Mindset: \033[0;33mArchitect/Planner\033[0m"
-    command pi --skill "$SKILLS_DIR/search" "$@"
-    return
-  fi
-
-  # Case 3: 'pi meta' - Load agent management skills
-  if [[ "$1" == "meta" ]]; then
-    shift
-    echo -e "\033[0;36m▸\033[0m Mindset: \033[0;35mAgent Architect (Meta)\033[0m"
-    command pi --skill "$SKILLS_DIR/meta" --skill "$SKILLS_DIR/search" "$@"
-    return
-  fi
-
-  # Case 4: 'pi write' - Load documentation/writing skills
-  if [[ "$1" == "write" ]]; then
-    shift
-    echo -e "\033[0;36m▸\033[0m Mindset: \033[0;34mTechnical Writer\033[0m"
-    # Assuming search might be needed for fact-checking while writing
-    command pi --skill "$SKILLS_DIR/search" "$@"
-    return
-  fi
-
-  # Case 3: 'pi docs' - Access pi.dev documentation
-  if [[ "$1" == "docs" ]]; then
-    echo -e "\033[0;36m▸\033[0m Opening \033[0;32mpi.dev documentation\033[0m..."
-    ls /opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/docs/
-    return
-  fi
-
-  # Default: Pass everything to the real pi binary
-  command pi "$@"
+  # Run the real pi with injected skills and original arguments
+  command pi "${EXTRA_SKILLS[@]}" "${ARGS[@]}"
 }
