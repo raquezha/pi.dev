@@ -156,7 +156,7 @@ export default function (pi: ExtensionAPI) {
           ];
 
           // Add mindset if active
-          const mindset = (pi as any).getMindset?.() || (pi as any).getMindsetName?.();
+          const mindset = process.env.PI_MINDSET || (pi as any).getMindset?.() || (pi as any).getMindsetName?.();
           if (mindset) {
             segments.push({ text: ` 🎩 ${mindset} `, bg: p.orange, fg: p.bg });
           }

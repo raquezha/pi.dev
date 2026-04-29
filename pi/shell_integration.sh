@@ -18,21 +18,25 @@ pi() {
     case "$1" in
       --android)
         MINDSET="\033[0;32mAndroid Developer\033[0m"
+        export PI_MINDSET="Android Developer"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/android")
         shift
         ;;
       --plan)
         MINDSET="\033[0;33mArchitect/Planner\033[0m"
+        export PI_MINDSET="Architect/Planner"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search" "--skill" "$SKILLS_DIR/workflow")
         shift
         ;;
       --meta)
         MINDSET="\033[0;35mAgent Architect (Meta)\033[0m"
+        export PI_MINDSET="Agent Architect (Meta)"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/meta" "--skill" "$SKILLS_DIR/search" "--extension" "$REPO_DIR/pi/extensions/env-protection/index.ts")
         shift
         ;;
       --write)
         MINDSET="\033[0;34mTechnical Writer\033[0m"
+        export PI_MINDSET="Technical Writer"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
         shift
         ;;
