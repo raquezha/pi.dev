@@ -139,8 +139,8 @@ export default function (pi: ExtensionAPI) {
   // ── Intercept tool calls ───────────────────────────────────────────
 
   pi.on("session_start", async (event, ctx) => {
-    if (ctx.hasUI) {
-      ctx.ui.setExtensionStatus("env-protection", "🔒");
+    if (ctx.hasUI && typeof (ctx.ui as any).setExtensionStatus === "function") {
+      (ctx.ui as any).setExtensionStatus("env-protection", "🔒");
     }
   });
 
