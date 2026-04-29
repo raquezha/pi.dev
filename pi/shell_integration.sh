@@ -17,8 +17,8 @@ pi() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --android)
-        MINDSET="\033[0;32mAndroid Developer\033[0m"
-        export PI_MINDSET="Android Developer"
+        MINDSET="\033[0;32mandroid\033[0m"
+        export PI_MINDSET="android"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/android")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/investigate")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/implement-plan")
@@ -26,21 +26,21 @@ pi() {
         shift
         ;;
       --plan)
-        MINDSET="\033[0;33mArchitect/Planner\033[0m"
-        export PI_MINDSET="Architect/Planner"
+        MINDSET="\033[0;33mplan\033[0m"
+        export PI_MINDSET="plan"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow")
         shift
         ;;
       --meta)
-        MINDSET="\033[0;35mAgent Architect (Meta)\033[0m"
-        export PI_MINDSET="Agent Architect (Meta)"
+        MINDSET="\033[0;35mmeta\033[0m"
+        export PI_MINDSET="meta"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/meta" "--skill" "$SKILLS_DIR/search" "--extension" "$REPO_DIR/pi/extensions/env-protection/index.ts")
         shift
         ;;
       --write)
-        MINDSET="\033[0;34mTechnical Writer\033[0m"
-        export PI_MINDSET="Technical Writer"
+        MINDSET="\033[0;34mwrite\033[0m"
+        export PI_MINDSET="write"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
         shift
         ;;

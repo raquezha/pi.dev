@@ -156,7 +156,7 @@ export default function (pi: ExtensionAPI) {
           // Add mindset if active
           const mindset = process.env.PI_MINDSET || (pi as any).getMindset?.() || (pi as any).getMindsetName?.();
           if (mindset) {
-            segments.push({ text: ` 🎩 ${mindset} `, bg: p.orange, fg: p.bg });
+            segments.push({ text: ` ${mindset} `, bg: p.orange, fg: p.bg });
           }
 
           segments.push(
@@ -218,11 +218,7 @@ export default function (pi: ExtensionAPI) {
             { text: ` 󱐋 ${modelId} `, bg: p.purple, fg: p.bg },
           ];
 
-          // Add mindset if active
-          const mindset = process.env.PI_MINDSET || (pi as any).getMindset?.() || (pi as any).getMindsetName?.();
-          if (mindset) {
-            segments.push({ text: ` 🎩 ${mindset} `, bg: p.pink, fg: p.bg });
-          }
+
 
 
           const left = renderPowerline(segments);
