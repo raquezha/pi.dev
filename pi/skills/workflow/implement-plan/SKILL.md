@@ -28,6 +28,7 @@ Execute a technical plan with precision, ensuring vertical implementation, TDD l
 - **TDD Enforcement**: Never write implementation code before a failing test exists.
 - **Atomic History**: One verified vertical slice = one clean commit.
 - **Platform Liaison**: Use `gh` for GitHub and `glab` for GitLab. If neither is available, inform the user and continue with local git.
+- **Clean Titles**: When creating a Draft PR/MR, never include "Draft" or "WIP" in the title string; let the CLI flags handle the status to avoid double-prefixing.
 - **CI-Safety**: Attempt to fix formatting (e.g., `ktlintFormat`) automatically if the quality gate fails.
 
 ## Quality Bar
