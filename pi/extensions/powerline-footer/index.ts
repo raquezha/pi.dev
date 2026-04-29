@@ -153,9 +153,18 @@ export default function (pi: ExtensionAPI) {
           const segments: Segment[] = [
             { text: ` 󰌽 raquezha `, bg: p.pink, fg: p.bg },
             { text: ` π ${projectName} `, bg: p.green, fg: p.bg },
+          ];
+
+          // Add mindset if active
+          const mindset = (pi as any).getMindset?.() || (pi as any).getMindsetName?.();
+          if (mindset) {
+            segments.push({ text: ` 🎩 ${mindset} `, bg: p.orange, fg: p.bg });
+          }
+
+          segments.push(
             { text: ` 󰥔 ${formatHeaderTime(now)} `, bg: p.purple, fg: p.bg },
             { text: ` 󰏘 ${themeName} `, bg: p.cyan, fg: p.bg },
-          ];
+          );
 
           return [truncateToWidth(renderPowerline(segments), width, "")];
         },
