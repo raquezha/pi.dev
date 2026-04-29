@@ -9,6 +9,9 @@ pi() {
   local REPO_DIR="$HOME/Developer/pi.dev"
   local SKILLS_DIR="$REPO_DIR/pi/skills"
   
+  # Always clear the mindset at the start of the function
+  export PI_MINDSET=""
+  
   local ARGS=()
   local EXTRA_SKILLS=()
   local MINDSET=""
@@ -57,4 +60,7 @@ pi() {
 
   # Run the real pi with injected skills and original arguments
   command pi "${EXTRA_SKILLS[@]}" "${ARGS[@]}"
+  
+  # Reset mindset for subsequent calls in the same shell
+  unset PI_MINDSET
 }
