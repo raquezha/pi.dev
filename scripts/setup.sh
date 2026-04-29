@@ -228,12 +228,13 @@ show_available "$PI_DIR/skills" "$AGENT_DIR/skills" "Skills"
 echo ""
 show_available "$PI_DIR/extensions" "$AGENT_DIR/extensions" "Extensions"
 
-# We link these by default because they represent the "Plan Mindset"
-link_item "$PI_DIR/skills/workflow/investigate"    "$AGENT_DIR/skills/investigate"    "skills/investigate"
-link_item "$PI_DIR/skills/workflow/frame-problem" "$AGENT_DIR/skills/frame-problem" "skills/frame-problem"
-link_item "$PI_DIR/skills/workflow/write-a-plan"  "$AGENT_DIR/skills/write-a-plan"  "skills/write-a-plan"
-link_item "$PI_DIR/skills/workflow/implement-plan" "$AGENT_DIR/skills/implement-plan" "skills/implement-plan"
-link_item "$PI_DIR/skills/workflow/ubiquitous-language" "$AGENT_DIR/skills/ubiquitous-language" "skills/ubiquitous-language"
+# ── Auto-link workflow skills (Core to R&D Workflow) ─────────────────
+
+# Skipped auto-linking; these are injected via 'pi --plan' or 'pi --android'
+# shell integration to avoid context bloat in standard sessions.
+
+echo ""
+info "Skipped by default to avoid context bloat: AGENTS.md, skills"
 
 echo ""
 info "Skipped by default to avoid context bloat: AGENTS.md, skills"
