@@ -18,8 +18,9 @@ Execute a technical plan with precision, ensuring vertical implementation, TDD l
    - **Phase 0 (TDD)**: Implement the failing test for the current slice. Verify failure.
    - **Phase 1-3 (Build)**: Implement the code from the bottom (foundations) to the top (integration).
    - **Verification**: Run the plan's verification command.
-   - **Audit**: Check naming against the project's dictionary and run a linter pass.
-   - **Commit**: `git commit -m "feat: [slice summary]"` once verified.
+   - **Adaptive Quality Gate**: Before committing, attempt to run project-specific quality tools (e.g., `./gradlew ktlintCheck detekt lint`, `npm run lint`, etc.). If tools are missing or tasks are not found, skip gracefully.
+   - **Audit**: Check naming against the project's dictionary and ensure consistency with any CI standards found in local notes.
+   - **Commit**: `git commit -m "feat: [slice summary]"` once verified and quality-checked.
 4. **Context Refresh**: After each slice, re-read the Plan and update the session context with current progress.
 
 ## Rules
@@ -27,6 +28,7 @@ Execute a technical plan with precision, ensuring vertical implementation, TDD l
 - **TDD Enforcement**: Never write implementation code before a failing test exists.
 - **Atomic History**: One verified vertical slice = one clean commit.
 - **Platform Liaison**: Use `gh` for GitHub and `glab` for GitLab. If neither is available, inform the user and continue with local git.
+- **CI-Safety**: Attempt to fix formatting (e.g., `ktlintFormat`) automatically if the quality gate fails.
 
 ## Quality Bar
 - Code must pass the project's linter/static analysis.
