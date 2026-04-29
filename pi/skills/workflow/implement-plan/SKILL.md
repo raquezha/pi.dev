@@ -13,7 +13,8 @@ Execute a technical plan with precision, ensuring vertical implementation, TDD l
    - Read Plan: Parse `PLAN.md` to identify the first/next Vertical Slice.
 2. **Environment Setup**:
    - Ensure a dedicated branch exists (create from `PLAN.md` suggestion if needed).
-   - Create a **Draft PR/MR** immediately to establish the remote feedback loop.
+   - Create a **Draft PR/MR** immediately. 
+   - **MR Description Rule**: The description MUST be derived from the `Objective` and `Success Criteria` in the `Problem.md` and `PLAN.md`. It should summarize the functional changes and why they matter, formatted for a human reviewer. Avoid "agent-speak" (e.g., don't mention "vertical slices" or "implement-plan").
 3. **The Vertical Slice Loop**:
    - **Phase 0 (TDD)**: Implement the failing test for the current slice. Verify failure.
    - **Phase 1-3 (Build)**: Implement the code from the bottom (foundations) to the top (integration).
