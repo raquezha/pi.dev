@@ -136,10 +136,14 @@ prune_links "$AGENT_DIR/extensions" "$PI_DIR/extensions" "extensions"
 link_item "$PI_DIR/extensions/powerline-footer" "$AGENT_DIR/extensions/powerline-footer" "extensions/powerline-footer"
 link_item "$PI_DIR/extensions/clean-repo"       "$AGENT_DIR/extensions/clean-repo"       "extensions/clean-repo"
 
-# Manual-only extensions are not linked here. Load them with `pi -e` when needed.
+# Manual-only extensions are not linked here. Load them explicitly when needed.
 if [[ -L "$AGENT_DIR/extensions/gemini-api" ]]; then
   rm "$AGENT_DIR/extensions/gemini-api"
   warn "Removed manual-only extensions/gemini-api; load it with pi -e ./pi/extensions/gemini-api"
+fi
+if [[ -L "$AGENT_DIR/extensions/antigravity-auth-login" ]]; then
+  rm "$AGENT_DIR/extensions/antigravity-auth-login"
+  warn "Removed manual-only extensions/antigravity-auth-login; use pi --antigravity or pi -e ./pi/extensions/antigravity-auth-login"
 fi
 
 # ── Link prompts ─────────────────────────────────────────────────────
@@ -343,6 +347,7 @@ echo "     - Enable Pi:      entire-agent-pi install-hooks"
 echo ""
 echo "  4. START WORKING"
 echo "     - Run 'pi' in your project repo."
+echo "     - Use 'pi --antigravity' when you want the Antigravity extension loaded."
 echo "     - If pi is already running, type '/reload' inside pi."
 echo ""
 

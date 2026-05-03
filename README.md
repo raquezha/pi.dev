@@ -36,6 +36,7 @@ Located in `pi/extensions/`:
 - `clean-repo/`: git cleanup helper
 - `powerline-footer/`: footer styling
 - `gemini-api/`: manual-only public Gemini API provider (`gemini-api/...`)
+- `antigravity-auth-login/`: manual-only, experimental Antigravity OAuth/login provider (`antigravity-cli/...`)
 
 Run `./scripts/setup.sh` after cloning to symlink the default repo-local extensions into `~/.pi/agent/extensions/`.
 Load `gemini-api` manually when you need it:
@@ -43,6 +44,18 @@ Load `gemini-api` manually when you need it:
 ```bash
 pi -e ./pi/extensions/gemini-api
 ```
+
+Load `antigravity-auth-login` manually when you want the OAuth login flow back for investigation:
+
+```bash
+pi --antigravity
+# or
+ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
+```
+
+By default this now registers as `antigravity-cli/...` and uses a direct custom-provider `streamSimple` transport instead of relying on built-in `google-gemini-cli` runtime dispatch. A minimal latest-Pi `gemini-3-flash` print-mode request is now verified end-to-end.
+
+On latest Pi, this path is still experimental. Use `/antigravity.doctor` after startup and check `pi/extensions/antigravity-auth-login/README.md` for the current version matrix, diagnostics workflow, and fallback pinning criteria.
 
 Set `GEMINI_API_KEY` or `GOOGLE_API_KEY` in your shell rc (`~/.zshrc`, etc.) if you want Gemini models available in that session.
 
