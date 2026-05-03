@@ -7,7 +7,7 @@ description: Generate a TDD-first PLAN.md file based on a PROBLEM.md or chat con
 Transform a problem into a phased, verifiable implementation strategy with a mandatory TDD (Phase 0) start.
 
 ## Core Process
-1. **Analyze Input**: Read `PROBLEM.md` and current project context. Determine if this is a **Code Task** or a **Non-Code Task**.
+1. **Analyze Input**: Read `AGENTS.md`, `pi/AGENTS.md`, and `README.md` first, then read `PROBLEM.md` and current project context. Determine if this is a **Code Task** or a **Non-Code Task**.
 2. **Select Verification Method**:
    - *Code:* Identify the test framework (JUnit, Jest, etc.) and the specific test to write.
    - *Non-Code:* Identify a "proof of failure" check (e.g., a grep command or a manual observation).

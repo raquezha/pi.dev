@@ -8,8 +8,8 @@ Execute a technical plan with precision, ensuring vertical implementation, TDD l
 
 ## Core Process
 1. **Discovery & Alignment**:
+   - Read `AGENTS.md`, `pi/AGENTS.md`, and `README.md` first, then inspect `UBIQUITOUS_LANGUAGE.md` (if available) to align naming.
    - Detect Platform: Check `git remote -v` for GitHub vs GitLab.
-   - Read Standards: Read `UBIQUITOUS_LANGUAGE.md` (if available) to align naming.
    - Read Plan: Parse `PLAN.md` to identify the first/next Vertical Slice.
    - Inspect Branch Context: Read `git branch --show-current`, recent commit messages, and the plan objective to determine whether the current branch matches the work.
 2. **Branch Decision**:

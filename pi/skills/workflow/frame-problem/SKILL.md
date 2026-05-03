@@ -7,7 +7,7 @@ description: Identify and structure project problems, bug reports, or feature re
 Frame a messy or vague problem into a structured `PROBLEM.md` file to kick off the agentic workflow.
 
 ## Core Process
-1. **Context Gathering**: Read the current chat history and any relevant local files mentioned.
+1. **Context Gathering**: Read `AGENTS.md`, `pi/AGENTS.md`, and `README.md` first, then read the current chat history and any relevant local files mentioned.
 2. **Draft Brief**: Present a concise 3-sentence summary of the problem to the user for immediate alignment.
 3. **Draft PROBLEM.md**: Use `references/problem-template.md` to create a structured draft.
 4. **Quality Audit**: Ensure the draft meets the criteria in `references/quality-bar.md`.

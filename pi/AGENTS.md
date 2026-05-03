@@ -6,6 +6,8 @@ pi.dev agent rules
     - Coding patterns and folder structure. Strictly adhere to the current architecture and naming conventions.
     - Repo-local extensions live in `pi/extensions/`; keep them as simple TS files when possible and align provider/model names with the public API they wrap.
     - Manual-only extensions should stay manual and be loaded with `pi -e` when needed.
+- **Workflow Order**: Skills that touch workflow files or repo process should read `AGENTS.md`, `pi/AGENTS.md`, and `README.md` first, then inspect the relevant skill docs before editing.
+- **Platform Tools**: Use `gh` when the repo remote is GitHub and `glab` when the repo remote is GitLab.
 - **Cleanliness**: Never commit scratchpad files used for planning or debugging (e.g., `PLAN.md`, `PROBLEM.md`, `scratch.*`).
 - **Commits**: Use Conventional Commits for all commits.
 
