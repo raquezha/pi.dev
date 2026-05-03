@@ -29,10 +29,12 @@ Then pick a `gemini-api/...` model.
 Load it manually when you want the old Antigravity login flow back for investigation:
 
 ```bash
+pi --antigravity
+# or
 ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
 ```
 
-Then pick an `antigravity-cli/...` model, use `/login` as needed, and run `/antigravity.doctor` to confirm the provider/transport wiring.
+Then pick an `antigravity-cli/...` model, use `/login antigravity-cli` as needed, and run `/antigravity.doctor` to confirm the provider/transport wiring.
 
 The extension now uses a direct custom-provider `streamSimple` transport instead of a local proxy, and a minimal `gemini-3-flash` print-mode request is verified on latest Pi.
 

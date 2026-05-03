@@ -25,10 +25,12 @@ What is still under verification:
 
 ## Load the extension
 ```bash
+pi --antigravity
+# or
 ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
 ```
 
-Then select an `antigravity-cli/...` model and use `/login` if needed.
+Then select an `antigravity-cli/...` model and use `/login antigravity-cli` if needed.
 
 Optional transport override for endpoint experiments:
 
@@ -46,7 +48,7 @@ Use the doctor command after startup:
 With `ANTIGRAVITY_DEBUG=1`, sanitized runtime diagnostics are written to:
 
 ```text
-~/.pi/agent/antigravity-proxy.log
+~/.pi/agent/antigravity.log
 ```
 
 The log is intentionally limited to routing metadata such as:
@@ -66,7 +68,7 @@ The log must **not** be used to capture tokens, refresh credentials, authorizati
 3. Authenticate with `/login` if needed
 4. Select an `antigravity-cli/...` model
 5. Send one minimal prompt
-6. Inspect `~/.pi/agent/antigravity-proxy.log` for `provider request` and `upstream status`
+6. Inspect `~/.pi/agent/antigravity.log` for `provider request` and `upstream status`
 7. Optional non-interactive verification:
    ```bash
    ANTIGRAVITY_DEBUG=1 pi --no-session --no-context-files --no-extensions -e ./pi/extensions/antigravity-auth-login --model antigravity-cli/gemini-3-flash -p "reply with exactly: OK"

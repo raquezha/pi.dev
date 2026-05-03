@@ -9,12 +9,14 @@ import {
 	type Model,
 	type SimpleStreamOptions,
 } from "@mariozechner/pi-ai";
+// NOTE: jiti-based extension loading currently fails to resolve the package export
+// `@mariozechner/pi-ai/google-gemini-cli` correctly in this repo context, so we
+// import the built file directly.
 import { streamSimpleGoogleGeminiCli } from "../../../node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js";
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
-const DEFAULT_PROVIDER_ID = "antigravity-cli";
-const PROVIDER_ID = process.env.ANTIGRAVITY_PROVIDER_ID?.trim() || DEFAULT_PROVIDER_ID;
-const PROVIDER_NAME = process.env.ANTIGRAVITY_PROVIDER_NAME?.trim() || "Google Antigravity CLI";
+const PROVIDER_ID = "antigravity-cli";
+const PROVIDER_NAME = "Google Antigravity CLI";
 const PROVIDER_API = "antigravity-custom";
 const TRANSPORT_PROVIDER_ID = "google-antigravity";
 const TRANSPORT_API = "google-gemini-cli";
@@ -24,7 +26,7 @@ const REDIRECT_URI = "http://localhost:51121/oauth-callback";
 const DEFAULT_CLIENT_ID = "1071006060591-tmhssin2h21lcre235vtolojh4g403ep.apps.googleusercontent.com";
 const DEFAULT_ENDPOINT = "https://daily-cloudcode-pa.sandbox.googleapis.com";
 const DEFAULT_PROJECT_ID = "rising-fact-p41fc";
-const ANTIGRAVITY_LOG_FILE = `${process.env.HOME || "/tmp"}/.pi/agent/antigravity-proxy.log`;
+const ANTIGRAVITY_LOG_FILE = `${process.env.HOME || "/tmp"}/.pi/agent/antigravity.log`;
 const SCOPES = [
 	"https://www.googleapis.com/auth/cloud-platform",
 	"https://www.googleapis.com/auth/userinfo.email",

@@ -14,6 +14,7 @@ pi() {
   
   local ARGS=()
   local EXTRA_SKILLS=()
+  local EXTRA_EXTENSIONS=()
   local MINDSET=""
 
   # Parse custom flags
@@ -47,6 +48,12 @@ pi() {
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
         shift
         ;;
+      --antigravity)
+        MINDSET="\033[0;31mantigravity\033[0m"
+        export PI_MINDSET="antigravity"
+        EXTRA_EXTENSIONS+=("--extension" "$REPO_DIR/pi/extensions/antigravity-auth-login")
+        shift
+        ;;
       *)
         ARGS+=("$1")
         shift
@@ -58,8 +65,8 @@ pi() {
     echo -e "\033[0;36m▸\033[0m Mindset: $MINDSET"
   fi
 
-  # Run the real pi with injected skills and original arguments
-  command pi "${EXTRA_SKILLS[@]}" "${ARGS[@]}"
+  # Run the real pi with injected skills/extensions and original arguments
+  command pi "${EXTRA_SKILLS[@]}" "${EXTRA_EXTENSIONS[@]}" "${ARGS[@]}"
   
   # Reset mindset for subsequent calls in the same shell
   unset PI_MINDSET

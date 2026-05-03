@@ -48,6 +48,8 @@ pi -e ./pi/extensions/gemini-api
 Load `antigravity-auth-login` manually when you want the OAuth login flow back for investigation:
 
 ```bash
+pi --antigravity
+# or
 ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
 ```
 
