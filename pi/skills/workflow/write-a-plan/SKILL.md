@@ -12,7 +12,7 @@ Transform a problem into a phased, verifiable implementation strategy with a man
    - *Code:* Identify the test framework (JUnit, Jest, etc.) and the specific test to write.
    - *Non-Code:* Identify a "proof of failure" check (e.g., a grep command or a manual observation).
 3. **Draft Decision Tree**: Evaluate at least two ways to solve the problem. Pick the best one and explain why.
-4. **Generate PLAN.md**: Use `references/universal-template.md` to build the plan.
+4. **Generate PLAN.md**: Use `references/universal-template.md` to build the plan and write it to `.pi/workflow/PLAN.md`.
 5. **Phase 0 (Mandatory)**: Every plan must start with "Phase 0: Failing Test / Proof of Failure."
 6. **Risk Audit**: Identify 2-3 potential blockers or "gotchas."
 
@@ -27,6 +27,8 @@ Regardless of the project type, use this structure:
 - **TDD-First**: Do not skip Phase 0.
 - **Atomic Steps**: Each step should be small enough to be a single commit.
 - **Verification-Heavy**: Every phase must end with a "Verification Command."
+- **File Safety**: Write `PLAN.md` to `.pi/workflow/PLAN.md` inside the current repo.
+- **Git Hygiene**: Ensure `.pi/workflow/` is listed in `.gitignore` if it is not already ignored.
 - **Premium Model Switch**: After generating the plan, recommend the user switch to a premium model for implementation.
 
 ## Quality Bar
