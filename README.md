@@ -61,3 +61,17 @@ Set `GEMINI_API_KEY` or `GOOGLE_API_KEY` in your shell rc (`~/.zshrc`, etc.) if 
 
 ---
 *Never Trust AI. Always Manual Review. Verify Every Change.*
+
+## 🛰 Antigravity extension — why I built it
+
+Heads-up: I implemented a replacement "antigravity" extension that targets pi-mono v0.71.0 because the upstream project removed the original support in the v0.71.0 release (see: https://github.com/badlogic/pi-mono/releases/tag/v0.71.0). In short: they decided to remove the feature, so I built one to restore the functionality for projects that depend on it.
+
+Why this matters
+- Compatibility: Some projects (and quick internal prototypes) relied on the antigravity helper. Removing it in v0.71.0 broke those flows.
+- Minimal surface area: the replacement targets the same public surface as the removed feature and aims to be small and well-tested.
+
+Suggested commit/PR message for the change in this repo:
+- feat(extensions): add antigravity extension (target: pi-mono v0.71.0) — restore removed antigravity helper
+
+If you want, I can add more context (design notes, tests, and migration notes) to the extension's README or a dedicated PR description.
+
