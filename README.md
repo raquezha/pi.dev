@@ -36,7 +36,7 @@ Located in `pi/extensions/`:
 - `clean-repo/`: git cleanup helper
 - `powerline-footer/`: footer styling
 - `gemini-api/`: manual-only public Gemini API provider (`gemini-api/...`)
-- `antigravity-auth-login/`: manual-only, experimental Antigravity OAuth/login provider (`antigravity/...`)
+- `antigravity-auth-login/`: manual-only, experimental Antigravity OAuth/login provider (`antigravity-cli/...`)
 
 Run `./scripts/setup.sh` after cloning to symlink the default repo-local extensions into `~/.pi/agent/extensions/`.
 Load `gemini-api` manually when you need it:
@@ -50,6 +50,8 @@ Load `antigravity-auth-login` manually when you want the OAuth login flow back f
 ```bash
 ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
 ```
+
+By default this now registers as `antigravity-cli/...` so we can compare a repo-local provider identity against the legacy built-in-looking `google-gemini-cli` route.
 
 On latest Pi, this path is still experimental. Use `/antigravity.doctor` after startup and check `pi/extensions/antigravity-auth-login/README.md` for the current version matrix, diagnostics workflow, and fallback pinning criteria.
 

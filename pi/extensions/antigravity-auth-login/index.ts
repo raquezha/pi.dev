@@ -4,8 +4,10 @@ import { createServer, type IncomingMessage, type Server, type ServerResponse } 
 import { Readable } from "node:stream";
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
-const PROVIDER_ID = "google-gemini-cli";
-const PROVIDER_NAME = "Google Gemini CLI";
+const DEFAULT_PROVIDER_ID = "antigravity-cli";
+const LEGACY_PROVIDER_ID = "google-gemini-cli";
+const PROVIDER_ID = process.env.ANTIGRAVITY_PROVIDER_ID?.trim() || DEFAULT_PROVIDER_ID;
+const PROVIDER_NAME = process.env.ANTIGRAVITY_PROVIDER_NAME?.trim() || "Google Antigravity CLI";
 const PROVIDER_API = "google-gemini-cli";
 const AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
@@ -323,11 +325,11 @@ async function startAntigravityProxy(): Promise<Server> {
 
 export default async function (pi: ExtensionAPI) {
 	const models = await loadAntigravityModels();
-	log(`extension activate provider=${PROVIDER_ID} api=${PROVIDER_API} models=${summarizeModelIds(models)}`);
+	log(`extension activate provider=${PROVIDER_ID} api=${PROVIDER_API} legacyProvider=${LEGACY_PROVIDER_ID} models=${summarizeModelIds(models)}`);
 	const proxy = await startAntigravityProxy();
 
 	const register = () => {
-		log(`provider register provider=${PROVIDER_ID} api=${PROVIDER_API} baseUrl=${ANTIGRAVITY_PROXY_BASE_URL} modelCount=${models.length}`);
+		log(`provider register provider=${PROVIDER_ID} api=${PROVIDER_API} legacyProvider=${LEGACY_PROVIDER_ID} baseUrl=${ANTIGRAVITY_PROXY_BASE_URL} modelCount=${models.length}`);
 		pi.registerProvider(PROVIDER_ID, {
 			name: PROVIDER_NAME,
 			baseUrl: ANTIGRAVITY_PROXY_BASE_URL,
@@ -350,6 +352,7 @@ export default async function (pi: ExtensionAPI) {
 			const health = await proxyHealth();
 			const lines = [
 				`provider=${PROVIDER_ID}`,
+				`legacyProvider=${LEGACY_PROVIDER_ID}`,
 				`api=${PROVIDER_API}`,
 				`baseUrl=${ANTIGRAVITY_PROXY_BASE_URL}`,
 				`debug=${ANTIGRAVITY_DEBUG ? "on" : "off"}`,
