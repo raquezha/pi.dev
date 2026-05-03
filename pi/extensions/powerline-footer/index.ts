@@ -1,6 +1,6 @@
 import { basename } from "node:path";
-import type { ExtensionAPI, Theme } from "@mariozechner/pi-coding-agent";
-import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import { CustomEditor, type ExtensionAPI, type KeybindingsManager } from "@mariozechner/pi-coding-agent";
+import { truncateToWidth, visibleWidth, type EditorTheme, type TUI } from "@mariozechner/pi-tui";
 
 // Dracula VIBRANT Palette
 const VIBRANT = {
@@ -128,6 +128,32 @@ function middleTruncate(text: string, maxWidth: number): string {
   return `${left}…${right}`;
 }
 
+function fitBorder(left: string, right: string, width: number): string {
+  if (width <= 0) return "";
+  if (width === 1) return "─";
+
+  let leftText = left;
+  let rightText = right;
+  const fixedWidth = 2;
+  const minimumGap = 1;
+
+  while (
+    fixedWidth + visibleWidth(leftText) + visibleWidth(rightText) + minimumGap > width &&
+    visibleWidth(rightText) > 0
+  ) {
+    rightText = truncateToWidth(rightText, Math.max(0, visibleWidth(rightText) - 1), "");
+  }
+  while (
+    fixedWidth + visibleWidth(leftText) + visibleWidth(rightText) + minimumGap > width &&
+    visibleWidth(leftText) > 0
+  ) {
+    leftText = truncateToWidth(leftText, Math.max(0, visibleWidth(leftText) - 1), "");
+  }
+
+  const gapWidth = Math.max(0, width - fixedWidth - visibleWidth(leftText) - visibleWidth(rightText));
+  return `─${leftText}${"─".repeat(gapWidth)}${rightText}─`;
+}
+
 function renderPowerline(segments: Segment[], separator = SEPARATOR_RIGHT, trailing = true, startCap = LEFT_CAP): string {
   let line = "";
   const firstSeg = segments[0];
@@ -171,6 +197,14 @@ export default function (pi: ExtensionAPI) {
     if (!ctx.hasUI) return;
 
     const projectName = basename(ctx.cwd || process.cwd()) || "pi.dev";
+    let branchName: string | undefined;
+
+    const refreshBranch = async () => {
+      const result = await pi.exec("git", ["branch", "--show-current"], { cwd: ctx.cwd }).catch(() => undefined);
+      const stdout = result?.stdout.trim();
+      branchName = stdout && stdout.length > 0 ? stdout : undefined;
+    };
+    await refreshBranch();
     
     // Set terminal title
     ctx.ui.setTitle(`π ${projectName}`);
@@ -225,6 +259,32 @@ export default function (pi: ExtensionAPI) {
       };
     });
 
+    class BranchEditor extends CustomEditor {
+      constructor(tui: TUI, theme: EditorTheme, keybindings: KeybindingsManager) {
+        super(tui, theme, keybindings);
+      }
+
+      render(width: number): string[] {
+        const lines = super.render(width);
+        if (lines.length < 2) return lines;
+
+        const branchDisplay = branchName ? middleTruncate(branchName, Math.max(8, width - 6)) : "";
+        const topRight = branchDisplay ? ctx.ui.theme.fg("muted", `  ${branchDisplay} `) : "";
+
+        const modelId = ctx.model?.id ?? "no-model";
+        const thinkingLevel = pi.getThinkingLevel?.() ?? "off";
+        const modelText = ctx.model?.reasoning ? `${modelId} • ${thinkingLevel}` : modelId;
+        const providerText = ctx.model?.provider ? `${shortProvider(ctx.model.provider)} / ` : "";
+        const bottomRight = ctx.ui.theme.fg("muted", ` 󱐋 ${truncateToWidth(`${providerText}${modelText}`, 36, "…")} `);
+
+        lines[0] = fitBorder("", topRight, width);
+        lines[lines.length - 1] = fitBorder("", bottomRight, width);
+        return lines;
+      }
+    }
+
+    ctx.ui.setEditorComponent((tui, theme, keybindings) => new BranchEditor(tui, theme, keybindings));
+
     ctx.ui.setFooter((tui, theme, footerData) => {
       const dispose = footerData.onBranchChange(() => tui.requestRender());
 
@@ -254,41 +314,23 @@ export default function (pi: ExtensionAPI) {
           const contextWindow = contextUsage?.contextWindow;
           const contextWindowText = typeof contextWindow === "number" ? kFormat(contextWindow) : "?";
 
-          const branch = footerData.getGitBranch();
-          const modelId = ctx.model?.id ?? "no-model";
-          const thinkingLevel = pi.getThinkingLevel?.() ?? "off";
-          const modelText = ctx.model?.reasoning ? `${modelId} • ${shortThinking(thinkingLevel)}` : modelId;
-          const providerText = ctx.model?.provider ? `${shortProvider(ctx.model.provider)} / ` : "";
-          const modelDisplay = truncateToWidth(`${providerText}${modelText}`, 36, "…");
-          const branchDisplay = branch ? middleTruncate(branch, 28) : "";
-
           const themeName = (theme.name || "theme").toLowerCase();
           const p = themeName === "ghostly-pale" ? PALE : VIBRANT;
 
           const leftSegments: Segment[] = [
-            ...(branch ? [{ text: `  ${branchDisplay} `, bg: p.pink, fg: p.bg }] : []),
             { text: ` 󰁝 ${kFormat(totalInput)} `, bg: p.green, fg: p.bg },
             { text: ` 󰁅 ${kFormat(totalOutput)} `, bg: p.purple, fg: p.bg },
             { text: ` 󰌪 ${kFormat(totalCacheRead)} `, bg: p.yellow, fg: p.bg },
             { text: ` 󱍢 $${formatCost(totalCost)} `, bg: p.orange, fg: p.bg },
             { text: ` 󰆼 ${contextPercent}%/${contextWindowText} `, bg: p.cyan, fg: p.bg },
           ];
-          const rightSegments: Segment[] = [
-            { text: ` 󱐋 ${modelDisplay} `, bg: p.purple, fg: p.bg },
-          ];
-
           const left = renderPowerline(leftSegments, SEPARATOR_RIGHT, true, "");
-          const right = renderPowerline(rightSegments, SEPARATOR_RIGHT, false, RIGHT_CAP);
 
           const statuses = Array.from(footerData.getExtensionStatuses().values())
             .filter((value): value is string => Boolean(value))
             .join(" ");
-          const rightTextDecorated = `${right}${statuses ? SPACE + theme.fg("dim", statuses) : ""}`;
-          const availableLeftWidth = Math.max(0, width - visibleWidth(rightTextDecorated) - 1);
-          const safeLeft = truncateToWidth(left, availableLeftWidth, "");
-          const padWidth = Math.max(1, width - visibleWidth(safeLeft) - visibleWidth(rightTextDecorated));
-          const pad = SPACE.repeat(padWidth);
-          return [safeLeft + pad + rightTextDecorated];
+          const footerLine = statuses ? `${left}${SPACE}${theme.fg("dim", statuses)}` : left;
+          return [truncateToWidth(footerLine, width, "")];
         },
       };
     });
