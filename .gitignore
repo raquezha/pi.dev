@@ -14,5 +14,11 @@ id_ed25519
 credentials
 auth.json
 
+# Workflow artifacts
+.pi/workflow/
+
 # OS
 Thumbs.db
+
+# IDE
+.idea/

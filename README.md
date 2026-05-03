@@ -13,6 +13,8 @@ This repository implements a high-performance "Staff Engineer" workflow for the 
 5.  **Implement (`/implement-plan`)**: Execute with adaptive quality gates and human-centric MRs.
 6.  **Verify (`/verify-changes`)**: A holistic "Truth Test" (Code + Docs + System Zoom Out).
 
+Workflow-driven skills should read `AGENTS.md`, `pi/AGENTS.md`, and `README.md` before editing workflow rules, then inspect the relevant skill docs before making changes. Use `gh` for GitHub remotes and `glab` for GitLab remotes.
+
 ## 🧠 Mindsets (Hats)
 
 Configured via `shell_integration.sh`:
