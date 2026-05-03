@@ -32,8 +32,8 @@ Load it manually when you want the old Antigravity login flow back for investiga
 ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
 ```
 
-Then pick an `antigravity-cli/...` model, use `/login` as needed, and run `/antigravity.doctor` to confirm the provider/proxy wiring.
+Then pick an `antigravity-cli/...` model, use `/login` as needed, and run `/antigravity.doctor` to confirm the provider/transport wiring.
 
-If you want to compare against the legacy built-in-looking identity, launch one run with `ANTIGRAVITY_PROVIDER_ID=google-gemini-cli`.
+The extension now uses a direct custom-provider `streamSimple` transport instead of a local proxy, and a minimal `gemini-3-flash` print-mode request is verified on latest Pi.
 
 Status note: this extension is still experimental on latest Pi. See [`./antigravity-auth-login/README.md`](./antigravity-auth-login/README.md) for the version matrix, diagnostics flow, and the go/no-go criteria for "extension path works" vs "pin an older Pi version".

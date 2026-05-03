@@ -8,18 +8,19 @@ This extension is **experimental on latest Pi**.
 What currently works:
 - OAuth login flow can be restored with `/login`
 - Antigravity models can be registered and shown in model selection
-- The extension now defaults to a repo-local provider identity: `antigravity-cli`
-- A local proxy can be started for request inspection and request-shape experiments
-- `/antigravity.doctor` can report the active provider/proxy wiring
+- The extension defaults to a repo-local provider identity: `antigravity-cli`
+- Requests now use a direct `streamSimple` transport instead of relying on Pi runtime dispatch through a local proxy
+- `/antigravity.doctor` reports the active provider and transport wiring
+- Minimal end-to-end text generation is now verified on latest Pi (for example `antigravity-cli/gemini-3-flash` replying `OK` in print mode)
 
-What is still unstable:
-- Latest Pi does not yet have a proven, reproducible Antigravity request path that returns real model responses from extension space alone
+What is still under verification:
+- Individual Antigravity models beyond the verified minimal `gemini-3-flash` path still need wider manual validation
 - Older Pi builds reportedly still work end-to-end with the same account, which points to a runtime/provider compatibility gap rather than an auth problem
 
 ## Version matrix
 | Pi path | Status | Evidence |
 | --- | --- | --- |
-| Latest Pi (`0.72.1` observed during planning) | OAuth + model registration work; response path still under investigation | Local extension starts, now defaults to `antigravity-cli`, provider registers, proxy can run |
+| Latest Pi (`0.72.1` observed during planning) | OAuth + model registration work; direct custom transport verified for minimal text generation | Local extension starts, defaults to `antigravity-cli`, routes through `streamSimple`, and `gemini-3-flash` can answer `OK` in print mode |
 | Known-good older Pi | End-to-end responses reportedly worked with the old built-in provider path | Record the exact version during Phase 0 verification before choosing a long-term pin |
 
 ## Load the extension
@@ -29,10 +30,10 @@ ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
 
 Then select an `antigravity-cli/...` model and use `/login` if needed.
 
-To compare against the legacy built-in-looking identity, override the provider id for one run:
+Optional transport override for endpoint experiments:
 
 ```bash
-ANTIGRAVITY_DEBUG=1 ANTIGRAVITY_PROVIDER_ID=google-gemini-cli pi -e ./pi/extensions/antigravity-auth-login
+ANTIGRAVITY_DEBUG=1 ANTIGRAVITY_BASE_URL=https://daily-cloudcode-pa.sandbox.googleapis.com pi -e ./pi/extensions/antigravity-auth-login
 ```
 
 ## Diagnostics
@@ -51,8 +52,8 @@ With `ANTIGRAVITY_DEBUG=1`, sanitized runtime diagnostics are written to:
 The log is intentionally limited to routing metadata such as:
 - provider id
 - API type
-- proxy base URL
-- request path
+- transport provider
+- endpoint strategy
 - inferred model id
 - request type
 - upstream HTTP status
@@ -65,8 +66,12 @@ The log must **not** be used to capture tokens, refresh credentials, authorizati
 3. Authenticate with `/login` if needed
 4. Select an `antigravity-cli/...` model
 5. Send one minimal prompt
-6. Inspect `~/.pi/agent/antigravity-proxy.log`
-7. If needed, repeat once with `ANTIGRAVITY_PROVIDER_ID=google-gemini-cli` to compare logs against the legacy provider identity
+6. Inspect `~/.pi/agent/antigravity-proxy.log` for `provider request` and `upstream status`
+7. Optional non-interactive verification:
+   ```bash
+   ANTIGRAVITY_DEBUG=1 pi --no-session --no-context-files --no-extensions -e ./pi/extensions/antigravity-auth-login --model antigravity-cli/gemini-3-flash -p "reply with exactly: OK"
+   ```
+8. If needed, repeat once with `ANTIGRAVITY_BASE_URL=...` to compare endpoint behavior
 
 ## Exit criteria
 Choose **latest-Pi extension path** only if all of the following are true:
@@ -74,7 +79,7 @@ Choose **latest-Pi extension path** only if all of the following are true:
 - the same behavior survives a Pi restart and extension reload
 - the docs in this repo match the observed behavior
 
-Choose **pin a known-good older Pi** if any of the following remain true after the provider/proxy experiments:
-- latest Pi bypasses the extension proxy
-- latest Pi reaches the proxy but still never produces a stable response
+Choose **pin a known-good older Pi** if any of the following remain true after the direct transport experiment:
+- latest Pi still cannot produce stable responses through the custom `streamSimple` transport
+- the Cloud Code Assist / Antigravity endpoint behavior has changed incompatibly
 - the required behavior depends on core functionality that cannot be recreated through repo-local extensions

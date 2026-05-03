@@ -51,7 +51,7 @@ Load `antigravity-auth-login` manually when you want the OAuth login flow back f
 ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
 ```
 
-By default this now registers as `antigravity-cli/...` so we can compare a repo-local provider identity against the legacy built-in-looking `google-gemini-cli` route.
+By default this now registers as `antigravity-cli/...` and uses a direct custom-provider `streamSimple` transport instead of relying on built-in `google-gemini-cli` runtime dispatch. A minimal latest-Pi `gemini-3-flash` print-mode request is now verified end-to-end.
 
 On latest Pi, this path is still experimental. Use `/antigravity.doctor` after startup and check `pi/extensions/antigravity-auth-login/README.md` for the current version matrix, diagnostics workflow, and fallback pinning criteria.
 
