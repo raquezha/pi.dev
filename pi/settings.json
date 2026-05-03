@@ -1,6 +1,6 @@
 {
-  "defaultProvider": "google-antigravity",
-  "defaultModel": "gemini-3-flash",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.4",
   "defaultThinkingLevel": "minimal",
   "showHardwareCursor": true,
   "hideThinkingBlock": false,
@@ -8,5 +8,5 @@
   "theme": "ghostly-pale",
   "editorPaddingX": 2,
   "packages": [],
-  "lastChangelogVersion": "0.70.6"
+  "lastChangelogVersion": "0.72.1"
 }

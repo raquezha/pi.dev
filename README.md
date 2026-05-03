@@ -30,5 +30,21 @@ Located in `pi/skills/`:
 - `android/`: Android-specific toolkits.
 - `search/`: Brave Search integration.
 
+## 🔌 Extensions
+
+Located in `pi/extensions/`:
+- `clean-repo/`: git cleanup helper
+- `powerline-footer/`: footer styling
+- `gemini-api/`: manual-only public Gemini API provider (`gemini-api/...`)
+
+Run `./scripts/setup.sh` after cloning to symlink the default repo-local extensions into `~/.pi/agent/extensions/`.
+Load `gemini-api` manually when you need it:
+
+```bash
+pi -e ./pi/extensions/gemini-api
+```
+
+Set `GEMINI_API_KEY` or `GOOGLE_API_KEY` in your shell rc (`~/.zshrc`, etc.) if you want Gemini models available in that session.
+
 ---
 *Never Trust AI. Always Manual Review. Verify Every Change.*

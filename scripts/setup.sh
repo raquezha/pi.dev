@@ -116,8 +116,8 @@ echo ""
 info "Linking low-context-bloat defaults..."
 echo ""
 
-# Safe defaults: config, models, keybindings, themes, and a single UI extension.
-# Intentionally NOT linked by default: AGENTS.md, skills, prompts, most extensions.
+# Safe defaults: config, models, keybindings, themes, and core UI extensions.
+# Intentionally NOT linked by default: AGENTS.md, skills, prompts, and manual-only extensions.
 # Those are opt-in because they increase startup context or behavior surface.
 link_item "$PI_DIR/settings.json"    "$AGENT_DIR/settings.json"    "settings.json"
 link_item "$PI_DIR/models.json"      "$AGENT_DIR/models.json"      "models.json"
@@ -135,6 +135,12 @@ prune_links "$AGENT_DIR/extensions" "$PI_DIR/extensions" "extensions"
 # Link specific extensions (opt-in)
 link_item "$PI_DIR/extensions/powerline-footer" "$AGENT_DIR/extensions/powerline-footer" "extensions/powerline-footer"
 link_item "$PI_DIR/extensions/clean-repo"       "$AGENT_DIR/extensions/clean-repo"       "extensions/clean-repo"
+
+# Manual-only extensions are not linked here. Load them with `pi -e` when needed.
+if [[ -L "$AGENT_DIR/extensions/gemini-api" ]]; then
+  rm "$AGENT_DIR/extensions/gemini-api"
+  warn "Removed manual-only extensions/gemini-api; load it with pi -e ./pi/extensions/gemini-api"
+fi
 
 # ── Link prompts ─────────────────────────────────────────────────────
 
