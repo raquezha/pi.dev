@@ -19,3 +19,6 @@ auth.json
 
 # OS
 Thumbs.db
+
+# IDE
+.idea/
