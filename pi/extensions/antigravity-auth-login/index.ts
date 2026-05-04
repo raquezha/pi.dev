@@ -67,26 +67,32 @@ let streamSimpleGoogleGeminiCliPromise: Promise<{ streamSimpleGoogleGeminiCli: a
 
 async function loadStreamSimpleGoogleGeminiCli() {
 	if (!streamSimpleGoogleGeminiCliPromise) {
-		const candidates = [
-			// 1. Try to resolve via local require (bypasses jiti aliases)
-			() => {
-				try {
-					return require.resolve("@mariozechner/pi-ai/google-gemini-cli");
-				} catch {
-					return undefined;
-				}
-			},
-			// 2. Try the repo root node_modules discovered by findNodeModules
-			() => GOOGLE_GEMINI_CLI_MODULE_URL,
-			// 3. Try standard package import (as a last resort string)
-			() => "@mariozechner/pi-ai/google-gemini-cli",
-		];
+		const candidates: string[] = [];
+
+		// 1. Try to resolve the absolute path manually to bypass jiti aliases
+		try {
+			const resolved = require.resolve("@mariozechner/pi-ai/google-gemini-cli");
+			if (resolved) candidates.push(resolved);
+		} catch {
+			// ignore
+		}
+
+		// 2. Add the repo-root discovered path
+		if (GOOGLE_GEMINI_CLI_MODULE_URL) {
+			// Convert fileURL back to path if it's a URL string
+			const p = GOOGLE_GEMINI_CLI_MODULE_URL.startsWith("file://") 
+				? fileURLToPath(GOOGLE_GEMINI_CLI_MODULE_URL) 
+				: GOOGLE_GEMINI_CLI_MODULE_URL;
+			candidates.push(p);
+		}
+
+		// 3. Last ditch: the package name string itself
+		candidates.push("@mariozechner/pi-ai/google-gemini-cli");
 
 		let lastError: unknown;
-		for (const getCandidate of candidates) {
-			const candidate = getCandidate();
-			if (!candidate) continue;
+		for (const candidate of candidates) {
 			try {
+				// Use dynamic import with the absolute path
 				const mod = await import(candidate);
 				streamSimpleGoogleGeminiCliPromise = Promise.resolve(mod as { streamSimpleGoogleGeminiCli: any });
 				break;
