@@ -32,6 +32,8 @@ ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
 
 Then select an `antigravity-cli/...` model and use `/login antigravity-cli` if needed.
 
+The login flow reads `ANTIGRAVITY_CLIENT_SECRET` from your shell, and also from `~/.pi-secrets/.env` if it exists.
+
 Optional transport override for endpoint experiments:
 
 ```bash

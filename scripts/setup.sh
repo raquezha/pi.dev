@@ -265,6 +265,11 @@ if [[ -f "$SECRETS_FILE" ]]; then
     info "Get one at: https://api.search.brave.com/app/dashboard"
     info "To add it, run: echo \"BRAVE_SEARCH_API_KEY=your_key_here\" >> $SECRETS_FILE"
   fi
+  if ! grep -q "ANTIGRAVITY_CLIENT_SECRET" "$SECRETS_FILE"; then
+    warn "ANTIGRAVITY_CLIENT_SECRET is missing from ~/.pi-secrets/.env"
+    info "Antigravity login needs this OAuth client secret on some machines."
+    info "To add it, run: echo \"ANTIGRAVITY_CLIENT_SECRET=your_secret_here\" >> $SECRETS_FILE"
+  fi
 else
   warn "No ~/.pi-secrets/.env found"
   echo ""
