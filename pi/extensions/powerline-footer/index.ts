@@ -261,7 +261,7 @@ export default function (pi: ExtensionAPI) {
 
     class BranchEditor extends CustomEditor {
       constructor(tui: TUI, theme: EditorTheme, keybindings: KeybindingsManager) {
-        super(tui, theme, keybindings);
+        super(tui, theme, keybindings, { paddingX: 0 });
       }
 
       render(width: number): string[] {
