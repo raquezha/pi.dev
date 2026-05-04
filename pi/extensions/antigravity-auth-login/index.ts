@@ -92,23 +92,27 @@ async function loadStreamSimpleGoogleGeminiCli() {
 		// 4. Last ditch: the package name
 		candidates.push("@mariozechner/pi-ai/google-gemini-cli");
 
-		let lastError: unknown;
+		const errors: string[] = [];
 		for (const candidate of candidates) {
 			try {
-				// Use dynamic import with the absolute path
-				const mod = await import(candidate);
+				// Try with file:// protocol first for absolute paths
+				const importPath = (candidate.startsWith("/") && !candidate.startsWith("file://"))
+					? pathToFileURL(candidate).href
+					: candidate;
+
+				const mod = await import(importPath);
 				streamSimpleGoogleGeminiCliPromise = Promise.resolve(mod as { streamSimpleGoogleGeminiCli: any });
 				break;
 			} catch (error) {
+				const msg = error instanceof Error ? error.message : String(error);
+				errors.push(`Candidate: ${candidate}\nError: ${msg}`);
 				lastError = error;
 			}
 		}
 
 		if (!streamSimpleGoogleGeminiCliPromise) {
-			const errorDetails = candidates.map(c => `  - ${c}`).join("\n");
-			throw lastError instanceof Error 
-				? new Error(`Failed to load google-gemini-cli. Tried:\n${errorDetails}\nLast Error: ${lastError.message}`)
-				: new Error(`Failed to load google-gemini-cli. Tried:\n${errorDetails}\nLast Error: ${String(lastError)}`);
+			const errorDetails = errors.join("\n\n");
+			throw new Error(`Failed to load google-gemini-cli.\n\n${errorDetails}`);
 		}
 	}
 
