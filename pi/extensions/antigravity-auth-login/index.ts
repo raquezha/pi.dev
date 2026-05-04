@@ -19,8 +19,10 @@ function findNodeModules(startDir: string): string | undefined {
 	let curr = startDir;
 	while (curr !== dirname(curr)) {
 		const potential = resolve(curr, "node_modules");
+		const pkgPath = resolve(potential, "@mariozechner/pi-ai/dist/providers/google-gemini-cli.js");
 		try {
-			if (readFileSync(resolve(potential, "@mariozechner/pi-ai/package.json"))) {
+			// check if the file actually exists
+			if (readFileSync(pkgPath)) {
 				return potential;
 			}
 		} catch {
@@ -63,11 +65,14 @@ let streamSimpleGoogleGeminiCliPromise: Promise<{ streamSimpleGoogleGeminiCli: a
 async function loadStreamSimpleGoogleGeminiCli() {
 	if (!streamSimpleGoogleGeminiCliPromise) {
 		const candidates = [
+			// 1. Try standard package import (best if linked/local)
 			"@mariozechner/pi-ai/google-gemini-cli",
+			// 2. Try relative to the extension's own node_modules (if any)
+			pathToFileURL(resolve(CURRENT_DIR, "node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js")).href,
+			// 3. Try the repo root node_modules discovered by findNodeModules
 			GOOGLE_GEMINI_CLI_MODULE_URL,
+			// 4. Try current working directory node_modules
 			pathToFileURL(resolve(process.cwd(), "node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js")).href,
-			// Fallback for global homebrew install where export might be missing
-			pathToFileURL("/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js").href,
 		];
 
 		let lastError: unknown;
