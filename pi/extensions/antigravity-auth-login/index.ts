@@ -69,7 +69,19 @@ async function loadStreamSimpleGoogleGeminiCli() {
 	if (!streamSimpleGoogleGeminiCliPromise) {
 		const candidates: string[] = [];
 
-		// 1. Try to resolve the absolute path manually to bypass jiti aliases
+		// 1. Try absolute path in local node_modules directly
+		const directLocalPath = resolve(CURRENT_DIR, "../../../node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js");
+		candidates.push(directLocalPath);
+
+		// 2. Try the repo root node_modules discovered by findNodeModules
+		if (GOOGLE_GEMINI_CLI_MODULE_URL) {
+			const p = GOOGLE_GEMINI_CLI_MODULE_URL.startsWith("file://") 
+				? fileURLToPath(GOOGLE_GEMINI_CLI_MODULE_URL) 
+				: GOOGLE_GEMINI_CLI_MODULE_URL;
+			candidates.push(p);
+		}
+
+		// 3. Try manual resolution
 		try {
 			const resolved = require.resolve("@mariozechner/pi-ai/google-gemini-cli");
 			if (resolved) candidates.push(resolved);
@@ -77,16 +89,7 @@ async function loadStreamSimpleGoogleGeminiCli() {
 			// ignore
 		}
 
-		// 2. Add the repo-root discovered path
-		if (GOOGLE_GEMINI_CLI_MODULE_URL) {
-			// Convert fileURL back to path if it's a URL string
-			const p = GOOGLE_GEMINI_CLI_MODULE_URL.startsWith("file://") 
-				? fileURLToPath(GOOGLE_GEMINI_CLI_MODULE_URL) 
-				: GOOGLE_GEMINI_CLI_MODULE_URL;
-			candidates.push(p);
-		}
-
-		// 3. Last ditch: the package name string itself
+		// 4. Last ditch: the package name
 		candidates.push("@mariozechner/pi-ai/google-gemini-cli");
 
 		let lastError: unknown;
