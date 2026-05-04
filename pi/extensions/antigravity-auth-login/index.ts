@@ -1,6 +1,8 @@
 import { appendFileSync } from "node:fs";
 import { createHash, randomBytes } from "node:crypto";
 import { createServer, type Server } from "node:http";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import {
 	type Api,
 	createAssistantMessageEventStream,
@@ -9,11 +11,12 @@ import {
 	type Model,
 	type SimpleStreamOptions,
 } from "@mariozechner/pi-ai";
-// NOTE: jiti-based extension loading currently fails to resolve the package export
-// `@mariozechner/pi-ai/google-gemini-cli` correctly in this repo context, so we
-// import the built file directly.
-import { streamSimpleGoogleGeminiCli } from "../../../node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js";
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+
+const CURRENT_DIR = dirname(fileURLToPath(import.meta.url));
+const GOOGLE_GEMINI_CLI_MODULE_URL = pathToFileURL(
+	resolve(CURRENT_DIR, "../../../node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js"),
+).href;
 
 const PROVIDER_ID = "antigravity-cli";
 const PROVIDER_NAME = "Google Antigravity CLI";
@@ -35,6 +38,35 @@ const SCOPES = [
 	"https://www.googleapis.com/auth/experimentsandconfigs",
 ];
 const ANTIGRAVITY_DEBUG = process.env.ANTIGRAVITY_DEBUG === "1" || process.env.ANTIGRAVITY_DEBUG === "true";
+
+let streamSimpleGoogleGeminiCliPromise: Promise<{ streamSimpleGoogleGeminiCli: any }> | undefined;
+
+async function loadStreamSimpleGoogleGeminiCli() {
+	if (!streamSimpleGoogleGeminiCliPromise) {
+		const candidates = [
+			GOOGLE_GEMINI_CLI_MODULE_URL,
+			pathToFileURL(resolve(process.cwd(), "node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js")).href,
+			"@mariozechner/pi-ai/google-gemini-cli",
+		];
+
+		let lastError: unknown;
+		for (const candidate of candidates) {
+			try {
+				const mod = await import(candidate as string);
+				streamSimpleGoogleGeminiCliPromise = Promise.resolve(mod as { streamSimpleGoogleGeminiCli: any });
+				break;
+			} catch (error) {
+				lastError = error;
+			}
+		}
+
+		if (!streamSimpleGoogleGeminiCliPromise) {
+			throw lastError instanceof Error ? lastError : new Error(String(lastError));
+		}
+	}
+
+	return streamSimpleGoogleGeminiCliPromise;
+}
 
 type ModelDef = {
 	id: string;
@@ -281,6 +313,7 @@ function streamAntigravity(model: Model<Api>, context: Context, options?: Simple
 
 			log(`provider request provider=${PROVIDER_ID} transportProvider=${TRANSPORT_PROVIDER_ID} api=${TRANSPORT_API} model=${model.id} endpoint=${transportBaseUrl || "fallbacks"}`);
 
+			const { streamSimpleGoogleGeminiCli } = await loadStreamSimpleGoogleGeminiCli();
 			const innerStream = streamSimpleGoogleGeminiCli(innerModel, context, {
 				...options,
 				onPayload: async (payload, _innerModel) => {

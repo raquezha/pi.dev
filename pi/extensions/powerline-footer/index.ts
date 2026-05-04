@@ -1,6 +1,6 @@
 import { basename } from "node:path";
-import type { ExtensionAPI, Theme } from "@mariozechner/pi-coding-agent";
-import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import { CustomEditor, type ExtensionAPI, type KeybindingsManager } from "@mariozechner/pi-coding-agent";
+import { truncateToWidth, visibleWidth, type EditorTheme, type TUI } from "@mariozechner/pi-tui";
 
 // Dracula VIBRANT Palette
 const VIBRANT = {
@@ -30,8 +30,10 @@ type Segment = {
   fg: string; // Hex
 };
 
-const LEFT_CAP = "█";
-const SEPARATOR = "";
+const LEFT_CAP = "";
+const RIGHT_CAP = "";
+const SEPARATOR_RIGHT = "";
+const SEPARATOR_LEFT = "";
 const SPACE = " ";
 
 function hexToRgb(hex: string) {
@@ -58,11 +60,12 @@ const ANSI_RESET_FG = "\x1b[39m";
 function kFormat(num: number): string {
   if (!Number.isFinite(num)) return "0";
   const abs = Math.abs(num);
+  const fmt = (value: number, suffix: string) => `${String(Number(value.toFixed(1))).replace(/\.0$/, "")}${suffix}`;
   if (abs < 1000) return `${Math.round(num)}`;
-  if (abs < 1000000) return `${(num / 1000).toFixed(1)}k`;
-  if (abs < 1000000000) return `${(num / 1000000).toFixed(1)}M`;
-  if (abs < 1000000000000) return `${(num / 1000000000).toFixed(1)}B`;
-  return `${(num / 1000000000000).toFixed(1)}T`;
+  if (abs < 1000000) return fmt(num / 1000, "k");
+  if (abs < 1000000000) return fmt(num / 1000000, "M");
+  if (abs < 1000000000000) return fmt(num / 1000000000, "B");
+  return fmt(num / 1000000000000, "T");
 }
 
 function formatCost(cost: number): string {
@@ -74,11 +77,88 @@ function formatHeaderTime(date: Date): string {
   return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
 }
 
-function renderPowerline(segments: Segment[]): string {
+function shortProvider(provider: string): string {
+  const normalized = provider.toLowerCase();
+
+  if (normalized.includes("copilot") || normalized.startsWith("github") || normalized.startsWith("gith")) {
+    return "copilot";
+  }
+  if (normalized.startsWith("openai") || normalized === "open") return "openai";
+  if (normalized.startsWith("codex")) return "codex";
+  if (normalized.startsWith("gemini") || normalized.startsWith("google-gemini") || normalized === "google") return "gemini";
+  if (normalized.startsWith("vertex") || normalized.startsWith("google-vertex")) return "vertex";
+  if (normalized.startsWith("anthropic")) return "anthropic";
+  if (normalized.startsWith("groq")) return "groq";
+  if (normalized.startsWith("xai")) return "xai";
+  if (normalized.startsWith("mistral")) return "mstr";
+  if (normalized.startsWith("deepseek")) return "dsk";
+  if (normalized.startsWith("fireworks")) return "fwk";
+  if (normalized.startsWith("openrouter")) return "openrouter";
+  if (normalized.startsWith("ollama")) return "ollama";
+  if (normalized.startsWith("lmstudio")) return "lm";
+  if (normalized.startsWith("bedrock") || normalized.startsWith("amazon-bedrock")) return "bed";
+  if (normalized.startsWith("cloudflare")) return "cf";
+  if (normalized.startsWith("azure")) return "az";
+  if (normalized.startsWith("huggingface")) return "hf";
+  if (normalized.startsWith("antigravity")) return "antigravity";
+
+  return normalized.slice(0, 4);
+}
+
+function shortThinking(level: string): string {
+  const map: Record<string, string> = {
+    off: "off",
+    minimal: "mi",
+    low: "l",
+    medium: "med",
+    high: "h",
+    xhigh: "xh",
+    x_high: "xh",
+  };
+  return map[level] ?? level;
+}
+
+function middleTruncate(text: string, maxWidth: number): string {
+  if (visibleWidth(text) <= maxWidth) return text;
+  if (maxWidth <= 1) return "…";
+  if (maxWidth === 2) return "..";
+  const keep = Math.floor((maxWidth - 1) / 2);
+  const left = text.slice(0, keep);
+  const right = text.slice(text.length - (maxWidth - 1 - keep));
+  return `${left}…${right}`;
+}
+
+function fitBorder(left: string, right: string, width: number): string {
+  if (width <= 0) return "";
+  if (width === 1) return "─";
+
+  let leftText = left;
+  let rightText = right;
+  const fixedWidth = 2;
+  const minimumGap = 1;
+
+  while (
+    fixedWidth + visibleWidth(leftText) + visibleWidth(rightText) + minimumGap > width &&
+    visibleWidth(rightText) > 0
+  ) {
+    rightText = truncateToWidth(rightText, Math.max(0, visibleWidth(rightText) - 1), "");
+  }
+  while (
+    fixedWidth + visibleWidth(leftText) + visibleWidth(rightText) + minimumGap > width &&
+    visibleWidth(leftText) > 0
+  ) {
+    leftText = truncateToWidth(leftText, Math.max(0, visibleWidth(leftText) - 1), "");
+  }
+
+  const gapWidth = Math.max(0, width - fixedWidth - visibleWidth(leftText) - visibleWidth(rightText));
+  return `─${leftText}${"─".repeat(gapWidth)}${rightText}─`;
+}
+
+function renderPowerline(segments: Segment[], separator = SEPARATOR_RIGHT, trailing = true, startCap = LEFT_CAP): string {
   let line = "";
   const firstSeg = segments[0];
   if (firstSeg) {
-    line += toAnsiFg(firstSeg.bg) + toAnsiBg(firstSeg.bg) + LEFT_CAP;
+    line += toAnsiFg(firstSeg.bg) + ANSI_RESET_BG + startCap;
   }
 
   for (let i = 0; i < segments.length; i++) {
@@ -86,9 +166,11 @@ function renderPowerline(segments: Segment[]): string {
     const nextSeg = segments[i + 1];
     line += toAnsiBg(seg.bg) + toAnsiFg(seg.fg) + seg.text;
     if (nextSeg) {
-      line += toAnsiBg(nextSeg.bg) + toAnsiFg(seg.bg) + SEPARATOR;
+      line += toAnsiBg(nextSeg.bg) + toAnsiFg(seg.bg) + separator;
+    } else if (trailing) {
+      line += ANSI_RESET_BG + toAnsiFg(seg.bg) + separator + ANSI_RESET_FG;
     } else {
-      line += ANSI_RESET_BG + toAnsiFg(seg.bg) + SEPARATOR + ANSI_RESET_FG;
+      line += ANSI_RESET_BG + ANSI_RESET_FG;
     }
   }
   return line;
@@ -115,6 +197,14 @@ export default function (pi: ExtensionAPI) {
     if (!ctx.hasUI) return;
 
     const projectName = basename(ctx.cwd || process.cwd()) || "pi.dev";
+    let branchName: string | undefined;
+
+    const refreshBranch = async () => {
+      const result = await pi.exec("git", ["branch", "--show-current"], { cwd: ctx.cwd }).catch(() => undefined);
+      const stdout = result?.stdout.trim();
+      branchName = stdout && stdout.length > 0 ? stdout : undefined;
+    };
+    await refreshBranch();
     
     // Set terminal title
     ctx.ui.setTitle(`π ${projectName}`);
@@ -169,6 +259,32 @@ export default function (pi: ExtensionAPI) {
       };
     });
 
+    class BranchEditor extends CustomEditor {
+      constructor(tui: TUI, theme: EditorTheme, keybindings: KeybindingsManager) {
+        super(tui, theme, keybindings);
+      }
+
+      render(width: number): string[] {
+        const lines = super.render(width);
+        if (lines.length < 2) return lines;
+
+        const branchDisplay = branchName ? middleTruncate(branchName, Math.max(8, width - 6)) : "";
+        const topRight = branchDisplay ? ctx.ui.theme.fg("muted", `  ${branchDisplay} `) : "";
+
+        const modelId = ctx.model?.id ?? "no-model";
+        const thinkingLevel = pi.getThinkingLevel?.() ?? "off";
+        const modelText = ctx.model?.reasoning ? `${modelId} • ${thinkingLevel}` : modelId;
+        const providerText = ctx.model?.provider ? `${shortProvider(ctx.model.provider)} / ` : "";
+        const bottomRight = ctx.ui.theme.fg("muted", ` 󱐋 ${truncateToWidth(`${providerText}${modelText}`, 36, "…")} `);
+
+        lines[0] = fitBorder("", topRight, width);
+        lines[lines.length - 1] = fitBorder("", bottomRight, width);
+        return lines;
+      }
+    }
+
+    ctx.ui.setEditorComponent((tui, theme, keybindings) => new BranchEditor(tui, theme, keybindings));
+
     ctx.ui.setFooter((tui, theme, footerData) => {
       const dispose = footerData.onBranchChange(() => tui.requestRender());
 
@@ -194,49 +310,27 @@ export default function (pi: ExtensionAPI) {
 
           const contextUsage = ctx.getContextUsage?.();
           const contextPercent =
-            typeof contextUsage?.percent === "number" ? Math.round(contextUsage.percent) : "?";
-          
-          const cachePercent = (totalInput + totalCacheRead) > 0 
-            ? Math.round((totalCacheRead / (totalInput + totalCacheRead)) * 100) 
-            : 0;
-
-          const branch = footerData.getGitBranch();
-          const modelId = ctx.model?.id ?? "no-model";
-          const thinkingLevel = pi.getThinkingLevel?.() ?? "off";
-          const modelText = ctx.model?.reasoning ? `${modelId} • ${thinkingLevel}` : modelId;
+            typeof contextUsage?.percent === "number" ? contextUsage.percent.toFixed(1) : "?";
+          const contextWindow = contextUsage?.contextWindow;
+          const contextWindowText = typeof contextWindow === "number" ? kFormat(contextWindow) : "?";
 
           const themeName = (theme.name || "theme").toLowerCase();
           const p = themeName === "ghostly-pale" ? PALE : VIBRANT;
 
-          const segments: Segment[] = [
-            ...(branch ? [{ text: `  ${branch} `, bg: p.pink, fg: p.bg }] : []),
+          const leftSegments: Segment[] = [
             { text: ` 󰁝 ${kFormat(totalInput)} `, bg: p.green, fg: p.bg },
             { text: ` 󰁅 ${kFormat(totalOutput)} `, bg: p.purple, fg: p.bg },
             { text: ` 󰌪 ${kFormat(totalCacheRead)} `, bg: p.yellow, fg: p.bg },
             { text: ` 󱍢 $${formatCost(totalCost)} `, bg: p.orange, fg: p.bg },
-            { text: ` 󰆼 ${contextPercent}% `, bg: p.cyan, fg: p.bg },
-            { text: ` 󱐋 ${modelId} `, bg: p.purple, fg: p.bg },
+            { text: ` 󰆼 ${contextPercent}%/${contextWindowText} `, bg: p.cyan, fg: p.bg },
           ];
-
-
-
-
-          const left = renderPowerline(segments);
+          const left = renderPowerline(leftSegments, SEPARATOR_RIGHT, true, "");
 
           const statuses = Array.from(footerData.getExtensionStatuses().values())
             .filter((value): value is string => Boolean(value))
             .join(" ");
-          const rightText = statuses;
-          if (!rightText) {
-            return [truncateToWidth(left, width, "")];
-          }
-
-          const right = theme.fg("dim", rightText);
-          const availableLeftWidth = Math.max(0, width - visibleWidth(right) - 1);
-          const safeLeft = truncateToWidth(left, availableLeftWidth, "");
-          const padWidth = Math.max(1, width - visibleWidth(safeLeft) - visibleWidth(right));
-          const pad = SPACE.repeat(padWidth);
-          return [truncateToWidth(safeLeft + pad + right, width)];
+          const footerLine = statuses ? `${left}${SPACE}${theme.fg("dim", statuses)}` : left;
+          return [truncateToWidth(footerLine, width, "")];
         },
       };
     });
