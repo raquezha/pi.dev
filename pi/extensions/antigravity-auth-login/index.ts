@@ -93,15 +93,20 @@ async function loadStreamSimpleGoogleGeminiCli() {
 		candidates.push("@mariozechner/pi-ai/google-gemini-cli");
 
 		const errors: string[] = [];
-		let lastError: unknown;
 		for (const candidate of candidates) {
 			try {
-				// Try with file:// protocol first for absolute paths
-				const importPath = (candidate.startsWith("/") && !candidate.startsWith("file://"))
-					? pathToFileURL(candidate).href
-					: candidate;
+				let mod: any;
+				
+				// If it's an absolute path to a .js file, use direct require to bypass jiti/esm hijacks
+				if (candidate.startsWith("/") && candidate.endsWith(".js")) {
+					mod = require(candidate);
+				} else {
+					const importPath = (candidate.startsWith("/") && !candidate.startsWith("file://"))
+						? pathToFileURL(candidate).href
+						: candidate;
+					mod = await import(importPath);
+				}
 
-				const mod = await import(importPath);
 				streamSimpleGoogleGeminiCliPromise = Promise.resolve(mod as { streamSimpleGoogleGeminiCli: any });
 				break;
 			} catch (error) {
