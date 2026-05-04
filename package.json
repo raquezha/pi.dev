@@ -6,11 +6,24 @@
   "scripts": {
     "setup": "./scripts/setup.sh"
   },
-  "keywords": ["pi-package"],
+  "keywords": [
+    "pi-package"
+  ],
   "pi": {
-    "extensions": ["./pi/extensions"],
-    "skills": ["./pi/skills"],
-    "prompts": ["./pi/prompts"],
-    "themes": ["./pi/themes"]
+    "extensions": [
+      "./pi/extensions"
+    ],
+    "skills": [
+      "./pi/skills"
+    ],
+    "prompts": [
+      "./pi/prompts"
+    ],
+    "themes": [
+      "./pi/themes"
+    ]
+  },
+  "dependencies": {
+    "@mariozechner/pi-ai": "0.70.6"
   }
 }
