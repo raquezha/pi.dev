@@ -87,7 +87,10 @@ async function loadStreamSimpleGoogleGeminiCli() {
 		}
 
 		if (!streamSimpleGoogleGeminiCliPromise) {
-			throw lastError instanceof Error ? lastError : new Error(`Failed to load google-gemini-cli module. Tried candidates: ${candidates.join(", ")}. Last error: ${lastError instanceof Error ? lastError.message : String(lastError)}`);
+			const errorDetails = candidates.map(c => `  - ${c}`).join("\n");
+			throw lastError instanceof Error 
+				? new Error(`Failed to load google-gemini-cli. Tried:\n${errorDetails}\nLast Error: ${lastError.message}`)
+				: new Error(`Failed to load google-gemini-cli. Tried:\n${errorDetails}\nLast Error: ${String(lastError)}`);
 		}
 	}
 
