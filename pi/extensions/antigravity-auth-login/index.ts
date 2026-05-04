@@ -14,9 +14,27 @@ import {
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
 const CURRENT_DIR = dirname(fileURLToPath(import.meta.url));
-const GOOGLE_GEMINI_CLI_MODULE_URL = pathToFileURL(
-	resolve(CURRENT_DIR, "../../../node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js"),
-).href;
+
+function findNodeModules(startDir: string): string | undefined {
+	let curr = startDir;
+	while (curr !== dirname(curr)) {
+		const potential = resolve(curr, "node_modules");
+		try {
+			if (readFileSync(resolve(potential, "@mariozechner/pi-ai/package.json"))) {
+				return potential;
+			}
+		} catch {
+			// ignore
+		}
+		curr = dirname(curr);
+	}
+	return undefined;
+}
+
+const localNodeModules = findNodeModules(CURRENT_DIR);
+const GOOGLE_GEMINI_CLI_MODULE_URL = localNodeModules
+	? pathToFileURL(resolve(localNodeModules, "@mariozechner/pi-ai/dist/providers/google-gemini-cli.js")).href
+	: pathToFileURL(resolve(CURRENT_DIR, "../../../node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js")).href;
 
 const PROVIDER_ID = "antigravity-cli";
 const PROVIDER_NAME = "Google Antigravity CLI";
@@ -44,15 +62,17 @@ let streamSimpleGoogleGeminiCliPromise: Promise<{ streamSimpleGoogleGeminiCli: a
 async function loadStreamSimpleGoogleGeminiCli() {
 	if (!streamSimpleGoogleGeminiCliPromise) {
 		const candidates = [
+			"@mariozechner/pi-ai/google-gemini-cli",
 			GOOGLE_GEMINI_CLI_MODULE_URL,
 			pathToFileURL(resolve(process.cwd(), "node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js")).href,
-			"@mariozechner/pi-ai/google-gemini-cli",
+			// Fallback for global homebrew install where export might be missing
+			pathToFileURL("/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js").href,
 		];
 
 		let lastError: unknown;
 		for (const candidate of candidates) {
 			try {
-				const mod = await import(candidate as string);
+				const mod = await import(candidate);
 				streamSimpleGoogleGeminiCliPromise = Promise.resolve(mod as { streamSimpleGoogleGeminiCli: any });
 				break;
 			} catch (error) {
@@ -61,7 +81,7 @@ async function loadStreamSimpleGoogleGeminiCli() {
 		}
 
 		if (!streamSimpleGoogleGeminiCliPromise) {
-			throw lastError instanceof Error ? lastError : new Error(String(lastError));
+			throw lastError instanceof Error ? lastError : new Error(`Failed to load google-gemini-cli module. Tried candidates: ${candidates.join(", ")}. Last error: ${lastError instanceof Error ? lastError.message : String(lastError)}`);
 		}
 	}
 
