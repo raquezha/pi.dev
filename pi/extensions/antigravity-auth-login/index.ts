@@ -93,6 +93,7 @@ async function loadStreamSimpleGoogleGeminiCli() {
 		candidates.push("@mariozechner/pi-ai/google-gemini-cli");
 
 		const errors: string[] = [];
+		let lastError: unknown;
 		for (const candidate of candidates) {
 			try {
 				// Try with file:// protocol first for absolute paths
