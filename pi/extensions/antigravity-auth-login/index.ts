@@ -13,7 +13,10 @@ import {
 } from "@mariozechner/pi-ai";
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
+import { createRequire } from "node:module";
+
 const CURRENT_DIR = dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
 
 function findNodeModules(startDir: string): string | undefined {
 	let curr = startDir;
@@ -65,18 +68,24 @@ let streamSimpleGoogleGeminiCliPromise: Promise<{ streamSimpleGoogleGeminiCli: a
 async function loadStreamSimpleGoogleGeminiCli() {
 	if (!streamSimpleGoogleGeminiCliPromise) {
 		const candidates = [
-			// 1. Try standard package import (best if linked/local)
-			"@mariozechner/pi-ai/google-gemini-cli",
-			// 2. Try relative to the extension's own node_modules (if any)
-			pathToFileURL(resolve(CURRENT_DIR, "node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js")).href,
-			// 3. Try the repo root node_modules discovered by findNodeModules
-			GOOGLE_GEMINI_CLI_MODULE_URL,
-			// 4. Try current working directory node_modules
-			pathToFileURL(resolve(process.cwd(), "node_modules/@mariozechner/pi-ai/dist/providers/google-gemini-cli.js")).href,
+			// 1. Try to resolve via local require (bypasses jiti aliases)
+			() => {
+				try {
+					return require.resolve("@mariozechner/pi-ai/google-gemini-cli");
+				} catch {
+					return undefined;
+				}
+			},
+			// 2. Try the repo root node_modules discovered by findNodeModules
+			() => GOOGLE_GEMINI_CLI_MODULE_URL,
+			// 3. Try standard package import (as a last resort string)
+			() => "@mariozechner/pi-ai/google-gemini-cli",
 		];
 
 		let lastError: unknown;
-		for (const candidate of candidates) {
+		for (const getCandidate of candidates) {
+			const candidate = getCandidate();
+			if (!candidate) continue;
 			try {
 				const mod = await import(candidate);
 				streamSimpleGoogleGeminiCliPromise = Promise.resolve(mod as { streamSimpleGoogleGeminiCli: any });
