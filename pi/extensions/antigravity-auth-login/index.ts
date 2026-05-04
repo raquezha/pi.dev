@@ -1,4 +1,4 @@
-import { appendFileSync } from "node:fs";
+import { appendFileSync, readFileSync } from "node:fs";
 import { createHash, randomBytes } from "node:crypto";
 import { createServer, type Server } from "node:http";
 import { dirname, resolve } from "node:path";
@@ -30,6 +30,7 @@ const DEFAULT_CLIENT_ID = "1071006060591-tmhssin2h21lcre235vtolojh4g403ep.apps.g
 const DEFAULT_ENDPOINT = "https://daily-cloudcode-pa.sandbox.googleapis.com";
 const DEFAULT_PROJECT_ID = "rising-fact-p41fc";
 const ANTIGRAVITY_LOG_FILE = `${process.env.HOME || "/tmp"}/.pi/agent/antigravity.log`;
+const PI_SECRETS_FILE = `${process.env.HOME || "/tmp"}/.pi-secrets/.env`;
 const SCOPES = [
 	"https://www.googleapis.com/auth/cloud-platform",
 	"https://www.googleapis.com/auth/userinfo.email",
@@ -87,12 +88,39 @@ function log(message: string): void {
 	}
 }
 
+function readSecretFromEnvFile(key: string): string | undefined {
+	try {
+		const contents = readFileSync(PI_SECRETS_FILE, "utf8");
+		for (const rawLine of contents.split(/\r?\n/)) {
+			const line = rawLine.trim();
+			if (!line || line.startsWith("#")) continue;
+			const normalized = line.startsWith("export ") ? line.slice(7).trim() : line;
+			const equalsIndex = normalized.indexOf("=");
+			if (equalsIndex === -1) continue;
+			const parsedKey = normalized.slice(0, equalsIndex).trim();
+			if (parsedKey !== key) continue;
+			let value = normalized.slice(equalsIndex + 1).trim();
+			if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+				value = value.slice(1, -1);
+			}
+			return value.trim() || undefined;
+		}
+	} catch {
+		return undefined;
+	}
+	return undefined;
+}
+
+function resolveSecret(key: string): string | undefined {
+	return process.env[key]?.trim() || readSecretFromEnvFile(key);
+}
+
 function getClientId(): string {
-	return process.env.ANTIGRAVITY_CLIENT_ID?.trim() || DEFAULT_CLIENT_ID;
+	return resolveSecret("ANTIGRAVITY_CLIENT_ID") || DEFAULT_CLIENT_ID;
 }
 
 function getClientSecret(): string | undefined {
-	return process.env.ANTIGRAVITY_CLIENT_SECRET?.trim() || undefined;
+	return resolveSecret("ANTIGRAVITY_CLIENT_SECRET");
 }
 
 function resolveTransportBaseUrl(): string | undefined {
@@ -229,7 +257,13 @@ async function loginAntigravity(callbacks: any): Promise<any> {
 			}),
 		});
 
-		if (!tokenResponse.ok) throw new Error(`Token exchange failed: ${await tokenResponse.text()}`);
+		if (!tokenResponse.ok) {
+			const tokenError = await tokenResponse.text();
+			if (tokenError.includes("client_secret is missing")) {
+				throw new Error(`Token exchange failed: ${tokenError} (Set ANTIGRAVITY_CLIENT_SECRET in ${PI_SECRETS_FILE} or export it in your shell.)`);
+			}
+			throw new Error(`Token exchange failed: ${tokenError}`);
+		}
 		const tokenData = (await tokenResponse.json()) as { access_token: string; refresh_token: string; expires_in: number };
 		if (!tokenData.refresh_token) throw new Error("No refresh token received from Google.");
 		log(`oauth login success provider=${PROVIDER_ID} projectId=${DEFAULT_PROJECT_ID} expiresIn=${tokenData.expires_in}`);

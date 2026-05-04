@@ -36,6 +36,8 @@ ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
 
 Then pick an `antigravity-cli/...` model, use `/login antigravity-cli` as needed, and run `/antigravity.doctor` to confirm the provider/transport wiring.
 
+If token exchange says `client_secret is missing`, add `ANTIGRAVITY_CLIENT_SECRET` to your shell or `~/.pi-secrets/.env`.
+
 The extension now uses a direct custom-provider `streamSimple` transport instead of a local proxy, and a minimal `gemini-3-flash` print-mode request is verified on latest Pi.
 
 Status note: this extension is still experimental on latest Pi. See [`./antigravity-auth-login/README.md`](./antigravity-auth-login/README.md) for the version matrix, diagnostics flow, and the go/no-go criteria for "extension path works" vs "pin an older Pi version".
