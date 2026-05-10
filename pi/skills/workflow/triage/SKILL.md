@@ -1,6 +1,6 @@
 ---
 name: triage
-description: Ingest a tracked or local task into the RPIV workspace. Use when starting work from jira:, github:, gitlab:, or local: and you need to create or resume a namespaced WORK.md.
+description: "Ingest a tracked or local task into the RPIV workspace. Use when starting work from jira:, github:, gitlab:, or local: and you need to create or resume a namespaced WORK.md."
 ---
 
 # Skill: triage
