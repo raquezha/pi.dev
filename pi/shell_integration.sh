@@ -24,16 +24,44 @@ pi() {
         MINDSET="\033[0;32mandroid\033[0m"
         export PI_MINDSET="android"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/android")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/investigate")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/implement-plan")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify-changes")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/triage")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/implement")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify")
         shift
         ;;
-      --plan)
-        MINDSET="\033[0;33mplan\033[0m"
-        export PI_MINDSET="plan"
+      --pm)
+        MINDSET="\033[0;35mpm\033[0m"
+        export PI_MINDSET="pm"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/triage")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/frame")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/grill-with-docs")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/plan")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/sync")
+        shift
+        ;;
+      --dev)
+        MINDSET="\033[0;33mdev\033[0m"
+        export PI_MINDSET="dev"
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/triage")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/implement")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/sync")
+        shift
+        ;;
+      --rpiv)
+        MINDSET="\033[0;34mRPIV\033[0m"
+        export PI_MINDSET="rpiv"
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/triage")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/frame")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/grill-with-docs")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/plan")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/implement")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/sync")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/update-docs")
         shift
         ;;
       --meta)

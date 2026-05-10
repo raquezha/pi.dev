@@ -6,20 +6,26 @@ Personal workspace for advanced agentic coding workflows, specialized skills, an
 
 This repository implements a high-performance "Staff Engineer" workflow for the Pi Coding Agent. Every task follows a disciplined lifecycle:
 
-1.  **Investigate (`/investigate`)**: Phase 0 triage to find the root cause.
-2.  **Frame (`/frame-problem`)**: Formalize the challenge in `PROBLEM.md`.
-3.  **Language (`/ubiquitous-language`)**: Align domain naming and architecture.
-4.  **Plan (`/write-a-plan`)**: TDD-first, vertical slice strategy in `PLAN.md`.
-5.  **Implement (`/implement-plan`)**: Execute with adaptive quality gates and human-centric MRs.
+1.  **Triage (`/triage`)**: The entry point. Fetches Jira/GitHub/GitLab tasks and initializes a namespaced workspace in `.pi/workflow/tasks/`.
+2.  **Frame (`/frame`)**: Formalizes the work. Creates a tactical `PROBLEM.md` (for bugs) or a strategic `PRD.md` (for features).
+3.  **Grill (`/grill`)**: Stress-tests the plan against `CONTEXT.md` and codebase rules. No planning until the design is solid.
+4.  **Plan (`/write-a-plan`)**: TDD-first, vertical slice strategy. Use `/to-jira` to sync slices back to PMs.
+5.  **Implement (`/implement-plan`)**: Executes the plan in functional milestones. Supports multi-commit slices.
 6.  **Verify (`/verify-changes`)**: A holistic "Truth Test" (Code + Docs + System Zoom Out).
 
-Workflow-driven skills should read `AGENTS.md`, `pi/AGENTS.md`, and `README.md` before editing workflow rules, then inspect the relevant skill docs before making changes. Use `gh` for GitHub remotes and `glab` for GitLab remotes.
+Workflow-driven skills should read `AGENTS.md`, `pi/AGENTS.md`, and `README.md` before editing workflow rules. Use `jira:`, `github:`, `gitlab:`, or `local:` prefixes for namespacing.
 
 ## 🧠 Mindsets (Hats)
 
 Configured via `shell_integration.sh`:
-- **Plan Hat (`--plan`)**: Loads the full R&D workflow suite.
+- **Plan Hat (`--plan`)**: Loads the Lean RPIV workflow (Triage -> Frame -> Grill -> Plan).
 - **Android Hat (`--android`)**: Specialized for KMP/Android development with quality gates.
+- **DevOps Hat (`--devops`)**: Optimized for CI/CD components and scripting.
+
+## 📂 Artifacts & Anti-Bloat
+
+- **Task Workspace**: All temporary work lives in `.pi/workflow/tasks/[source]-[id]/`. This is git-ignored.
+- **Context**: Global rules live in `docs/agents/` (e.g., `domain.md`, `tech-stack.md`). `CONTEXT.md` acts as the root index.
 
 ## 📚 Terminology & Glossary
 
@@ -28,7 +34,7 @@ For a detailed breakdown of LLM metrics (Context, Caching, Tokens), see the [Age
 ## 🛠 Skills
 
 Located in `pi/skills/`:
-- `workflow/`: Core R&D skills.
+- `workflow/`: Core Lean RPIV skills.
 - `android/`: Android-specific toolkits.
 - `search/`: Brave Search integration.
 

@@ -1,0 +1,32 @@
+---
+name: plan
+description: Create or revise vertical implementation slices in the active WORK.md. Use after /grill-with-docs to produce a concise, reviewable plan for implementation.
+---
+
+# Skill: plan
+
+Map the "how" into tracer-bullet vertical slices.
+
+## Guardrails
+- READ: `.workflow/active_task.json` then active `WORK.md` `[BRIEF]` and `[GRILL]`.
+- WRITE: `WORK.md` -> `[PLAN]` section only.
+- NEVER: implement code during planning.
+- NEVER: create standalone `PLAN.md`.
+- NEVER: ask whether to plan if the user invoked `/plan`; produce the plan.
+
+## Workflow
+1. Read the brief and grill decisions.
+2. Draft thin vertical slices that are independently verifiable.
+3. Mark each slice:
+   - **AFK**: agent can implement with clear checks.
+   - **HITL**: human judgment, product decision, external access, or manual review required.
+4. Include dependencies and verification command(s) per slice.
+5. Write the plan into `[PLAN]` with checkboxes.
+6. Recommend `/sync` if the task has a tracker, then `/implement`.
+
+## Output contract
+End with:
+- **Slices**: count and names
+- **AFK/HITL split**
+- **Verification commands**
+- **Next step**: `/sync` or `/implement`

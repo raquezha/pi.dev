@@ -40,6 +40,19 @@ if ! command -v pi &>/dev/null; then
   exit 1
 fi
 
+if ! command -v jira &>/dev/null; then
+  warn "jira CLI not found. Install with: brew install jira-cli"
+  warn "After install, run: jira init (requires JIRA_API_TOKEN in ~/.pi-secrets/.env)"
+fi
+
+if ! command -v gh &>/dev/null; then
+  warn "gh CLI not found. Install with: brew install gh"
+fi
+
+if ! command -v glab &>/dev/null; then
+  warn "glab CLI not found. Install with: brew install glab"
+fi
+
 if [[ ! -d "$PI_DIR" ]]; then
   err "pi/ directory not found in repo. Are you in the right directory?"
   exit 1
@@ -52,6 +65,36 @@ mkdir -p "$AGENT_DIR/skills"
 mkdir -p "$AGENT_DIR/prompts"
 mkdir -p "$AGENT_DIR/themes"
 mkdir -p "$HOME/.pi-secrets"
+
+# ── Workflow workspace ────────────────────────────────────────────────
+
+info "Setting up .workflow/ directory..."
+
+# Create .workflow at the repo root (git-ignored task workspace)
+mkdir -p "$REPO_DIR/.workflow/tasks"
+
+# Add .workflow/ to global gitignore so it's ignored in ALL repos
+GLOBAL_GITIGNORE="$HOME/.gitignore_global"
+if [[ ! -f "$GLOBAL_GITIGNORE" ]]; then
+  touch "$GLOBAL_GITIGNORE"
+  git config --global core.excludesfile "$GLOBAL_GITIGNORE"
+  ok "Created ~/.gitignore_global"
+fi
+if ! grep -q ".workflow/" "$GLOBAL_GITIGNORE" 2>/dev/null; then
+  echo ".workflow/" >> "$GLOBAL_GITIGNORE"
+  ok "Added .workflow/ to ~/.gitignore_global"
+else
+  ok ".workflow/ already in ~/.gitignore_global"
+fi
+
+# Ensure triage_helper.sh is executable
+TRIAGE_SCRIPT="$REPO_DIR/pi/scripts/workflow/triage_helper.sh"
+if [[ -f "$TRIAGE_SCRIPT" ]]; then
+  chmod +x "$TRIAGE_SCRIPT"
+  ok "triage_helper.sh is executable"
+else
+  warn "triage_helper.sh not found at $TRIAGE_SCRIPT"
+fi
 
 # ── Symlink helpers ───────────────────────────────────────────────────
 
@@ -263,12 +306,15 @@ if [[ -f "$SECRETS_FILE" ]]; then
   if ! grep -q "BRAVE_SEARCH_API_KEY" "$SECRETS_FILE"; then
     warn "BRAVE_SEARCH_API_KEY is missing from ~/.pi-secrets/.env"
     info "Get one at: https://api.search.brave.com/app/dashboard"
-    info "To add it, run: echo \"BRAVE_SEARCH_API_KEY=your_key_here\" >> $SECRETS_FILE"
+  fi
+  if ! grep -q "JIRA_API_TOKEN" "$SECRETS_FILE"; then
+    warn "JIRA_API_TOKEN is missing from ~/.pi-secrets/.env"
+    info "Get one at: https://id.atlassian.com/manage-profile/security/api-tokens"
+    info "To add it, run: echo \"JIRA_API_TOKEN=your_token_here\" >> $SECRETS_FILE"
   fi
   if ! grep -q "ANTIGRAVITY_CLIENT_SECRET" "$SECRETS_FILE"; then
     warn "ANTIGRAVITY_CLIENT_SECRET is missing from ~/.pi-secrets/.env"
     info "Antigravity login needs this OAuth client secret on some machines."
-    info "To add it, run: echo \"ANTIGRAVITY_CLIENT_SECRET=your_secret_here\" >> $SECRETS_FILE"
   fi
 else
   warn "No ~/.pi-secrets/.env found"
@@ -352,8 +398,11 @@ echo "     - Enable Pi:      entire-agent-pi install-hooks"
 echo ""
 echo "  4. START WORKING"
 echo "     - Run 'pi' in your project repo."
+echo "     - Use 'pi --pm' when writing Epics, Stories, or PRDs."
+echo "     - Use 'pi --dev' when implementing a ticket."
+echo "     - Use 'pi --rpiv' for full ownership (PM + Dev combined)."
+echo "     - Add platform modifiers: 'pi --dev --android' or 'pi --dev --devops'."
 echo "     - Use 'pi --antigravity' when you want the Antigravity extension loaded."
-echo "     - If pi is already running, type '/reload' inside pi."
 echo ""
 
 # ── Quick developer guidance: Go toolchain & tmux checks ──────────────

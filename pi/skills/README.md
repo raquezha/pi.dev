@@ -19,6 +19,11 @@ Web search and information retrieval.
 Skills for managing GitLab CI/CD pipelines, MR reviews, and environment deployments.
 - **Status**: ⚪ Planned
 
+### 🔁 Workflow
+Core RPIV workflow skills for task intake, framing, planning, implementation, verification, tracker sync, and documentation upkeep.
+- **Status**: 🟢 Lean RPIV Added
+- **Skills**: `triage`, `frame`, `grill-with-docs`, `plan`, `implement`, `verify`, `sync`, `update-docs`
+
 ### 🚀 Mobile DevOps (Planned)
 Skills for Fastlane, App Store/Play Store automated releases, and TestFlight management.
 - **Status**: ⚪ Planned
@@ -29,9 +34,11 @@ Skills for creating and maintaining pi skills and other agent-facing building bl
 - **Skills**: `meta/pi-skill-creator`
 - **Notes**: `pi-skill-creator` is pi.dev-first; it can study external repos as source material but should normally generate reusable skills back into `pi/skills/...` in this repository unless the user explicitly wants a project-local skill.
 
-### ✍️ Documentation (Planned)
-Skills for generating API docs, maintaining READMEs, and technical writing assistance.
-- **Status**: ⚪ Planned
+### ✍️ Documentation / Context Curation
+Skills for keeping durable repo documentation and agent context aligned without context bloat.
+- **Status**: 🟢 Context Curation Added
+- **Skills**: `workflow/update-docs`
+- **Notes**: `update-docs` updates durable docs such as `AGENTS.md`, `README.md`, skill docs, and `docs/agents/*`; task-specific state stays in `.workflow/tasks/*/WORK.md`.
 
 ---
 

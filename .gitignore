@@ -3,6 +3,8 @@ node_modules/
 dist/
 *.log
 .DS_Store
+.entire/
+.git/entire-sessions/
 
 # Never commit secrets
 .env
@@ -15,6 +17,7 @@ credentials
 auth.json
 
 # Workflow artifacts
+.workflow/
 .pi/workflow/
 
 # OS
