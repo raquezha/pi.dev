@@ -12,6 +12,14 @@ if [ -z "$SOURCE" ] || [ -z "$ID" ]; then
     exit 1
 fi
 
+# 1. Sanitize local ID if generic (case-insensitive check)
+ID_LOWER=$(echo "$ID" | tr '[:upper:]' '[:lower:]')
+if [ "$SOURCE" == "local" ] && [[ "$ID_LOWER" =~ ^(problem|task|issue|work|todo)$ ]]; then
+    BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD | sed 's/[^a-zA-Z0-9]/-/g')
+    echo "Generic local ID '$ID' detected. Falling back to branch name '$BRANCH_NAME'..."
+    ID="$BRANCH_NAME"
+fi
+
 TASK_DIR="$BASE_DIR/$SOURCE-$ID"
 mkdir -p "$TASK_DIR"
 

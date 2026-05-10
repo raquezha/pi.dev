@@ -19,8 +19,9 @@ Start RPIV by creating or resuming a task workspace.
    - `jira:PROJ-123` -> `jira-PROJ-123`
    - `github:42` -> `github-42`
    - `gitlab:42` -> `gitlab-42`
-   - `local:name` -> `local-name`
+   - `local:name` -> `local-name` (descriptive name preferred over generic IDs)
 2. Use `pi/scripts/workflow/triage_helper.sh` to fetch remote data and create/resume `.workflow/tasks/[source-id]/WORK.md`.
+   - **Smart Naming**: If the user provides a generic local ID like `PROBLEM` or `work`, the helper script and agent MUST fallback to the current git branch name to ensure a unique, meaningful namespace.
 3. Classify the task:
    - **Problem**: bug, regression, crash, broken behavior.
    - **Proposal**: feature, enhancement, refactor, new behavior.
