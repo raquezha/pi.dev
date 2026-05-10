@@ -1,13 +1,13 @@
 {
   "defaultProvider": "antigravity-cli",
   "defaultModel": "gemini-3-flash",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "showHardwareCursor": true,
   "hideThinkingBlock": false,
   "quietStartup": false,
   "theme": "ghostly-pale",
   "editorPaddingX": 2,
   "packages": [],
-  "lastChangelogVersion": "0.72.1",
+  "lastChangelogVersion": "0.74.0",
   "transport": "auto"
 }
