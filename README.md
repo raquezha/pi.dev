@@ -6,26 +6,31 @@ Personal workspace for advanced agentic coding workflows, specialized skills, an
 
 This repository implements a high-performance "Staff Engineer" workflow for the Pi Coding Agent. Every task follows a disciplined lifecycle:
 
-1.  **Triage (`/triage`)**: The entry point. Fetches Jira/GitHub/GitLab tasks and initializes a namespaced workspace in `.pi/workflow/tasks/`.
-2.  **Frame (`/frame`)**: Formalizes the work. Creates a tactical `PROBLEM.md` (for bugs) or a strategic `PRD.md` (for features).
-3.  **Grill (`/grill`)**: Stress-tests the plan against `CONTEXT.md` and codebase rules. No planning until the design is solid.
-4.  **Plan (`/write-a-plan`)**: TDD-first, vertical slice strategy. Use `/to-jira` to sync slices back to PMs.
-5.  **Implement (`/implement-plan`)**: Executes the plan in functional milestones. Supports multi-commit slices.
-6.  **Verify (`/verify-changes`)**: A holistic "Truth Test" (Code + Docs + System Zoom Out).
+1.  **Triage (`/triage`)**: The entry point. Fetches Jira/GitHub/GitLab tasks and initializes a namespaced workspace in `.workflow/tasks/`.
+2.  **Frame (`/frame`)**: Formalizes the work. Writes a concise brief into the active task's WORK.md (`[BRIEF]` section). Do not create separate `PROBLEM.md` or `PRD.md` files.
+3.  **Grill (`/grill-with-docs`)**: Stress-tests the brief and plan against `CONTEXT.md` and `docs/agents/*`. No planning until the design is solid.
+4.  **Plan (`/plan`)**: TDD-first, vertical slice strategy. Use `/sync` or `/to-jira` to sync slices back to PMs when appropriate.
+5.  **Implement (`/implement`)**: Executes the plan in functional milestones. Supports multi-commit slices; run `/verify` after a slice.
+6.  **Verify (`/verify`)**: A holistic "Truth Test" (Code + Docs + System Zoom Out). Update `[LOG]` and recommend `/sync`.
 
-Workflow-driven skills should read `AGENTS.md`, `pi/AGENTS.md`, and `README.md` before editing workflow rules. Use `jira:`, `github:`, `gitlab:`, or `local:` prefixes for namespacing.
+Workflow-driven skills should read `AGENTS.md`, `pi/AGENTS.md`, and `pi/skills/README.md` before editing workflow rules. Use `jira:`, `github:`, `gitlab:`, or `local:` prefixes for namespacing.
 
 ## 🧠 Mindsets (Hats)
 
-Configured via `shell_integration.sh`:
-- **Plan Hat (`--plan`)**: Loads the Lean RPIV workflow (Triage -> Frame -> Grill -> Plan).
+Configured via `pi/shell_integration.sh`:
+- **RPIV Hat (`--rpiv`)**: Full Lean RPIV workflow (triage, frame, grill-with-docs, plan, implement, verify, sync, update-docs).
 - **Android Hat (`--android`)**: Specialized for KMP/Android development with quality gates.
-- **DevOps Hat (`--devops`)**: Optimized for CI/CD components and scripting.
+- **PM Hat (`--pm`)**: Product/PM workflows (search, triage, frame, grill-with-docs, plan, sync).
+- **Dev Hat (`--dev`)**: Developer-focused skills for implementation, verification, and sync.
+- **Meta Hat (`--meta`)**: Skill creation, meta workflows, and env-protection helpers.
+- **Write Hat (`--write`)**: Documentation and writing-focused skills.
+- **Antigravity Hat (`--antigravity`)**: Experimental antigravity extension; loads `pi/extensions/antigravity-auth-login`.
 
 ## 📂 Artifacts & Anti-Bloat
 
-- **Task Workspace**: All temporary work lives in `.pi/workflow/tasks/[source]-[id]/`. This is git-ignored.
-- **Context**: Global rules live in `docs/agents/` (e.g., `domain.md`, `tech-stack.md`). `CONTEXT.md` acts as the root index.
+- **Task Workspace**: All temporary work lives in `.workflow/tasks/[source-id]/`. This is git-ignored.
+- **Single source of truth per task**: Use `.workflow/tasks/[source-id]/WORK.md` with guarded sections: `[BRIEF]`, `[GRILL]`, `[PLAN]`, `[LOG]`, `[META]`.
+- **Context**: Durable rules belong in `docs/agents/` (e.g., `domain.md`, `tech-stack.md`, `workflow.md`). Use `/update-docs` to curate durable docs.
 
 ## 📚 Terminology & Glossary
 
