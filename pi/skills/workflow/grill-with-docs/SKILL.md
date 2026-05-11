@@ -15,16 +15,22 @@ Challenge the brief before planning. This replaces passive ubiquitous-language c
 - NEVER: ask questions the codebase can answer; inspect first.
 
 ## Workflow
-1. Read the active brief and relevant durable context.
-2. Cross-check claims against code, docs, ADRs, and platform conventions.
-3. Ask one question at a time only when a decision is unresolved.
-4. Call out fuzzy or conflicting language.
-5. Append resolved decisions, edge cases, and constraints to `[GRILL]`.
-6. If a durable term/rule emerges, propose a concise `docs/agents/*` update.
+1. **Context Loading**: Read the active brief, `CONTEXT.md`, and relevant `docs/agents/*`.
+2. **Investigation & Trace**:
+   - Locate the files/lines mentioned in the brief.
+   - Trace the data flow related to the problem/proposal.
+   - Search for "Impact Surface": Who else uses or depends on these components?
+3. **Cross-check**: Compare findings against docs, ADRs, and repo patterns.
+4. **Relentless Interview**: 
+   - Ask one question at a time to resolve contradictions or clarify ambiguity.
+   - Challenge the brief if the code behaves differently than described.
+5. **Log Evidence**: Append resolved decisions, technical findings, edge cases, and constraints to `[GRILL]`.
+6. **Context Curation**: If a durable term/rule emerges, propose or apply a concise `docs/agents/*` update.
 
 ## Output contract
 End with:
+- **Investigation Summary**: (Technical findings & Impact Surface)
 - **Resolved decisions**
 - **Remaining blockers**
 - **Docs updates proposed/applied**
-- **Next step**: `/plan` only when the brief is stable
+- **Next step**: `/plan` only when the brief is stable and code reality is verified.

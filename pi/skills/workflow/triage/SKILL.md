@@ -19,19 +19,21 @@ Start RPIV by creating or resuming a task workspace.
    - `jira:PROJ-123` -> `jira-PROJ-123`
    - `github:42` -> `github-42`
    - `gitlab:42` -> `gitlab-42`
-   - `local:name` -> `local-name` (descriptive name preferred over generic IDs)
+   - `local:name` -> `local-name`
 2. Use `pi/scripts/workflow/triage_helper.sh` to fetch remote data and create/resume `.workflow/tasks/[source-id]/WORK.md`.
-   - **Smart Naming**: If the user provides a generic local ID like `PROBLEM` or `work`, the helper script and agent MUST fallback to the current git branch name to ensure a unique, meaningful namespace.
-3. Classify the task:
-   - **Problem**: bug, regression, crash, broken behavior.
-   - **Proposal**: feature, enhancement, refactor, new behavior.
-4. Record classification in `[BRIEF]` if missing, or append a short note to `[LOG]` if resuming.
-5. **Branch Guardrail**: If the current branch is `main` or `master`, warn the user and recommend creating a feature branch or running `clean-repo` (extension) if the workspace is stale. Record the starting branch in `[META]`.
-6. End by recommending `/frame` unless `[BRIEF]` is already complete.
+3. **Technical Pre-check (Repo Pulse)**:
+   - Extract key filenames, classes, or keywords from the issue description.
+   - Verify existence: Do these files exist on the current branch?
+   - Check status: Are there any recent commits (last 72h) or open PRs touching these files?
+   - Version check: Verify if the environment (e.g., SDK version, dependencies) matches the issue report.
+4. Classify the task: Problem / Proposal.
+5. **Log Findings**: Record the Repo Pulse results and classification in `[LOG]` or `[META]` in `WORK.md`.
+6. **Branch Guardrail**: If on `main`/`master`, recommend a feature branch. Record the starting branch in `[META]`.
+7. End by recommending `/frame` with the pre-check context already loaded.
 
 ## Output contract
 End with:
 - **Active task**: `[source-id]`
-- **Workspace**: `.workflow/tasks/[source-id]/WORK.md`
-- **Classification**: Problem / Proposal / Unknown
-- **Next step**: `/frame` or resume appropriate phase
+- **Repo Pulse**: (Found/Missing/Outdated)
+- **Classification**: Problem / Proposal
+- **Next step**: `/frame` (Context injected)
