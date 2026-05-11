@@ -9,7 +9,7 @@ Start RPIV by creating or resuming a task workspace.
 
 ## Guardrails
 - READ: user argument `[source]:[id]` and existing `.workflow/active_task.json` if resuming.
-- WRITE: `.workflow/tasks/[source-id]/WORK.md`, `.workflow/tasks/[source-id]/metadata.json`, `.workflow/active_task.json` only.
+- WRITE: `.workflow/tasks/[source-id]/WORK.md`, `.workflow/tasks/[source-id]/metadata.json`, `.workflow/active_task.json`. Within `WORK.md`, write to `[META]` and append to `[LOG]` only.
 - NEVER: create `PROBLEM.md`, `PRD.md`, `PLAN.md`, or `EVIDENCE.md`.
 - NEVER: implement code during triage.
 - NEVER: guess source from `#123`; require explicit `jira:`, `github:`, `gitlab:`, or `local:`.
@@ -27,7 +27,7 @@ Start RPIV by creating or resuming a task workspace.
    - Check status: Are there any recent commits (last 72h) or open PRs touching these files?
    - Version check: Verify if the environment (e.g., SDK version, dependencies) matches the issue report.
 4. Classify the task: Problem / Proposal.
-5. **Log Findings**: Record the Repo Pulse results and classification in `[LOG]` or `[META]` in `WORK.md`.
+5. **Log Findings**: Record the Repo Pulse results, classification, and initialization timestamp in `[LOG]`. Update `[META]` with branch info.
 6. **Branch Guardrail**: If on `main`/`master`, recommend a feature branch. Record the starting branch in `[META]`.
 7. End by recommending `/frame` with the pre-check context already loaded.
 

@@ -9,7 +9,7 @@ Map the "how" into tracer-bullet vertical slices.
 
 ## Guardrails
 - READ: `.workflow/active_task.json` then active `WORK.md` `[BRIEF]` and `[GRILL]`.
-- WRITE: `WORK.md` -> `[PLAN]` section only.
+- WRITE: `WORK.md` -> `[PLAN]` and append to `[LOG]` only.
 - NEVER: implement code during planning.
 - NEVER: create standalone `PLAN.md`.
 - NEVER: ask whether to plan if the user invoked `/plan`; produce the plan.
@@ -23,7 +23,8 @@ Map the "how" into tracer-bullet vertical slices.
    - **HITL**: human judgment, product decision, external access, or manual review required.
 4. Include dependencies and verification command(s) per slice.
 5. Write the plan into `[PLAN]` with checkboxes.
-6. Recommend `/sync` if the task has a tracker, then `/implement`.
+6. **Log Activity**: Append a timestamped entry to `[LOG]` summarizing the plan or revision (e.g., "Plan created" or "Plan updated after pivot").
+7. Recommend `/sync` if the task has a tracker, then `/implement`.
 
 ## Output contract
 End with:

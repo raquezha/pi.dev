@@ -9,9 +9,9 @@ Turn raw task context into the stable "what/why" brief.
 
 ## Guardrails
 - READ: `.workflow/active_task.json` then `.workflow/tasks/[active_task]/WORK.md`.
-- WRITE: `WORK.md` -> `[BRIEF]` section only.
+- WRITE: `WORK.md` -> `[BRIEF]` section and append to `[LOG]` only.
 - NEVER: create `PROBLEM.md`, `PRD.md`, or extra planning files.
-- NEVER: overwrite `[PLAN]`, `[GRILL]`, or `[LOG]`.
+- NEVER: overwrite `[PLAN]` or `[GRILL]`.
 - NEVER: ask whether to frame if the user invoked `/frame`; do it.
 
 ## Workflow
@@ -26,7 +26,8 @@ Turn raw task context into the stable "what/why" brief.
    - constraints / non-goals
    - acceptance hints if available
 4. Keep the brief concise and reviewable.
-5. End by recommending `/grill-with-docs`.
+5. **Log Activity**: Append a timestamped summary of the framing/re-framing to `[LOG]`. Include why the change was made if it is a pivot.
+6. End by recommending `/grill-with-docs`.
 
 ## Output contract
 End with:
