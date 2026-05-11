@@ -19,18 +19,18 @@ Workflow-driven skills should read `AGENTS.md`, `pi/AGENTS.md`, and `pi/skills/R
 
 ```mermaid
 flowchart LR
-  A[Triage\n(/triage)] --> B[Frame\n(/frame)]
-  B --> C[Grill\n(/grill-with-docs)]
-  C --> D[Plan\n(/plan)]
+  A["Triage<br/>(/triage)"] --> B["Frame<br/>(/frame)"]
+  B --> C["Grill<br/>(/grill-with-docs)"]
+  C --> D["Plan<br/>(/plan)"]
   D --> E{Plan ready?}
   E -- No --> C
-  E -- Yes --> F[Await explicit EXECUTE]
+  E -- Yes --> F["Await explicit EXECUTE"]
   F --> G{Slice type}
-  G -- AFK --> H[Implement\n(/implement)]
-  G -- HITL --> I[Human review required]
-  H --> J[Verify\n(/verify)]
+  G -- AFK --> H["Implement<br/>(/implement)"]
+  G -- HITL --> I["Human review required"]
+  H --> J["Verify<br/>(/verify)"]
   J --> K{Verification pass?}
-  K -- Yes --> L[Sync & Close\n(/sync)]
+  K -- Yes --> L["Sync & Close<br/>(/sync)"]
   K -- No --> H
   I --> C
 
