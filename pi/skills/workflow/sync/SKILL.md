@@ -20,8 +20,25 @@ Bridge the local RPIV workspace and the external tracker without duplicating wor
    - `github` -> use `gh` CLI.
    - `gitlab` -> use `glab` CLI.
    - `local` -> no remote; append a local sync note.
-2. After `/plan`: publish planned vertical slices as subtasks, task lists, or a tracker comment.
-3. After `/verify`: publish verification result, commit hash, and PR/MR link if available.
+2. **Draft Sync Message**:
+   Use the following "Dual-Audience" structure to avoid technical clutter:
+
+   ### 🟢 Stakeholder Summary (PM/Product)
+   - **The Fix**: [1 sentence in plain English: "Corrected total amount calculation for orders with fees."]
+   - **The Result**: [What happens now? "No more 'red dots' during sync; data is now 100% accurate."]
+
+   ### 🔍 How to Verify (QA/Manual)
+   - **Scenario**: [Exact steps: "Create order with 50 fee -> confirm total is 911 -> sync."]
+   - **Safety**: [What else was checked: "Verified that daily trip summaries still match."]
+
+   ### 🛠 Technical Evidence (Dev-to-Dev)
+   - **Vertical Slices**: [List from WORK.md]
+   - **Commit/MR**: [Hash and Link]
+   - **Automated Tests**: [Test names/results]
+
+3. **Publish**:
+   - After `/plan`: Publish the "Planned" version (Focus on Goal and Verification steps).
+   - After `/verify`: Publish the "Final" version (Focus on Results and PR links).
 4. Use tracker-specific status names only when configured or confirmed.
 5. Report what was synced and what still needs human action.
 
