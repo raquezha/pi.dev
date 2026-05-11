@@ -15,6 +15,30 @@ This repository implements a high-performance "Staff Engineer" workflow for the 
 
 Workflow-driven skills should read `AGENTS.md`, `pi/AGENTS.md`, and `pi/skills/README.md` before editing workflow rules. Use `jira:`, `github:`, `gitlab:`, or `local:` prefixes for namespacing.
 
+## RPIV flow (Mermaid)
+
+```mermaid
+flowchart LR
+  A[Triage\n(/triage)] --> B[Frame\n(/frame)]
+  B --> C[Grill\n(/grill-with-docs)]
+  C --> D[Plan\n(/plan)]
+  D --> E{Plan ready?}
+  E -- No --> C
+  E -- Yes --> F[Await explicit EXECUTE]
+  F --> G{Slice type}
+  G -- AFK --> H[Implement\n(/implement)]
+  G -- HITL --> I[Human review required]
+  H --> J[Verify\n(/verify)]
+  J --> K{Verification pass?}
+  K -- Yes --> L[Sync & Close\n(/sync)]
+  K -- No --> H
+  I --> C
+
+  style F fill:#ffd,stroke:#333,stroke-width:1px
+  style G fill:#efe,stroke:#333,stroke-width:1px
+```
+
+
 ## 🧠 Mindsets (Hats)
 
 Configured via `pi/shell_integration.sh`:
