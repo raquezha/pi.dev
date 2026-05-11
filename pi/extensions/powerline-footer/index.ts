@@ -1,6 +1,7 @@
 import { basename } from "node:path";
-import { CustomEditor, type ExtensionAPI, type KeybindingsManager } from "@mariozechner/pi-coding-agent";
-import { truncateToWidth, visibleWidth, type EditorTheme, type TUI } from "@mariozechner/pi-tui";
+import type { AssistantMessage } from "@earendil-works/pi-ai";
+import { CustomEditor, type ExtensionAPI, type KeybindingsManager } from "@earendil-works/pi-coding-agent";
+import { truncateToWidth, visibleWidth, type EditorTheme, type TUI } from "@earendil-works/pi-tui";
 
 // Dracula VIBRANT Palette
 const VIBRANT = {
@@ -209,56 +210,6 @@ export default function (pi: ExtensionAPI) {
     // Set terminal title
     ctx.ui.setTitle(`π ${projectName}`);
 
-    ctx.ui.setHeader((tui, theme) => {
-      let timeout: ReturnType<typeof setTimeout> | undefined;
-      let interval: ReturnType<typeof setInterval> | undefined;
-
-      const scheduleClock = () => {
-        const now = new Date();
-        const delay = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
-        timeout = setTimeout(() => {
-          tui.requestRender();
-          interval = setInterval(() => tui.requestRender(), 60_000);
-        }, Math.max(1, delay));
-      };
-
-      scheduleClock();
-
-      return {
-        dispose() {
-          if (timeout) clearTimeout(timeout);
-          if (interval) clearInterval(interval);
-        },
-        invalidate() {},
-        render(width: number): string[] {
-          const now = new Date();
-          const themeName = (theme.name || "theme").toLowerCase();
-          const p = themeName === "ghostly-pale" ? PALE : VIBRANT;
-          
-          // Keep title in sync with theme
-          ctx.ui.setTitle(`π ${projectName} • ${themeName}`);
-
-          const segments: Segment[] = [
-            { text: ` 󰌽 raquezha `, bg: p.pink, fg: p.bg },
-            { text: ` π ${projectName} `, bg: p.green, fg: p.bg },
-          ];
-
-          // Add mindset if active
-          const mindset = process.env.PI_MINDSET || (pi as any).getMindset?.() || (pi as any).getMindsetName?.();
-          if (mindset) {
-            segments.push({ text: ` ${mindset} `, bg: p.orange, fg: p.bg });
-          }
-
-          segments.push(
-            { text: ` 󰥔 ${formatHeaderTime(now)} `, bg: p.purple, fg: p.bg },
-            { text: ` 󰏘 ${themeName} `, bg: p.cyan, fg: p.bg },
-          );
-
-          return [truncateToWidth(renderPowerline(segments), width, "")];
-        },
-      };
-    });
-
     class BranchEditor extends CustomEditor {
       constructor(tui: TUI, theme: EditorTheme, keybindings: KeybindingsManager) {
         super(tui, theme, keybindings, { paddingX: 0 });
@@ -297,9 +248,10 @@ export default function (pi: ExtensionAPI) {
           let totalCost = 0;
           let totalCacheRead = 0;
 
-          for (const entry of ctx.sessionManager.getEntries()) {
+          for (const entry of ctx.sessionManager.getBranch()) {
             if (entry.type !== "message" || entry.message.role !== "assistant") continue;
-            const usage = entry.message.usage;
+            const m = entry.message as AssistantMessage;
+            const usage = m.usage;
             if (usage) {
               totalInput += usage.input;
               totalOutput += usage.output;

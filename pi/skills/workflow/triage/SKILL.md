@@ -26,7 +26,8 @@ Start RPIV by creating or resuming a task workspace.
    - **Problem**: bug, regression, crash, broken behavior.
    - **Proposal**: feature, enhancement, refactor, new behavior.
 4. Record classification in `[BRIEF]` if missing, or append a short note to `[LOG]` if resuming.
-5. End by recommending `/frame` unless `[BRIEF]` is already complete.
+5. **Branch Guardrail**: If the current branch is `main` or `master`, warn the user and recommend creating a feature branch or running `clean-repo` (extension) if the workspace is stale. Record the starting branch in `[META]`.
+6. End by recommending `/frame` unless `[BRIEF]` is already complete.
 
 ## Output contract
 End with:

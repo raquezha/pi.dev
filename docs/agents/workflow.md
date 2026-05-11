@@ -7,11 +7,22 @@ Overview
 
 Core phases
 - Triage (`/triage`): Fetch remote issue data and create or resume a namespaced workspace at `.workflow/tasks/[source-id]/`. Initialize `metadata.json` and `WORK.md` if needed.
+    - **Pre-flight Check**: Always verify the current git branch. If on `main`/`master`, recommend `clean-repo` if the state is stale. If on an unrelated feature branch, prompt to switch to `main` before starting.
 - Frame (`/frame`): Author a concise brief in the active `WORK.md` `[BRIEF]` section. Do NOT create separate `PROBLEM.md` or `PRD.md` files.
 - Grill (`/grill-with-docs`): Validate the brief against `CONTEXT.md`, `docs/agents/*`, and codebase rules. Record decisions in `[GRILL]`.
 - Plan (`/plan`): Produce thin, verifiable vertical slices in `[PLAN]`. Mark slices AFK/HITL and include verification commands.
 - Implement (`/implement`): Execute one approved slice, commit with Conventional Commit headers, push, and open a Draft PR/MR. Append results to `[LOG]`.
 - Verify (`/verify`): Run verification commands and quality gates. Append verification evidence to `[LOG]` and recommend `/sync` if needed.
+
+## Branching Strategy
+
+To avoid "stale branch" frustration, follow the Golden Path:
+1. **Clean**: Run `clean-repo` (extension) or `pi clean-repo` (skill) to reset to a fresh `main`.
+2. **Triage**: `/triage [source]:[id]` while on `main`.
+3. **Plan**: `/plan` on `main` (planning is safe).
+4. **Implement**: Create the feature branch (`feat/*` or `fix/*`) only when starting `/implement`.
+
+The agent MUST capture the starting branch in `[META]` and warn if the user is planning on a branch that doesn't match the task context.
 
 Workspace & namespacing
 - Task workspace: `.workflow/tasks/[source-id]/` (repo root). Use guarded sections inside `WORK.md`: `[BRIEF]`, `[GRILL]`, `[PLAN]`, `[LOG]`, `[META]`.

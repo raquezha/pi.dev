@@ -176,8 +176,14 @@ echo ""
 prune_links "$AGENT_DIR/extensions" "$PI_DIR/extensions" "extensions"
 
 # Link specific extensions (opt-in)
-link_item "$PI_DIR/extensions/powerline-footer" "$AGENT_DIR/extensions/powerline-footer" "extensions/powerline-footer"
+link_item "$PI_DIR/extensions/custom-footer"    "$AGENT_DIR/extensions/custom-footer"    "extensions/custom-footer"
 link_item "$PI_DIR/extensions/clean-repo"       "$AGENT_DIR/extensions/clean-repo"       "extensions/clean-repo"
+
+# Removed powerline-footer by default (requires Nerd Fonts, can be messy)
+if [[ -L "$AGENT_DIR/extensions/powerline-footer" ]]; then
+  rm "$AGENT_DIR/extensions/powerline-footer"
+  ok "Removed powerline-footer"
+fi
 
 # Manual-only extensions are not linked here. Load them explicitly when needed.
 if [[ -L "$AGENT_DIR/extensions/gemini-api" ]]; then

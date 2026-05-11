@@ -13,11 +13,11 @@ if [ -z "$SOURCE" ] || [ -z "$ID" ]; then
 fi
 
 # 1. Sanitize local ID if generic (case-insensitive check)
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
 ID_LOWER=$(echo "$ID" | tr '[:upper:]' '[:lower:]')
 if [ "$SOURCE" == "local" ] && [[ "$ID_LOWER" =~ ^(problem|task|issue|work|todo)$ ]]; then
-    BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD | sed 's/[^a-zA-Z0-9]/-/g')
-    echo "Generic local ID '$ID' detected. Falling back to branch name '$BRANCH_NAME'..."
-    ID="$BRANCH_NAME"
+    ID=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9]/-/g')
+    echo "Generic local ID detected. Falling back to branch-derived name '$ID'..."
 fi
 
 TASK_DIR="$BASE_DIR/$SOURCE-$ID"
@@ -45,7 +45,6 @@ case $SOURCE in
     local)
         echo "Initializing local task workspace: $ID..."
         echo "# WORK: Local Task $ID" > "$TASK_DIR/WORK.md"
-        echo "Branch: $(git rev-parse --abbrev-ref HEAD)" >> "$TASK_DIR/WORK.md"
         echo "{\"id\": \"$ID\", \"source\": \"local\"}" > "$TASK_DIR/metadata.json"
         ;;
     *)
@@ -53,6 +52,21 @@ case $SOURCE in
         exit 1
         ;;
 esac
+
+# Append branch info to metadata.json (universal)
+# We use python3 if available for simple json manipulation, or just overwrite/append if we don't mind.
+# Since we just created metadata.json, let's just use a temporary file and jq if available, or simple python.
+if command -v jq >/dev/null 2>&1; then
+    jq --arg branch "$BRANCH_NAME" '. + {branch: $branch}' "$TASK_DIR/metadata.json" > "$TASK_DIR/metadata.json.tmp" && mv "$TASK_DIR/metadata.json.tmp" "$TASK_DIR/metadata.json"
+else
+    # Fallback to simple python
+    python3 -c "import json, sys; d=json.load(open(sys.argv[1])); d['branch']='$BRANCH_NAME'; json.dump(d, open(sys.argv[1], 'w'))" "$TASK_DIR/metadata.json"
+fi
+
+# Append META to WORK.md if not already present with branch info
+if ! grep -q "\[META\]" "$TASK_DIR/WORK.md"; then
+    echo -e "\n[META]\nBranch: $BRANCH_NAME" >> "$TASK_DIR/WORK.md"
+fi
 
 # Create the Pointer for the Agent
 echo "{\"active_task\": \"$SOURCE-$ID\", \"path\": \"$TASK_DIR\", \"source\": \"$SOURCE\"}" > ".workflow/active_task.json"

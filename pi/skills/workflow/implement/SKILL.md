@@ -17,7 +17,7 @@ Execute one functional vertical slice and hand it to the human for review.
 ## Workflow
 1. Identify the first approved unchecked slice in `[PLAN]`.
 2. Move tracked task to **In Progress** only when implementation actually starts.
-3. Create or verify an aligned branch; never work directly on protected branches.
+3. **Branch Check**: Verify the current branch matches the task branch in `[META]`. Never work directly on protected branches (`main`, `master`). If a new branch is needed, create it now (e.g., `feat/task-id` or `fix/task-id`).
 4. Implement test-first where practical; otherwise document why not in `[LOG]`.
 5. Run the slice verification command and available quality gates.
 6. Commit with Conventional Commit header and `Assisted-by: AGENT_NAME:MODEL_VERSION [tools]` footer.

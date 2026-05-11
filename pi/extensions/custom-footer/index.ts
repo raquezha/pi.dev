@@ -1,4 +1,5 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { AssistantMessage } from "@earendil-works/pi-ai";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 /**
  * custom-footer extension
@@ -13,7 +14,17 @@ export default function (pi: ExtensionAPI) {
     ctx.ui.setFooter((tui, theme, footerData) => {
       return {
         render(width: number): string[] {
-          const stats = footerData.getStats();
+          // Calculate stats from session branch
+          let input = 0, output = 0, cost = 0;
+          for (const e of ctx.sessionManager.getBranch()) {
+            if (e.type === "message" && e.message.role === "assistant") {
+              const m = e.message as AssistantMessage;
+              input += m.usage.input;
+              output += m.usage.output;
+              cost += m.usage.cost.total;
+            }
+          }
+          const stats = { inputTokens: input, outputTokens: output, cost };
           const branch = footerData.getGitBranch() || "main";
           const model = ctx.model?.id || "gemini";
           
@@ -24,9 +35,9 @@ export default function (pi: ExtensionAPI) {
 
           // Badge Creator: ( text ) with background colors
           const makeBadge = (label: string, value: string, bgColor: string, fgColor: string) => {
-            const open = theme.fg(bgColor, "(");
+            const open = theme.fg("dim", "(");
             const content = theme.bg(bgColor, theme.fg(fgColor, `${label}${value}`));
-            const close = theme.fg(bgColor, ")");
+            const close = theme.fg("dim", ")");
             return `${open}${content}${close}`;
           };
 

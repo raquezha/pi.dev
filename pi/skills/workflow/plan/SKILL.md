@@ -16,7 +16,8 @@ Map the "how" into tracer-bullet vertical slices.
 
 ## Workflow
 1. Read the brief and grill decisions.
-2. Draft thin vertical slices that are independently verifiable.
+2. **Branch Check**: Verify the current git branch matches the branch recorded in `[META]`. If on `main` or `master`, warn that planning on a protected branch is discouraged unless it's a documentation-only task.
+3. Draft thin vertical slices that are independently verifiable.
 3. Mark each slice:
    - **AFK**: agent can implement with clear checks.
    - **HITL**: human judgment, product decision, external access, or manual review required.
