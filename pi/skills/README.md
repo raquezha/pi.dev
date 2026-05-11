@@ -22,7 +22,7 @@ Skills for managing GitLab CI/CD pipelines, MR reviews, and environment deployme
 ### 🔁 Workflow
 Core RPIV workflow skills for task intake, framing, planning, implementation, verification, tracker sync, and documentation upkeep.
 - **Status**: 🟢 Lean RPIV Added
-- **Skills**: `triage`, `frame`, `grill-with-docs`, `plan`, `implement`, `verify`, `sync`, `update-docs`
+- **Skills**: `triage`, `frame`, `grill-with-docs`, `plan`, `implement`, `verify`, `sync`, `update-docs`, `cleanup`
 
 ### 🚀 Mobile DevOps (Planned)
 Skills for Fastlane, App Store/Play Store automated releases, and TestFlight management.
