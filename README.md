@@ -58,7 +58,7 @@ Configured via `pi/shell_integration.sh`:
 
 ## 📚 Terminology & Glossary
 
-For a detailed breakdown of LLM metrics (Context, Caching, Tokens), see the [Agentic Terminology Guide](https://github.com/raquezha/.notes/blob/main/Glossary/Agentic%20Terminology.md).
+For a detailed breakdown of LLM metrics (Context, Caching, Tokens), see the [Agentic Terminology Guide](docs/agents/terminology.md).
 
 ## 🛠 Skills
 
