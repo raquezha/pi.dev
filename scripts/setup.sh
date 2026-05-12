@@ -80,12 +80,28 @@ if [[ ! -f "$GLOBAL_GITIGNORE" ]]; then
   git config --global core.excludesfile "$GLOBAL_GITIGNORE"
   ok "Created ~/.gitignore_global"
 fi
+
 if ! grep -q ".workflow/" "$GLOBAL_GITIGNORE" 2>/dev/null; then
+  echo "" >> "$GLOBAL_GITIGNORE"
+  echo "# pi workspace" >> "$GLOBAL_GITIGNORE"
   echo ".workflow/" >> "$GLOBAL_GITIGNORE"
   ok "Added .workflow/ to ~/.gitignore_global"
 else
   ok ".workflow/ already in ~/.gitignore_global"
 fi
+
+# Add pi config files to global gitignore
+if ! grep -q ".pi-settings.json" "$GLOBAL_GITIGNORE" 2>/dev/null; then
+  echo "" >> "$GLOBAL_GITIGNORE"
+  echo "# pi configuration files" >> "$GLOBAL_GITIGNORE"
+  echo ".pi-settings.json" >> "$GLOBAL_GITIGNORE"
+  echo ".pi-models.json" >> "$GLOBAL_GITIGNORE"
+  echo ".pi-*.json" >> "$GLOBAL_GITIGNORE"
+  ok "Added pi config files to ~/.gitignore_global"
+else
+  ok "pi config files already in ~/.gitignore_global"
+fi
+
 
 # Ensure triage_helper.sh is executable
 TRIAGE_SCRIPT="$REPO_DIR/pi/scripts/workflow/triage_helper.sh"
