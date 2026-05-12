@@ -197,7 +197,6 @@ export default function (pi: ExtensionAPI) {
   pi.on("session_start", async (event, ctx) => {
     if (!ctx.hasUI) return;
 
-    const projectName = basename(ctx.cwd || process.cwd()) || "pi.dev";
     let branchName: string | undefined;
 
     const refreshBranch = async () => {
@@ -206,9 +205,6 @@ export default function (pi: ExtensionAPI) {
       branchName = stdout && stdout.length > 0 ? stdout : undefined;
     };
     await refreshBranch();
-    
-    // Set terminal title
-    ctx.ui.setTitle(`π ${projectName}`);
 
     class BranchEditor extends CustomEditor {
       constructor(tui: TUI, theme: EditorTheme, keybindings: KeybindingsManager) {
@@ -226,7 +222,7 @@ export default function (pi: ExtensionAPI) {
         const thinkingLevel = pi.getThinkingLevel?.() ?? "off";
         const modelText = ctx.model?.reasoning ? `${modelId} • ${thinkingLevel}` : modelId;
         const providerText = ctx.model?.provider ? `${shortProvider(ctx.model.provider)} / ` : "";
-        const bottomRight = ctx.ui.theme.fg("muted", ` 󱐋 ${truncateToWidth(`${providerText}${modelText}`, 36, "…")} `);
+        const bottomRight = ctx.ui.theme.fg("muted", ` 󱐋 ${truncateToWidth(`${providerText}${modelText}`, 60, "…")} `);
 
         lines[0] = fitBorder("", topRight, width);
         lines[lines.length - 1] = fitBorder("", bottomRight, width);
