@@ -17,7 +17,10 @@ Execute one functional vertical slice and hand it to the human for review.
 ## Workflow
 1. Identify the first approved unchecked slice in `[PLAN]`.
 2. Move tracked task to **In Progress** only when implementation actually starts.
-3. **Branch Check**: Verify the current branch matches the task branch in `[META]`. Never work directly on protected branches (`main`, `master`). If a new branch is needed, create it now (e.g., `feat/task-id` or `fix/task-id`).
+3. **Mandatory Branch Check**: You MUST run `pi/skills/workflow/implement/scripts/enforce-branch.sh` before modifying any code. 
+   - This script prevents accidental implementation on `main`/`master`.
+   - If the script switches branches, you must update the `[META]` section of `WORK.md` to reflect the new branch name.
+   - If the script fails, STOP and ask the human for help. Do not proceed with code changes.
 4. Implement test-first where practical; otherwise document why not in `[LOG]`.
 5. Run the slice verification command and available quality gates.
 6. Commit with Conventional Commit header and `Assisted-by: [AGENT]:[MODEL] [tools]` footer (populating the agent name and model ID from the current session context).

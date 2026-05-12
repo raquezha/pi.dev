@@ -11,7 +11,7 @@ Core phases
 - Frame (`/frame`): Author a concise brief in the active `WORK.md` `[BRIEF]` section. Do NOT create separate `PROBLEM.md` or `PRD.md` files.
 - Grill (`/grill-with-docs`): Validate the brief against `CONTEXT.md`, `docs/agents/*`, and codebase rules. Record decisions in `[GRILL]`.
 - Plan (`/plan`): Produce thin, verifiable vertical slices in `[PLAN]`. Mark slices AFK/HITL and include verification commands.
-- Implement (`/implement`): Execute one approved slice, commit with Conventional Commit headers, push, and open a Draft PR/MR. Append results to `[LOG]`.
+- Implement (`/implement`): The agent MUST run the branch-enforcement script to ensure it is not on a protected branch before modifying code. Execute one approved slice, commit with Conventional Commit headers, push, and open a Draft PR/MR. Append results to `[LOG]`.
 - Verify (`/verify`): Run verification commands and quality gates. Append verification evidence to `[LOG]` and recommend `/sync` if needed.
 
 ## Branching Strategy

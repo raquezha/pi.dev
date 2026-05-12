@@ -16,15 +16,15 @@ Map the "how" into tracer-bullet vertical slices.
 
 ## Workflow
 1. Read the brief and grill decisions.
-2. **Branch Check**: Verify the current git branch matches the branch recorded in `[META]`. If on `main` or `master`, warn that planning on a protected branch is discouraged unless it's a documentation-only task.
+2. **Branch Check**: Verify the current git branch. Planning on `main` is safe and encouraged. If you are on an unrelated feature branch, warn the human that the plan is being made on a stale or mismatched context.
 3. Draft thin vertical slices that are independently verifiable.
-3. Mark each slice:
+4. Mark each slice:
    - **AFK**: agent can implement with clear checks.
    - **HITL**: human judgment, product decision, external access, or manual review required.
-4. Include dependencies and verification command(s) per slice.
-5. Write the plan into `[PLAN]` with checkboxes.
-6. **Log Activity**: Append a timestamped entry to `[LOG]` summarizing the plan or revision (e.g., "Plan created" or "Plan updated after pivot").
-7. Recommend `/sync` if the task has a tracker, then `/implement`.
+5. Include dependencies and verification command(s) per slice.
+6. Write the plan into `[PLAN]` with checkboxes.
+7. **Log Activity**: Append a timestamped entry to `[LOG]` summarizing the plan or revision (e.g., "Plan created" or "Plan updated after pivot").
+8. Recommend `/sync` if the task has a tracker, then `/implement`.
 
 ## Output contract
 End with:
