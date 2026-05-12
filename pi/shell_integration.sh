@@ -48,6 +48,7 @@ pi() {
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/implement")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/sync")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/cleanup")
         shift
         ;;
       --rpiv)
@@ -62,6 +63,7 @@ pi() {
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/sync")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/update-docs")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/cleanup")
         shift
         ;;
       --meta)
