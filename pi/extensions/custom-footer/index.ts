@@ -49,25 +49,34 @@ export default function (pi: ExtensionAPI) {
           const rightPart = theme.fg("dim", ` ${model} `);
 
           // SAFE TRUNCATION LOGIC
-          // 1. Calculate the visible width of the parts (ignoring ANSI codes)
           const leftVisible = ` ~/Developer/pi.dev (${branch}) `.length;
-          const rightVisible = ` (↑00.0k) (↓0.0k) ($0.000)  ${model} `.length;
+          const badgesVisible = ` (↑00.0k) (↓0.0k) ($0.000)`.length;
+          const modelVisible = ` ${model} `.length;
           
           let finalLeft = leftPart;
           let finalBadges = badges;
+          let currentVisible = leftVisible + badgesVisible + modelVisible;
 
-          // If we are too wide, start dropping things
-          if (leftVisible + rightVisible > width) {
-            // Drop the badges first
+          // 1. If too wide, drop badges
+          if (currentVisible > width) {
             finalBadges = "";
+            currentVisible = leftVisible + modelVisible;
           }
           
-          const totalVisible = (finalBadges === "" ? leftVisible + ` ${model} `.length : leftVisible + rightVisible);
-          const padding = " ".repeat(Math.max(0, width - totalVisible));
+          // 2. If STILL too wide, truncate the path/branch
+          if (currentVisible > width) {
+            const overage = currentVisible - width;
+            finalLeft = theme.fg("accent", " .. ") + theme.fg("dim", `(${branch.substring(0, Math.max(5, branch.length - overage - 5))}..)`);
+            currentVisible = stripAnsi(finalLeft).length + modelVisible;
+          }
 
-          return [
-            finalLeft + padding + finalBadges + (finalBadges === "" ? theme.fg("dim", ` ${model} `) : rightPart)
-          ].map(line => line.substring(0, width + 50)); // Add buffer for ANSI but cap it
+          const paddingCount = Math.max(0, width - currentVisible);
+          const padding = " ".repeat(paddingCount);
+
+          // Build the final line
+          const line = finalLeft + padding + finalBadges + (finalBadges === "" ? theme.fg("dim", ` ${model} `) : rightPart);
+          
+          return [line];
         },
         invalidate() {},
         dispose: footerData.onBranchChange(() => tui.requestRender()),
