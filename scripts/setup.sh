@@ -189,15 +189,18 @@ echo ""
 # Prune items no longer in repo
 prune_unmanaged "$AGENT_DIR/extensions" "$PI_DIR/extensions" "extensions"
 
-# Explicitly remove custom-footer if it exists
+# Explicitly remove legacy extensions if they exist
 if [[ -L "$AGENT_DIR/extensions/custom-footer" ]]; then
   rm "$AGENT_DIR/extensions/custom-footer"
-  ok "Removed custom-footer"
+  ok "Removed legacy custom-footer"
+fi
+if [[ -L "$AGENT_DIR/extensions/clean-repo" ]]; then
+  rm "$AGENT_DIR/extensions/clean-repo"
+  ok "Removed legacy clean-repo extension (replaced by /cleanup skill)"
 fi
 
 # Link specific extensions (opt-in)
 link_item "$PI_DIR/extensions/powerline-footer"   "$AGENT_DIR/extensions/powerline-footer"   "extensions/powerline-footer"
-link_item "$PI_DIR/extensions/clean-repo"       "$AGENT_DIR/extensions/clean-repo"       "extensions/clean-repo"
 
 # Manual-only extensions are not linked here. Load them explicitly when needed.
 if [[ -L "$AGENT_DIR/extensions/gemini-api" ]]; then
