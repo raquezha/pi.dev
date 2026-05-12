@@ -7,6 +7,8 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
  * Replaces the default technical footer with clean, colored badges.
  * Uses ( ) for a rounded look without needing special Nerd Fonts.
  */
+const stripAnsi = (str: string) => str.replace(/\x1B\[[0-9;]*[a-zA-Z]/g, '');
+
 export default function (pi: ExtensionAPI) {
   pi.on("session_start", async (_event, ctx) => {
     if (!ctx.hasUI) return;
