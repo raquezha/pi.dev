@@ -310,15 +310,17 @@ show_available "$PI_DIR/extensions" "$AGENT_DIR/extensions" "Extensions"
 
 # ── Auto-link workflow skills (Core to R&D Workflow) ─────────────────
 
-# Skipped auto-linking; these are injected via 'pi --plan' or 'pi --android'
-# shell integration to avoid context bloat in standard sessions.
+# Most workflow skills are injected via 'pi --pm' or 'pi --dev' shell 
+# integration to avoid context bloat in standard sessions.
+# However, /cleanup is universally useful for managing workspace state, 
+# so we link it globally.
+echo ""
+info "Linking globally useful skills..."
+link_item "$PI_DIR/skills/workflow/cleanup" "$AGENT_DIR/skills/cleanup" "skills/cleanup"
 
 echo ""
-info "Skipped by default to avoid context bloat: AGENTS.md, skills"
-
-echo ""
-info "Skipped by default to avoid context bloat: AGENTS.md, skills"
-info "Enable skills manually by linking them to $AGENT_DIR/skills/"
+info "Skipped workflow skills by default to avoid context bloat."
+info "Enable other skills manually by linking them to $AGENT_DIR/skills/"
 
 # ── Secrets check ────────────────────────────────────────────────────
 
