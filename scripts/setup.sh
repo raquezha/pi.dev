@@ -130,23 +130,37 @@ link_item() {
   ok "Linked $label"
 }
 
-# prune_dir <target_dir> <source_dir> <label>
-# Removes symlinks in target_dir that don't have a corresponding item in source_dir
-prune_links() {
+# prune_unmanaged <target_dir> <source_dir> <label>
+# Removes items in target_dir that don't have a corresponding item in source_dir.
+# Moves unmanaged real files to a backup directory.
+prune_unmanaged() {
   local target_dir="$1"
   local source_dir="$2"
   local label="$3"
 
   if [[ ! -d "$target_dir" ]]; then return; fi
+  
+  local backup_dir="$HOME/.pi-backup/unmanaged/$(date +%Y%m%d_%H%M%S)"
 
   shopt -s nullglob
-  for link in "$target_dir"/*; do
-    if [[ -L "$link" ]]; then
-      local filename
-      filename="$(basename "$link")"
-      if [[ ! -e "$source_dir/$filename" ]]; then
-        rm "$link"
+  for item in "$target_dir"/*; do
+    local filename
+    filename="$(basename "$item")"
+    
+    # Skip .gitkeep
+    if [[ "$filename" == ".gitkeep" ]]; then continue; fi
+
+    # If the item doesn't exist in the source, it's unmanaged
+    if [[ ! -e "$source_dir/$filename" ]]; then
+      # If it's a symlink, just remove it
+      if [[ -L "$item" ]]; then
+        rm "$item"
         warn "Pruned orphaned link: $label/$filename"
+      else
+        # If it's a real file/dir, back it up
+        mkdir -p "$backup_dir/$label"
+        mv "$item" "$backup_dir/$label/$filename"
+        warn "Pruned unmanaged item: $label/$filename (moved to $backup_dir)"
       fi
     fi
   done
@@ -172,18 +186,18 @@ echo ""
 info "Syncing extensions..."
 echo ""
 
-# Prune extensions no longer in repo
-prune_links "$AGENT_DIR/extensions" "$PI_DIR/extensions" "extensions"
+# Prune items no longer in repo
+prune_unmanaged "$AGENT_DIR/extensions" "$PI_DIR/extensions" "extensions"
+
+# Explicitly remove custom-footer if it exists
+if [[ -L "$AGENT_DIR/extensions/custom-footer" ]]; then
+  rm "$AGENT_DIR/extensions/custom-footer"
+  ok "Removed custom-footer"
+fi
 
 # Link specific extensions (opt-in)
-link_item "$PI_DIR/extensions/custom-footer"    "$AGENT_DIR/extensions/custom-footer"    "extensions/custom-footer"
+link_item "$PI_DIR/extensions/powerline-footer"   "$AGENT_DIR/extensions/powerline-footer"   "extensions/powerline-footer"
 link_item "$PI_DIR/extensions/clean-repo"       "$AGENT_DIR/extensions/clean-repo"       "extensions/clean-repo"
-
-# Removed powerline-footer by default (requires Nerd Fonts, can be messy)
-if [[ -L "$AGENT_DIR/extensions/powerline-footer" ]]; then
-  rm "$AGENT_DIR/extensions/powerline-footer"
-  ok "Removed powerline-footer"
-fi
 
 # Manual-only extensions are not linked here. Load them explicitly when needed.
 if [[ -L "$AGENT_DIR/extensions/gemini-api" ]]; then
@@ -201,8 +215,8 @@ echo ""
 info "Syncing prompts..."
 echo ""
 
-# Prune prompts no longer in repo
-prune_links "$AGENT_DIR/prompts" "$PI_DIR/prompts" "prompts"
+# Prune items no longer in repo
+prune_unmanaged "$AGENT_DIR/prompts" "$PI_DIR/prompts" "prompts"
 
 has_prompts=false
 for prompt_file in "$PI_DIR"/prompts/*.md; do
@@ -262,6 +276,10 @@ fi
 echo ""
 info "Checking available (not linked) items..."
 echo ""
+
+# Prune items no longer in repo
+prune_unmanaged "$AGENT_DIR/skills" "$PI_DIR/skills" "skills"
+prune_unmanaged "$AGENT_DIR/themes" "$PI_DIR/themes" "themes"
 
 show_available() {
   local src_dir="$1"
