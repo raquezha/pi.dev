@@ -63,6 +63,9 @@ else
     python3 -c "import json, sys; d=json.load(open(sys.argv[1])); d['branch']='$BRANCH_NAME'; json.dump(d, open(sys.argv[1], 'w'))" "$TASK_DIR/metadata.json"
 fi
 
+# Append mandatory sections for RPIV workflow
+echo -e "\n## [BRIEF]\n- \n\n## [PLAN]\n- [ ] \n\n## [LOG]\n- $(date +%Y-%m-%d): Task initialized via /triage" >> "$TASK_DIR/WORK.md"
+
 # Append META to WORK.md if not already present with branch info
 if ! grep -q "\[META\]" "$TASK_DIR/WORK.md"; then
     echo -e "\n[META]\nBranch: $BRANCH_NAME" >> "$TASK_DIR/WORK.md"
