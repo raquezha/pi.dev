@@ -1,6 +1,6 @@
 {
   "defaultProvider": "antigravity-cli",
-  "defaultModel": "claude-opus-4-6-thinking",
+  "defaultModel": "gemini-3.1-pro-low",
   "defaultThinkingLevel": "medium",
   "showHardwareCursor": true,
   "hideThinkingBlock": false,
