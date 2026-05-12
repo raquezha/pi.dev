@@ -101,3 +101,5 @@ pi() {
   # Reset mindset for subsequent calls in the same shell
   unset PI_MINDSET
 }
+
+alias reload-pi="source $HOME/Developer/pi.dev/pi/shell_integration.sh && echo 'pi.dev shell integration reloaded'"

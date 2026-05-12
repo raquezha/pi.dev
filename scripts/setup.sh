@@ -398,7 +398,7 @@ if [[ -n "$SHELL_RC" ]]; then
   else
     echo "$SOURCE_LINE" >> "$SHELL_RC"
     ok "Added shell_integration.sh to $(basename "$SHELL_RC")"
-    info "Run 'source $SHELL_RC' or open a new terminal to enable 'pi android' etc."
+    info "Run 'reload-pi' or open a new terminal to enable 'pi android' etc."
   fi
 else
   warn "Could not find .zshrc or .bashrc to add shell integration."
