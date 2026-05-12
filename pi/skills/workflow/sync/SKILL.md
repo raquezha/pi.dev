@@ -15,13 +15,19 @@ Bridge the local RPIV workspace and the external tracker without duplicating wor
 - NEVER: sync secrets, private tokens, or raw hidden context.
 
 ## Workflow
-1. Detect source from `.workflow/active_task.json`:
-   - `jira` -> use `jira` CLI.
-   - `github` -> use `gh` CLI.
-   - `gitlab` -> use `glab` CLI.
-   - `local` -> no remote; append a local sync note.
-2. **Draft Sync Message**:
-   Use the following "Dual-Audience" structure to avoid technical clutter:
+1. **Context Discovery**:
+   - For **GitHub/GitLab**: Get the remote URL or project ID if not known.
+     - `git remote get-url origin`
+     - `gh repo view --json nameWithOwner`
+   - For **Jira**: Confirm the project key from the issue ID (e.g., `S3` from `S3-6156`).
+2. **Read Local State**:
+   - Load `.workflow/active_task.json` to confirm the source and ID.
+   - Read `WORK.md`. Extract:
+     - **Slices**: From `[PLAN]` (e.g., `- [ ] Slice 1`).
+     - **Status**: From `[LOG]` (look for the latest entries).
+     - **Artifacts**: Find PR links or commit hashes in `[LOG]`.
+3. **Draft Sync Message**:
+   Use the following "Dual-Audience" structure:
 
    ### 🟢 Stakeholder Summary (PM/Product)
    - **The Fix**: [1 sentence in plain English: "Corrected total amount calculation for orders with fees."]
@@ -47,19 +53,22 @@ Bridge the local RPIV workspace and the external tracker without duplicating wor
      - **Jira**: Jira's rich text editor strips HTML comments. Rely strictly on the exact visible signature `🤖 *Synced by pi (AI assistant)*` as your anchor.
    - **Smart Sync / Diffing**: Fetch existing comments first using your anchor. Read its contents. Compare it to your planned message. **If the core facts (Slices, PR link, Test status) are identical, DO NOTHING.** Only proceed if there is a factual change.
    - For **GitHub** (`gh`): 
-     1. Fetch comments: `gh issue view <id> --json comments` or `gh pr view <id> --json comments`.
-     2. Find the comment body containing `<!-- pi-sync-marker -->`.
-     3. If facts changed, update it: `gh api -X PATCH <endpoint>` (do NOT use `--edit-last`).
-     4. If missing, create new.
+     1. Find existing comment: `gh issue view <id> --json comments --jq '.comments[] | select(.body | contains("<!-- pi-sync-marker -->")) | .id'` (replace `issue` with `pr` if applicable).
+     2. If found, update: `gh api -X PATCH /repos/{owner}/{repo}/issues/comments/<comment_id> -f body="<new_body>"`.
+     3. If not found, create: `gh issue comment <id> --body "<new_body>"`.
    - For **GitLab** (`glab`): 
-     1. Fetch notes via `glab api /projects/:id/merge_requests/:iid/notes`.
-     2. Find the note containing `<!-- pi-sync-marker -->`.
-     3. If facts changed, update via `PUT`. If missing, create new.
+     1. List notes: `glab api projects/:id/merge_requests/:iid/notes` or `/projects/:id/issues/:iid/notes`.
+     2. Find note with `<!-- pi-sync-marker -->`.
+     3. If found, update: `glab api -X PUT projects/:id/merge_requests/:iid/notes/:note_id -f body="<new_body>"`.
+     4. If not found, create: `glab mr note <iid> -m "<new_body>"` (or `glab issue note`).
    - For **Jira**: 
-     1. Fetch comments via `jira issue view <id>`. 
+     1. Fetch comments: `jira issue view <id> --comments 10 --plain`. 
      2. Look for the `🤖 *Synced by pi` signature. Read the factual state.
      3. Since native Jira CLI lacks edit, only post a *new* comment if the facts have significantly progressed (e.g., from Plan to PR merged). Otherwise, abort locally.
-4. Use tracker-specific status names only when configured or confirmed.
+     4. Post new comment: `echo "body" | jira issue comment add <id> --template -`.
+4. **Update Local Log**:
+   - Always append a sync note to `WORK.md` `[LOG]` after a successful remote sync:
+     - `Synced to <tracker>: <brief description of what was updated>`
 5. Report what was synced and what still needs human action.
 
 ## Output contract
