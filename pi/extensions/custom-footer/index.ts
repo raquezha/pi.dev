@@ -48,13 +48,26 @@ export default function (pi: ExtensionAPI) {
           const badges = `${inputBadge} ${outputBadge} ${costBadge}`;
           const rightPart = theme.fg("dim", ` ${model} `);
 
-          // Calculate space
-          const rawLength = ` ~/Developer/pi.dev (${branch})  (↑00.0k) (↓0.0k) ($0.000)  ${model} `.length;
-          const padding = " ".repeat(Math.max(0, width - rawLength));
+          // SAFE TRUNCATION LOGIC
+          // 1. Calculate the visible width of the parts (ignoring ANSI codes)
+          const leftVisible = ` ~/Developer/pi.dev (${branch}) `.length;
+          const rightVisible = ` (↑00.0k) (↓0.0k) ($0.000)  ${model} `.length;
+          
+          let finalLeft = leftPart;
+          let finalBadges = badges;
+
+          // If we are too wide, start dropping things
+          if (leftVisible + rightVisible > width) {
+            // Drop the badges first
+            finalBadges = "";
+          }
+          
+          const totalVisible = (finalBadges === "" ? leftVisible + ` ${model} `.length : leftVisible + rightVisible);
+          const padding = " ".repeat(Math.max(0, width - totalVisible));
 
           return [
-            leftPart + padding + badges + rightPart
-          ];
+            finalLeft + padding + finalBadges + (finalBadges === "" ? theme.fg("dim", ` ${model} `) : rightPart)
+          ].map(line => line.substring(0, width + 50)); // Add buffer for ANSI but cap it
         },
         invalidate() {},
         dispose: footerData.onBranchChange(() => tui.requestRender()),
