@@ -72,6 +72,6 @@ if ! grep -q "\[META\]" "$TASK_DIR/WORK.md"; then
 fi
 
 # Create the Pointer for the Agent
-echo "{\"active_task\": \"$SOURCE-$ID\", \"path\": \"$TASK_DIR\", \"source\": \"$SOURCE\"}" > ".workflow/active_task.json"
+echo "{\"active_task\": \"$SOURCE-$ID\", \"id\": \"$ID\", \"path\": \"$TASK_DIR\", \"source\": \"$SOURCE\"}" > ".workflow/active_task.json"
 
 echo "Triage complete. Single-file WORK.md ready at $TASK_DIR."

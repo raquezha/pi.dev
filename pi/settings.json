@@ -1,6 +1,6 @@
 {
   "defaultProvider": "antigravity-cli",
-  "defaultModel": "gemini-3.1-pro-low",
+  "defaultModel": "gemini-3-flash",
   "defaultThinkingLevel": "medium",
   "showHardwareCursor": true,
   "hideThinkingBlock": false,

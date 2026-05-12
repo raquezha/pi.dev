@@ -6,21 +6,31 @@
 
 set -euo pipefail
 
-ACTIVE_TASK_FILE=".workflow/active_task.json"
+# Find repo root to ensure paths are absolute and reliable
+REPO_ROOT=$(git rev-parse --show-toplevel)
+ACTIVE_TASK_FILE="$REPO_ROOT/.workflow/active_task.json"
 
 if [[ ! -f "$ACTIVE_TASK_FILE" ]]; then
     echo "ERROR: No active task found at $ACTIVE_TASK_FILE."
-    echo "Please run /triage first."
+    echo "Please run /triage [source]:[id] first."
     exit 1
 fi
 
-TASK_SOURCE=$(jq -r '.source' "$ACTIVE_TASK_FILE")
-TASK_ID=$(jq -r '.id' "$ACTIVE_TASK_FILE")
-TASK_DIR=".workflow/tasks/${TASK_SOURCE}-${TASK_ID}"
-WORK_MD="$TASK_DIR/WORK.md"
+TASK_SOURCE=$(jq -r '.source // empty' "$ACTIVE_TASK_FILE")
+TASK_ID=$(jq -r '.id // empty' "$ACTIVE_TASK_FILE")
+TASK_PATH=$(jq -r '.path // empty' "$ACTIVE_TASK_FILE")
+
+# If ID is missing but TASK_PATH exists, try to derive info
+if [[ -z "$TASK_ID" && -n "$TASK_PATH" ]]; then
+    echo "WARNING: 'id' missing in active_task.json. Attempting to use 'path'."
+    WORK_MD="$REPO_ROOT/$TASK_PATH/WORK.md"
+else
+    WORK_MD="$REPO_ROOT/.workflow/tasks/${TASK_SOURCE}-${TASK_ID}/WORK.md"
+fi
 
 if [[ ! -f "$WORK_MD" ]]; then
     echo "ERROR: WORK.md not found at $WORK_MD."
+    echo "Check if the task was initialized correctly with /triage."
     exit 1
 fi
 

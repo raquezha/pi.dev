@@ -17,7 +17,8 @@ Execute one functional vertical slice and hand it to the human for review.
 ## Workflow
 1. Identify the first approved unchecked slice in `[PLAN]`.
 2. Move tracked task to **In Progress** only when implementation actually starts.
-3. **Mandatory Branch Check**: You MUST run `pi/skills/workflow/implement/scripts/enforce-branch.sh` before modifying any code. 
+3. **Mandatory Branch Check**: You MUST run the branch enforcement script before modifying any code.
+   - Use the absolute path if possible: `<skill_location>/scripts/enforce-branch.sh`.
    - This script prevents accidental implementation on `main`/`master`.
    - If the script switches branches, you must update the `[META]` section of `WORK.md` to reflect the new branch name.
    - If the script fails, STOP and ask the human for help. Do not proceed with code changes.
