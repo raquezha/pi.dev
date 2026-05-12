@@ -7,6 +7,7 @@ pi.dev agent rules (pi-local)
   - Coding patterns and folder structure. Strictly adhere to the current architecture and naming conventions.
   - Repo-local extensions live in `pi/extensions/`; keep them as small TS files when possible and align provider/model names with the public API they wrap.
   - Manual-only extensions should be documented and loaded explicitly with `pi -e` when needed.
+  - **No Direct `.pi` Edits:** Never create or edit scripts, extensions, or skills directly in the `~/.pi/` workspace. All development must happen in the `pi.dev` repository. Use `./scripts/setup.sh` to deploy changes to the local machine.
 
 - **Lean RPIV workflow (repo-local rules)**:
   - **Triage first**: Start every tracked task with `/triage [namespace]:[id]`. Use explicit namespaces: `jira:`, `github:`, `gitlab:`, `local:`.

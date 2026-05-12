@@ -12,6 +12,7 @@ This repository implements a high-performance "Staff Engineer" workflow for the 
 4.  **Plan (`/plan`)**: TDD-first, vertical slice strategy. Use `/sync` or `/to-jira` to sync slices back to PMs when appropriate.
 5.  **Implement (`/implement`)**: Executes the plan in functional milestones. Supports multi-commit slices; run `/verify` after a slice.
 6.  **Verify (`/verify`)**: A holistic "Truth Test" (Code + Docs + System Zoom Out). Update `[LOG]` and recommend `/sync`.
+7.  **Cleanup (`/cleanup`)**: Safely remove finished task folders and merged local branches. Declutter the workspace.
 
 Workflow-driven skills should read `AGENTS.md`, `pi/AGENTS.md`, and `pi/skills/README.md` before editing workflow rules. Use `jira:`, `github:`, `gitlab:`, or `local:` prefixes for namespacing.
 
@@ -88,10 +89,22 @@ Located in `pi/skills/`:
 ## 🔌 Extensions
 
 Located in `pi/extensions/`:
-- `clean-repo/`: git cleanup helper
 - `powerline-footer/`: footer styling
+- `env-protection/`: blocks dangerous commands and env modifications
 - `gemini-api/`: manual-only public Gemini API provider (`gemini-api/...`)
 - `antigravity-auth-login/`: manual-only, experimental Antigravity OAuth/login provider (`antigravity-cli/...`)
+
+## 🚀 Setup & Workspace Management
+
+**CRITICAL RULE: No Direct `.pi` Edits**
+Never create or edit scripts, extensions, or skills directly in the `~/.pi/` workspace. 
+All development, configuration, and skill authoring must happen within the `pi.dev` repository.
+
+To deploy changes to your local machine:
+```bash
+./scripts/setup.sh
+```
+This script handles symlinking, "smart pruning" of unmanaged files, and shell integration.
 
 Run `./scripts/setup.sh` after cloning to symlink the default repo-local extensions into `~/.pi/agent/extensions/`.
 Load `gemini-api` manually when you need it:
