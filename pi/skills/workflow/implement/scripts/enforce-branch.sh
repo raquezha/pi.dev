@@ -30,7 +30,7 @@ if [[ -z "$TASK_ID" && -n "$TASK_PATH" ]]; then
         WORK_MD="$REPO_ROOT/$TASK_PATH/WORK.md"
     fi
 else
-    WORK_MD="$REPO_ROOT/.workflow/tasks/${TASK_SOURCE}-${TASK_ID}/WORK.md"
+    WORK_MD="$REPO_ROOT/.workflow/tasks/$TASK_ID/WORK.md"
 fi
 
 if [[ ! -f "$WORK_MD" ]]; then
@@ -49,7 +49,7 @@ if [[ "$CURRENT_BRANCH" == "main" || "$CURRENT_BRANCH" == "master" ]]; then
     # Generate a safe task branch name
     # Sanitize the task ID for branch naming (replace spaces/special chars with hyphens)
     CLEAN_ID=$(echo "$TASK_ID" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/-\+/-/g' | sed 's/^-//;s/-$//')
-    NEW_BRANCH="feat/${TASK_SOURCE}-${CLEAN_ID}"
+    NEW_BRANCH="feat/${CLEAN_ID}"
     
     echo "ACTION: Creating and switching to task branch: $NEW_BRANCH"
     git checkout -b "$NEW_BRANCH"
