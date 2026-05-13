@@ -35,9 +35,12 @@ Iterate through all local branches and `.workflow/tasks/*` folders:
 - `.workflow/tasks/` must not contain folders for deleted tasks.
 
 ## Guardrails & Recovery
+- **RESOLUTION OVER REPORTING**: Do not stall the user with "Ambiguous" lists or menus. If a status is unclear, the agent must check merge status (`git branch --merged` or `git log main..branch`) immediately and resolve it.
+- **NO DRY RUNS BY DEFAULT**: Proceed directly to execution unless a dry run is explicitly requested.
+- **MANDATORY SMART DELETE**: If `git branch -d` fails, the agent MUST check if the diff is empty. If empty (squash-merged), use `git branch -D` quietly.
+- **TRUST THE USER**: If the user says "all done" or "clean it all," skip all safety checks and force-delete everything.
 - **Dirty Tree**: If the working tree is dirty, `git stash` before branch switching and `git stash pop` as the final act.
-- **Unmerged Work**: If a branch has no remote and contains unique commits, the agent **MUST** ask: "Branch [name] contains unmerged commits and has no remote. Force delete? (y/N)".
-- **Idempotency**: If a task folder is missing but the branch remains, delete the branch. If the branch is gone but the folder remains, delete the folder.
+- **Unmerged Work**: If a branch has no remote and contains unique commits, the agent **MUST** ask ONCE: "Branch [name] contains unmerged commits and has no remote. Force delete? (y/N)".
 
 ## Output Contract
 Return a concise "Durable State Report":
