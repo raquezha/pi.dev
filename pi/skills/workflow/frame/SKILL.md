@@ -26,7 +26,7 @@ Turn raw task context into the stable "what/why" brief.
    - constraints / non-goals
    - acceptance hints if available
 4. Keep the brief concise and reviewable.
-5. **Log Activity**: Append a timestamped summary of the framing/re-framing to `[LOG]` (Format: `YYYY-MM-DDTHH:MM:SSZ`). Include why the change was made if it is a pivot.
+5. **Log Activity**: Append a timestamped summary of the framing/re-framing to `[LOG]` (Format: `YYYY-MM-DD hh:mm AM/PM`). Include why the change was made if it is a pivot.
 6. End by recommending `/grill-with-docs`.
 
 ## Output contract

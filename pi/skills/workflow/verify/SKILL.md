@@ -19,7 +19,7 @@ The final gate for a slice or task. Verify truth before reporting progress.
 2. Run stated verification commands and available quality gates.
 3. Check for AI artifacts: placeholder comments, fake APIs, dead code, inconsistent naming.
 4. Confirm commit messages include Conventional Commit format and `Assisted-by: [AGENT]:[MODEL] [tools]` when AI contributed.
-5. If passing, mark the slice checkbox complete in `[PLAN]` and append verification evidence to `[LOG]` (Format: `YYYY-MM-DDTHH:MM:SSZ`).
+5. If passing, mark the slice checkbox complete in `[PLAN]` and append verification evidence to `[LOG]` (Format: `YYYY-MM-DD hh:mm AM/PM`).
 6. Recommend `/sync` for tracker update, or cleanup if the task is fully merged and user approves.
 
 ## Output contract

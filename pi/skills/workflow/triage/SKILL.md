@@ -27,7 +27,7 @@ Start RPIV by creating or resuming a task workspace.
    - Check status: Are there any recent commits (last 72h) or open PRs touching these files?
    - Version check: Verify if the environment (e.g., SDK version, dependencies) matches the issue report.
 4. Classify the task: Problem / Proposal.
-5. **Log Findings**: Record the Repo Pulse results, classification, and initialization timestamp in `[LOG]` (Format: `YYYY-MM-DDTHH:MM:SSZ`). Update `[META]` with branch info.
+5. **Log Findings**: Record the Repo Pulse results, classification, and initialization timestamp in `[LOG]` (Format: `YYYY-MM-DD hh:mm AM/PM`). Update `[META]` with branch info.
 6. **Branch Guardrail**: If on `main`/`master`, recommend a feature branch. Record the starting branch in `[META]`.
 7. End by recommending `/frame` with the pre-check context already loaded.
 
