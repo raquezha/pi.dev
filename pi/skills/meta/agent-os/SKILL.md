@@ -1,6 +1,6 @@
 ---
 name: agent-os
-description: Initialize or synchronize "Agent-First" infrastructure (AGENTS.md, CONTEXT.md) in any repository. Use to make a codebase instantly navigable for AI agents.
+description: Initialize or synchronize "Agent-First" infrastructure (AGENTS.md, CONTEXT.md) in any repository. Use when you land in a new or undocumented codebase and need to make it instantly navigable for AI agents.
 ---
 
 # Skill: agent-os

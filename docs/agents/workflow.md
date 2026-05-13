@@ -27,6 +27,7 @@ The agent MUST capture the starting branch in `[META]` and warn if the user is p
 Workspace & namespacing
 - Task workspace: `.workflow/tasks/[source-id]/` (repo root). Use guarded sections inside `WORK.md`: `[BRIEF]`, `[GRILL]`, `[PLAN]`, `[LOG]`, `[META]`.
 - Namespacing: Prefer explicit source prefixes: `jira:`, `github:`, `gitlab:`, `local:`. Use `github-`, `gitlab-`, `jira-`, or `local-` folder prefixes when creating local task folders.
+- **Agent-First Infrastructure**: Use the `agent-os` skill (`pi agent-os`) to seed new or undocumented repositories with `AGENTS.md` and `CONTEXT.md`. This ensures immediate context loading and prevents stale documentation via `sync.sh`.
 - Keep `.workflow/` git-ignored and do not persist temporary task state to durable docs.
 
 Hats (mindsets)
