@@ -40,9 +40,10 @@ if ! command -v pi &>/dev/null; then
   exit 1
 fi
 
-if ! command -v jira &>/dev/null; then
-  warn "jira CLI not found. Install with: brew install jira-cli"
-  warn "After install, run: jira init (requires JIRA_API_TOKEN in ~/.pi-secrets/.env)"
+if ! command -v acli &>/dev/null; then
+  warn "acli CLI not found. This is required for hardened Jira sync."
+  info "Install from: https://developer.atlassian.com/cloud/acli/guides/how-to-get-started/"
+  info "Or via Homebrew: brew install atlassian-cli"
 fi
 
 if ! command -v gh &>/dev/null; then
