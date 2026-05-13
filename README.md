@@ -85,6 +85,7 @@ Located in `pi/skills/`:
 - `workflow/`: Core Lean RPIV skills.
 - `android/`: Android-specific toolkits.
 - `search/`: Brave Search integration.
+- `meta/agent-os/`: Initialize or sync Agent-First infrastructure in any repo.
 
 ## 🔌 Extensions
 
