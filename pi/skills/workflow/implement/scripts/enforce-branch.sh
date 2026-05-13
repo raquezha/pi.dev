@@ -17,13 +17,18 @@ if [[ ! -f "$ACTIVE_TASK_FILE" ]]; then
 fi
 
 TASK_SOURCE=$(jq -r '.source // empty' "$ACTIVE_TASK_FILE")
-TASK_ID=$(jq -r '.id // empty' "$ACTIVE_TASK_FILE")
-TASK_PATH=$(jq -r '.path // empty' "$ACTIVE_TASK_FILE")
+TASK_ID=$(jq -r '.sourceId // .id // empty' "$ACTIVE_TASK_FILE")
+TASK_PATH=$(jq -r '.taskPath // .path // empty' "$ACTIVE_TASK_FILE")
 
 # If ID is missing but TASK_PATH exists, try to derive info
 if [[ -z "$TASK_ID" && -n "$TASK_PATH" ]]; then
-    echo "WARNING: 'id' missing in active_task.json. Attempting to use 'path'."
-    WORK_MD="$REPO_ROOT/$TASK_PATH/WORK.md"
+    echo "WARNING: 'sourceId' missing in active_task.json. Attempting to use 'taskPath'."
+    # Use absolute TASK_PATH if it's absolute, otherwise relative to REPO_ROOT
+    if [[ "$TASK_PATH" = /* ]]; then
+        WORK_MD="$TASK_PATH/WORK.md"
+    else
+        WORK_MD="$REPO_ROOT/$TASK_PATH/WORK.md"
+    fi
 else
     WORK_MD="$REPO_ROOT/.workflow/tasks/${TASK_SOURCE}-${TASK_ID}/WORK.md"
 fi
