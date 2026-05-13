@@ -53,9 +53,9 @@ done
 # 4. Propose Fixes
 if [ $DRIFT_FOUND -eq 1 ]; then
     echo ""
-    echo "💡 Recommendations:"
+    echo "💡 Recommendations (Apply these using /update-docs or manual edit):"
     echo "1. Update CONTEXT.md to reflect the new stack or directory structure."
-    echo "2. Run '/update-docs' (if using RPIV) to curate these changes."
+    echo "2. Check if old architectural decisions in 'Domain Logic' still hold true."
 else
     echo "✅ Context is in sync with reality."
 fi

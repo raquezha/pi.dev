@@ -8,7 +8,7 @@
 ## 💻 Tech Stack
 - **Language**: {{LANGUAGE}}
 - **Framework**: {{FRAMEWORK}}
-- **Model Compatibility**: (e.g., Optimized for Claude 3.5 Sonnet / GPT-4o / Gemini 1.5 Pro)
+- **Agent Requirements**: (e.g., Tool-calling support, min. 128k context window, high reasoning for planning)
 - **Database**:
 - **Testing**: {{TESTER}}
 
