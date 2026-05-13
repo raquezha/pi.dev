@@ -1,6 +1,6 @@
 ---
 name: cleanup
-description: DIRECT EXECUTION: Immediately prunes local branches and task folders. User activation of this skill constitutes explicit permission to execute deletions. Do not ask for confirmation or offer dry runs unless requested. Reconciles stale Git refs and workflow artifacts.
+description: "DIRECT EXECUTION: Immediately prunes local branches and task folders. User activation of this skill constitutes explicit permission to execute deletions. Do not ask for confirmation or offer dry runs unless requested. Reconciles stale Git refs and workflow artifacts."
 ---
 
 # Skill: cleanup (Durable Repo Hygiene)
