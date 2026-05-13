@@ -18,6 +18,7 @@ pi.dev agent rules (pi-local)
   - **Sync**: Use `/sync` to bridge the local RPIV workspace with external trackers (GitHub/GitLab/Jira).
   - **Skill authoring**: Use the `pi-skill-creator` process (`pi/skills/meta/pi-skill-creator/SKILL.md`) when creating or improving skills; do not hand-roll new skills without the checklist.
   - **Hats**: The shell integration provides hats (mindsets) such as `--rpiv`, `--android`, `--pm`, `--dev`, `--meta`, `--write`, and `--antigravity` to load appropriate skill sets.
+  - **Agent-First Infrastructure**: For any repository, prioritize seeding with `pi agent-os` to ensure standardized context and "Durable Execution" memory.
 
 - **Platform Tools**: Use `gh` for GitHub and `glab` for GitLab.
 

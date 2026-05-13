@@ -30,8 +30,8 @@ Skills for Fastlane, App Store/Play Store automated releases, and TestFlight man
 
 ### 🛠 Meta
 Skills for creating and maintaining pi skills and other agent-facing building blocks.
-- **Status**: 🟢 Pi Skill Creator Added
-- **Skills**: `meta/pi-skill-creator`
+- **Status**: 🟢 Pi Skill Creator & Agent-OS Added
+- **Skills**: `meta/pi-skill-creator`, `meta/agent-os`
 - **Notes**: `pi-skill-creator` is pi.dev-first; it can study external repos as source material but should normally generate reusable skills back into `pi/skills/...` in this repository unless the user explicitly wants a project-local skill.
 
 ### ✍️ Documentation / Context Curation
