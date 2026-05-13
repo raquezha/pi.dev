@@ -64,7 +64,7 @@ else
 fi
 
 # Append mandatory sections for RPIV workflow
-echo -e "\n## [BRIEF]\n- \n\n## [PLAN]\n- [ ] \n\n## [LOG]\n- $(date +%Y-%m-%d): Task initialized via /triage" >> "$TASK_DIR/WORK.md"
+echo -e "\n## [BRIEF]\n- \n\n## [PLAN]\n- [ ] \n\n## [LOG]\n- $(date -u +"%Y-%m-%dT%H:%M:%SZ"): Task initialized via /triage" >> "$TASK_DIR/WORK.md"
 
 # Append META to WORK.md if not already present with branch info
 if ! grep -q "\[META\]" "$TASK_DIR/WORK.md"; then

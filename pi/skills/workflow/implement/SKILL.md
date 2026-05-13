@@ -26,7 +26,7 @@ Execute one functional vertical slice and hand it to the human for review.
 5. Run the slice verification command and available quality gates.
 6. Commit with Conventional Commit header and `Assisted-by: [AGENT]:[MODEL] [tools]` footer (populating the agent name and model ID from the current session context).
 7. Push and open a Draft PR/MR with `gh` or `glab` when a remote exists.
-8. Append summary, commit hash, and PR/MR link to `[LOG]`.
+8. Append summary, commit hash, and PR/MR link to `[LOG]` (Format: `YYYY-MM-DDTHH:MM:SSZ`).
 
 ## Output contract
 End with:

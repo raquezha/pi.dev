@@ -46,7 +46,7 @@ Format the message for two audiences:
   - `Action`: If `.body` contains marker AND slices match, `glab api -X PUT ...`. Else `glab mr note ...`.
 
 ### 4. Local Confirmation
-- Append a timestamped sync record to `WORK.md` `[LOG]`.
+- Append a timestamped sync record to `WORK.md` `[LOG]` (Format: `YYYY-MM-DDTHH:MM:SSZ`).
 
 ## Output Contract
 Return a concise summary:

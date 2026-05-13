@@ -23,7 +23,7 @@ Map the "how" into tracer-bullet vertical slices.
    - **HITL**: human judgment, product decision, external access, or manual review required.
 5. Include dependencies and verification command(s) per slice.
 6. Write the plan into `[PLAN]` with checkboxes.
-7. **Log Activity**: Append a timestamped entry to `[LOG]` summarizing the plan or revision (e.g., "Plan created" or "Plan updated after pivot").
+7. **Log Activity**: Append a timestamped entry to `[LOG]` summarizing the plan or revision (Format: `YYYY-MM-DDTHH:MM:SSZ`).
 8. Recommend `/sync` if the task has a tracker, then `/implement`.
 
 ## Output contract

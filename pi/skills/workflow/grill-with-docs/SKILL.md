@@ -25,7 +25,7 @@ Challenge the brief before planning. This replaces passive ubiquitous-language c
    - Ask one question at a time to resolve contradictions or clarify ambiguity.
    - Challenge the brief if the code behaves differently than described.
 5. **Log Evidence**: Append resolved decisions, technical findings, edge cases, and constraints to `[GRILL]`.
-6. **Log Activity**: Append a timestamped summary of the grilling session to `[LOG]`.
+6. **Log Activity**: Append a timestamped summary of the grilling session to `[LOG]` (Format: `YYYY-MM-DDTHH:MM:SSZ`).
 7. **Context Curation**: If a durable term/rule emerges, propose or apply a concise `docs/agents/*` update.
 
 ## Output contract
