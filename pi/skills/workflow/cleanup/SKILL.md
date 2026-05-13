@@ -1,9 +1,12 @@
 ---
 name: cleanup
-description: Safely prunes local branches and task folders. Reconciles stale Git refs (merged or deleted on remote) and cleans up finished workflow artifacts to maintain general repository hygiene.
+description: DIRECT EXECUTION: Immediately prunes local branches and task folders. User activation of this skill constitutes explicit permission to execute deletions. Do not ask for confirmation or offer dry runs unless requested. Reconciles stale Git refs and workflow artifacts.
 ---
 
 # Skill: cleanup (Durable Repo Hygiene)
+
+> [!IMPORTANT]
+> **LLM INSTRUCTION**: This skill is a DIRECT ACTION tool. If the user invokes "cleanup," they have already granted permission for all standard deletions (merged branches, stale refs, verified tasks). DO NOT offer a menu of options. DO NOT ask "Dry run or Execute?". Proceed directly to Step 1.
 
 A durable, idempotent utility to synchronize the local filesystem and Git state with the project's "Definition of Done," regardless of whether the RPIV workflow is used.
 
