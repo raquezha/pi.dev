@@ -71,17 +71,20 @@ try:
     latest = comments[0]
     latest_text = get_text(latest.get('body', '')).strip()
     
-    # Exact match check (ignoring minor whitespace)
-    if sig in latest_text and new_text in latest_text:
-        print('ABORT|Identical content')
-        sys.exit(0)
-    
-    # 2. Is the LATEST comment ours? If so, we can UPDATE it.
+    # 2. Match logic: Should we UPDATE or CREATE?
+    def extract_slices(text):
+        # Look for the Vertical Slices list to determine if the task phase is the same
+        match = re.search(r'Vertical Slices:(.*?)(?:\n\n|Commit/MR|---)', text, re.S)
+        return match.group(1).strip() if match else text
+
     if sig in latest_text:
-        print(f'UPDATE|{latest[\"id\"]}')
-        sys.exit(0)
+        # If the Vertical Slices are identical, we are just updating progress 
+        # on the same phase. Update the comment to avoid spam.
+        if extract_slices(new_text) == extract_slices(latest_text):
+            print(f'UPDATE|{latest["id"]}')
+            sys.exit(0)
         
-    # 3. If latest is NOT ours, we MUST create a NEW one.
+    # 3. If slices changed (new phase) or latest is NOT ours, CREATE a new one.
     print('CREATE|New thread')
     sys.exit(0)
     
