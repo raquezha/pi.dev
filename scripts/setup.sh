@@ -43,7 +43,9 @@ fi
 if ! command -v acli &>/dev/null; then
   warn "acli CLI not found. This is required for hardened Jira sync."
   info "Install from: https://developer.atlassian.com/cloud/acli/guides/how-to-get-started/"
-  info "Or via Homebrew: brew install atlassian-cli"
+  info "Or via Homebrew:"
+  echo "  brew tap atlassian-labs/acli"
+  echo "  brew install acli"
 fi
 
 if ! command -v gh &>/dev/null; then
