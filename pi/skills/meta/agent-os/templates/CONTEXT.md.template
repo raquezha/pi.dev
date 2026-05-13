@@ -8,6 +8,7 @@
 ## 💻 Tech Stack
 - **Language**: {{LANGUAGE}}
 - **Framework**: {{FRAMEWORK}}
+- **Model Compatibility**: (e.g., Optimized for Claude 3.5 Sonnet / GPT-4o / Gemini 1.5 Pro)
 - **Database**:
 - **Testing**: {{TESTER}}
 
