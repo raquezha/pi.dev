@@ -1,0 +1,231 @@
+<skill name="firecrawl" location="/Users/raquezha/.pi/agent/skills/search/firecrawl/SKILL.md">
+References are relative to /Users/raquezha/.pi/agent/skills/search/firecrawl.
+
+# Firecrawl
+
+Use this skill when Firecrawl is the better fit than plain web search.
+
+## When to use
+- scrape a known URL into markdown
+- map a site to discover crawlable URLs
+- search the web and optionally scrape the results
+
+## Workflow
+1. Check `FIRECRAWL_API_TOKEN` is set.
+2. Pick the smallest helper:
+   - `./scrape.sh <url>`
+   - `./map.sh <url>`
+   - `./search.sh <query>`
+3. Use `--json` when the raw API response is more useful than the friendly view.
+4. Keep requests narrow; only add scrape/limit flags when needed.
+
+## Rules
+- Never print or hardcode the token.
+- Use the repo-local scripts only; do not install the upstream package.
+- Assume the model only needs the smallest useful output.
+
+## Validation
+- Missing token fails fast.
+- HTTP errors surface the Firecrawl response body.
+- Successful calls return either markdown, links, or pretty JSON.
+
+## Scripts
+- `common.sh` — shared request helpers
+- `scrape.sh` — scrape one URL
+- `map.sh` — list discoverable URLs for a site
+- `search.sh` — search Firecrawl and optionally scrape results
+</skill>
+
+---
+
+<skill name="firecrawl" location="/Users/raquezha/.pi/agent/skills/search/firecrawl/SKILL.md">
+References are relative to /Users/raquezha/.pi/agent/skills/search/firecrawl.
+
+# Firecrawl
+
+Use this skill when Firecrawl is the better fit than plain web search.
+
+## When to use
+- scrape a known URL into markdown
+- map a site to discover crawlable URLs
+- search the web and optionally scrape the results
+
+## Workflow
+1. Check `FIRECRAWL_API_TOKEN` is set.
+2. Pick the smallest helper:
+   - `./scrape.sh <url>`
+   - `./map.sh <url>`
+   - `./search.sh <query>`
+3. Use `--json` when the raw API response is more useful than the friendly view.
+4. Keep requests narrow; only add scrape/limit flags when needed.
+
+## Rules
+- Never print or hardcode the token.
+- Use the repo-local scripts only; do not install the upstream package.
+- Assume the model only needs the smallest useful output.
+
+## Validation
+- Missing token fails fast.
+- HTTP errors surface the Firecrawl response body.
+- Successful calls return either markdown, links, or pretty JSON.
+
+## Scripts
+- `common.sh` — shared request helpers
+- `scrape.sh` — scrape one URL
+- `map.sh` — list discoverable URLs for a site
+- `search.sh` — search Firecrawl and optionally scrape results
+</skill>
+
+what is firecrawl
+
+---
+
+<skill name="firecrawl" location="/Users/raquezha/.pi/agent/skills/search/firecrawl/SKILL.md">
+References are relative to /Users/raquezha/.pi/agent/skills/search/firecrawl.
+
+# Firecrawl
+
+Use this skill when Firecrawl is the better fit than plain web search.
+
+## When to use
+- scrape a known URL into markdown
+- map a site to discover crawlable URLs
+- search the web and optionally scrape the results
+
+## Workflow
+1. Check `FIRECRAWL_API_TOKEN` is set.
+2. Pick the smallest helper:
+   - `./scrape.sh <url>`
+   - `./map.sh <url>`
+   - `./search.sh <query>`
+3. Use `--json` when the raw API response is more useful than the friendly view.
+4. Keep requests narrow; only add scrape/limit flags when needed.
+
+## Rules
+- Never print or hardcode the token.
+- Use the repo-local scripts only; do not install the upstream package.
+- Assume the model only needs the smallest useful output.
+
+## Validation
+- Missing token fails fast.
+- HTTP errors surface the Firecrawl response body.
+- Successful calls return either markdown, links, or pretty JSON.
+
+## Scripts
+- `common.sh` — shared request helpers
+- `scrape.sh` — scrape one URL
+- `map.sh` — list discoverable URLs for a site
+- `search.sh` — search Firecrawl and optionally scrape results
+</skill>
+
+find me a pdf reaserch paper about ai agentic and find a picture of a cat any cat 1st iamge you search out put it here
+
+---
+
+i want to built a "subagent" like when using brave-search or firecrawl websearch agent but instead of subagent patter it just spawns tmux and returns the result to this main agent how to do that
+
+---
+
+i need to comprehensively shape this this is a long term plan, tmux is separate from this so this should fail or back up to main agent if no tmux fond right? also setup.sh s
+
+---
+
+i need to comprehensively shape this this is a long term plan, tmux is separate from this so this should fail or back up to main agent if no tmux fond right? also setup.sh suggset installing tmux
+
+---
+
+wait use firecrawl skill let's serach for pi.dev npm packages/ github repo /reddit post/ slack discussion about this and related to this that might help us set thi up
+
+---
+
+let's plan this put
+
+---
+
+wait it will invoke only when using the search skills right, brave search and firecrawl
+
+---
+
+this should be enalbed when using skills when skills is loaded i think i need to scope that skills right this worker so it's bundled right
+
+---
+
+let's plan this out
+
+---
+
+okay create design spec
+
+---
+
+proceed the plan
+
+---
+
+EXECUTE
+
+---
+
+wire it
+
+---
+
+test it
+
+---
+
+i just relaoaded pi let's test it
+
+---
+
+tha'ts weird maybe the env can't fid the token/key
+
+---
+
+let's step back and rethink/redesing our architecture let's pull inspiration from other library how di they do it
+
+---
+
+what's the best approach for this without exposing secrets and leakign sensitve data
+
+---
+
+yes it should fail fast and fix fast let's go with this security focused no leakaege or token appraoch never access it directyl
+
+---
+
+okay create v2 spec plan
+
+---
+
+proceed
+
+---
+
+wait what? I couldn’t complete the secret-backed success-path test in this tool shell because the API vars
+ aren’t exported here, but the failure behavior is now secure and explicit.
+
+---
+
+wait what? I couldn’t complete the secret-backed success-path test in this tool shell because the API vars
+ aren’t exported here, but the failure behavior is now secure and explicit.
+
+---
+
+wait what? I couldn’t complete the secret-backed success-path test in this tool shell because the API
+ vars
+  aren’t exported here, but the failure behavior is now secure and explicit.
+
+---
+
+wait what? I couldn’t complete the secret-backed success-path test in this tool shell because the API
+ vars
+  aren’t exported here, but the failure behavior is now secure and explicit.
+
+---
+
+both have values
+
+---
+
+let's fix t
