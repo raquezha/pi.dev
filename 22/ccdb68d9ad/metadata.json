@@ -3,7 +3,7 @@
   "checkpoint_id": "22ccdb68d9ad",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 74,
+  "checkpoints_count": 76,
   "files_touched": [
     "README.md",
     "docs/agents/search-worker-backend.md",
@@ -60,13 +60,19 @@
       "transcript": "/22/ccdb68d9ad/5/full.jsonl",
       "content_hash": "/22/ccdb68d9ad/5/content_hash.txt",
       "prompt": "/22/ccdb68d9ad/5/prompt.txt"
+    },
+    {
+      "metadata": "/22/ccdb68d9ad/6/metadata.json",
+      "transcript": "/22/ccdb68d9ad/6/full.jsonl",
+      "content_hash": "/22/ccdb68d9ad/6/content_hash.txt",
+      "prompt": "/22/ccdb68d9ad/6/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 1497372,
+    "input_tokens": 1503825,
     "cache_creation_tokens": 0,
     "cache_read_tokens": 17826407,
-    "output_tokens": 214172,
-    "api_call_count": 325
+    "output_tokens": 214410,
+    "api_call_count": 327
   }
 }

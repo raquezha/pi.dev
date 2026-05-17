@@ -1,0 +1,129 @@
+<skill name="firecrawl" location="/Users/raquezha/.pi/agent/skills/search/firecrawl/SKILL.md">
+References are relative to /Users/raquezha/.pi/agent/skills/search/firecrawl.
+
+# Firecrawl
+
+Use this skill when Firecrawl is the better fit than plain web search.
+
+## When to use
+- scrape a known URL into markdown
+- map a site to discover crawlable URLs
+- search the web and optionally scrape the results
+
+## Workflow
+1. Check `FIRECRAWL_API_TOKEN` is available in the current shell or `~/.pi-secrets/.env`.
+2. When running inside pi, prefer the `search_subagent` tool so Firecrawl runs in a fresh child context.
+3. For manual fallback, pick the smallest helper:
+   - `./scrape.sh <url>`
+   - `./map.sh <url>`
+   - `./search.sh <query>`
+4. Use `--json` when the raw API response is more useful than the friendly view.
+5. Keep requests narrow; only add scrape/limit flags when needed.
+
+## Rules
+- Never print or hardcode the token.
+- Use the repo-local scripts only; do not install the upstream package.
+- Assume the model only needs the smallest useful output.
+- Inside pi, use the `search_subagent` tool first so Firecrawl runs in a fresh child session.
+
+## Validation
+- Missing token fails fast.
+- HTTP errors surface the Firecrawl response body.
+- Successful calls return either markdown, links, or pretty JSON.
+
+## Scripts
+- `common.sh` — shared request helpers
+- `scrape.sh` — scrape one URL
+- `map.sh` — list discoverable URLs for a site
+- `search.sh` — search Firecrawl and optionally scrape results
+</skill>
+
+what is steam gaming
+
+---
+
+use the skill firecrawl and search who is the most handsome man on earth don't overthink the 1st respond is fine
+
+---
+
+use the skill brave_search and search who is the most handsome man on earth don't overthink the
+ 1st respond is fine
+
+---
+
+we need to make it faster!!
+
+---
+
+what's the use of subagent then i will never use it becaues it's painfully slow
+
+---
+
+i guess it's fine for quick search i'll use slash skills for spawning agents i'll promt it"use firecrawl" or "use brave" sounds viable?
+
+---
+
+okay iwant visualization when the sub agent is doing it's thing also i cannot see what it's doing which is good it remove the clutter but i also want a view what's it doign separate
+
+---
+
+what is the trigger?
+
+---
+
+i mean should i click it it will spawn it or comand? the details i mean 
+
+the spawn even tis not the trigger it main chat shoudl stay clean
+
+---
+
+yeah clicking works
+
+---
+
+plan it
+
+---
+
+go
+
+---
+
+go
+
+---
+
+let's find a ctrl + key for this not ctrl + a
+
+---
+
+you mother, don't just pick keys it sould not conflict with 1. macos 2. ghostty keeys, 3. aerospace keys and 3. pi.dev keys
+
+---
+
+ctrl+w bullshit? wtf no
+
+---
+
+ok ctrl + b
+
+---
+
+ok ctrl + b
+
+---
+
+wait no ctrl+b hmm how about ctrl+k ?
+
+---
+
+i think it's working okat read ~/.pi-secrets/.env
+
+---
+
+okay i put my answer in ~/.pi-secrets/.env read that and tell me what I wrote
+
+---
+
+remove this files: repo-backup-20260517T024020Z.git.tgz
+        repo-backup-20260517T024020Z.git/
