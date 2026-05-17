@@ -10,12 +10,14 @@ This skill provides web search capabilities using the Brave Search API.
 ## Prerequisites
 
 - [Brave Search API Key](https://api.search.brave.com/app/dashboard)
-- `BRAVE_SEARCH_API_KEY` environment variable set in `~/.pi-secrets/.env`
+- `BRAVE_SEARCH_API_KEY` available in the current shell or `~/.pi-secrets/.env`
 - `jq` installed for JSON processing
 
 ## Usage
 
-The agent can use the following commands to search the web or read specific pages.
+When running inside pi, prefer the `search_subagent` tool so Brave Search happens in a fresh child context.
+
+The agent can also use the following commands to search the web or read specific pages for manual fallback.
 
 ### Search Web
 ```bash
@@ -39,4 +41,6 @@ The agent can use the following commands to search the web or read specific page
 
 ## Implementation
 
-The skill uses a helper script `search.sh` to interact with the API.
+The skill uses helper scripts to interact with the API.
+Inside pi, the `search_subagent` tool should run Brave Search in a fresh child session first.
+The scripts remain the manual fallback.

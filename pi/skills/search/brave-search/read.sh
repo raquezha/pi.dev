@@ -1,11 +1,30 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-URL="$1"
-if [ -z "$URL" ]; then
-  echo "Usage: ./read.sh <url>"
-  exit 1
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
+source "$SCRIPT_DIR/../_worker.sh"
+
+usage() {
+  cat <<'EOF'
+Usage: ./read.sh <url>
+EOF
+}
+
+brave_read_main() {
+  URL="${1:-}"
+  if [[ -z "$URL" ]]; then
+    usage
+    exit 1
+  fi
+
+  curl -s "https://r.jina.ai/$URL"
+}
+
+if [[ "${1:-}" == "--worker-entry" ]]; then
+  shift
+  brave_read_main "$@"
+  exit $?
 fi
 
-# We use r.jina.ai to get a clean markdown version of the page.
-# This is a common and effective way for AI agents to "read" web pages.
-curl -s "https://r.jina.ai/$URL"
+search_worker_run "$0" "$@"

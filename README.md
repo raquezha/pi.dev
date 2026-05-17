@@ -1,5 +1,7 @@
 # pi.dev
 
+*Deterministic HITL orchestration layer on top of a stochastic coding engine.*
+
 Personal workspace for advanced agentic coding workflows, specialized skills, and specialized mindsets.
 
 ## 🚀 R&D Agentic Workflow
@@ -84,7 +86,7 @@ For a detailed breakdown of LLM metrics (Context, Caching, Tokens), see the [Age
 Located in `pi/skills/`:
 - `workflow/`: Core Lean RPIV skills.
 - `android/`: Android-specific toolkits.
-- `search/`: Brave Search integration.
+- `search/`: Brave Search + Firecrawl integration (linked globally by setup).
 - `meta/agent-os/`: Initialize or sync Agent-First infrastructure in any repo.
 
 ## 🔌 Extensions
@@ -92,6 +94,7 @@ Located in `pi/skills/`:
 Located in `pi/extensions/`:
 - `powerline-footer/`: footer styling
 - `env-protection/`: blocks dangerous commands and env modifications
+- `search-subagent/`: spawns isolated child pi sessions for Brave/Search work
 - `gemini-api/`: manual-only public Gemini API provider (`gemini-api/...`)
 - `antigravity-auth-login/`: manual-only, experimental Antigravity OAuth/login provider (`antigravity-cli/...`)
 

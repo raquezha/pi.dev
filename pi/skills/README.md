@@ -12,7 +12,10 @@ Core skills for Android development.
 
 ### 🔍 Search
 Web search and information retrieval.
-- **Status**: 🟢 Brave Search Integrated
+- **Status**: 🟢 Brave Search + Firecrawl Integrated
+- **Skills**: `brave-search`, `firecrawl`
+- **Extension**: `search-subagent` spawns isolated child pi sessions for search work.
+- **Notes**: `./scripts/setup.sh` links this category into `~/.pi/agent/skills/` so `/skill:...` works without hats.
 - **Next Up**: Content extraction, Goggles integration.
 
 ### ♾️ GitLab & DevOps (Planned)

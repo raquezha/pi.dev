@@ -220,6 +220,21 @@ fi
 
 # Link specific extensions (opt-in)
 link_item "$PI_DIR/extensions/powerline-footer"   "$AGENT_DIR/extensions/powerline-footer"   "extensions/powerline-footer"
+link_item "$PI_DIR/extensions/env-protection"     "$AGENT_DIR/extensions/env-protection"     "extensions/env-protection"
+
+# Auto-enable env-protection system-wide across all hats
+if [[ ! -f "$AGENT_DIR/settings.json" ]]; then
+  info "Creating default settings.json for pi agent"
+  echo '{}' > "$AGENT_DIR/settings.json"
+fi
+if ! grep -q '"env-protection": true' "$AGENT_DIR/settings.json"; then
+  jq '. + {"env-protection": true}' "$AGENT_DIR/settings.json" > "$AGENT_DIR/settings.json.tmp"
+  mv "$AGENT_DIR/settings.json.tmp" "$AGENT_DIR/settings.json"
+  ok "Enabled env-protection globally in settings.json"
+else
+  ok "env-protection already enabled in settings.json"
+fi
+link_item "$PI_DIR/extensions/search-subagent"     "$AGENT_DIR/extensions/search-subagent"     "extensions/search-subagent"
 
 # Manual-only extensions are not linked here. Load them explicitly when needed.
 if [[ -L "$AGENT_DIR/extensions/gemini-api" ]]; then
@@ -332,9 +347,10 @@ show_available "$PI_DIR/extensions" "$AGENT_DIR/extensions" "Extensions"
 # Most workflow skills are injected via 'pi --pm' or 'pi --dev' shell 
 # integration to avoid context bloat in standard sessions.
 # However, /cleanup is universally useful for managing workspace state, 
-# so we link it globally.
+# and the Search category is small enough to keep globally discoverable.
 echo ""
 info "Linking globally useful skills..."
+link_item "$PI_DIR/skills/search" "$AGENT_DIR/skills/search" "skills/search"
 link_item "$PI_DIR/skills/workflow/cleanup" "$AGENT_DIR/skills/cleanup" "skills/cleanup"
 
 echo ""

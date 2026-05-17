@@ -1,78 +1,93 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# Check for API key
-if [ -z "$BRAVE_SEARCH_API_KEY" ]; then
-  echo "Error: BRAVE_SEARCH_API_KEY environment variable is not set."
-  echo "Please add it to your ~/.pi-secrets/.env file."
-  exit 1
-fi
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
+source "$SCRIPT_DIR/../_worker.sh"
 
-QUERY="$1"
-if [ -z "$QUERY" ]; then
-  echo "Usage: ./search.sh \"query\" [--summarize] [--table]"
-  exit 1
-fi
+SEARCH_WORKER_REQUIRED_ENV="BRAVE_SEARCH_API_KEY"
 
-# Flags
-shift || true
-SUMMARIZE=false
-TABLE=false
-for arg in "$@"; do
-  case "$arg" in
-    --summarize) SUMMARIZE=true ;;
-    --table) TABLE=true ;;
-  esac
-done
+usage() {
+  cat <<'EOF'
+Usage: ./search.sh <query> [--summarize] [--table]
+EOF
+}
 
-# Brave Search API endpoint
-ENDPOINT="https://api.search.brave.com/res/v1/web/search"
+brave_search_main() {
+  QUERY="${1:-}"
+  if [[ -z "$QUERY" ]]; then
+    usage
+    exit 1
+  fi
 
-# Perform search
-RESPONSE=$(curl -s -G "$ENDPOINT" \
-  --data-urlencode "q=$QUERY" \
-  -H "Accept: application/json" \
-  -H "X-Subscription-Token: $BRAVE_SEARCH_API_KEY")
+  shift || true
 
-# Check for errors in response
-if echo "$RESPONSE" | jq -e '.message' > /dev/null 2>&1; then
-  echo "API Error: $(echo "$RESPONSE" | jq -r '.message')"
-  exit 1
-fi
+  SUMMARIZE=false
+  TABLE=false
+  for arg in "$@"; do
+    case "$arg" in
+      --summarize) SUMMARIZE=true ;;
+      --table) TABLE=true ;;
+    esac
+  done
 
-# If table output requested, render Markdown table of web results
-if [ "$TABLE" = true ]; then
+  if [[ -z "${BRAVE_SEARCH_API_KEY:-}" ]]; then
+    search_worker_error "BRAVE_SEARCH_API_KEY is unavailable after launcher bootstrap."
+    exit 1
+  fi
+
+  ENDPOINT="https://api.search.brave.com/res/v1/web/search"
+
+  RESPONSE=$(curl -s -G "$ENDPOINT" \
+    --data-urlencode "q=$QUERY" \
+    -H "Accept: application/json" \
+    -H "X-Subscription-Token: $BRAVE_SEARCH_API_KEY")
+
+  if echo "$RESPONSE" | jq -e '.message' > /dev/null 2>&1; then
+    echo "API Error: $(echo "$RESPONSE" | jq -r '.message')"
+    exit 1
+  fi
+
+  if [[ "$TABLE" == true ]]; then
+    printf '| Rank | Title | URL | Description |\n|---:|---|---|---|\n'
+    rank=1
+    while IFS=$'\t' read -r title url description; do
+      title="${title//$'\n'/ }"
+      description="${description//$'\n'/ }"
+      title="${title//|/\\|}"
+      description="${description//|/\\|}"
+      printf '| %s | %s | %s | %s |\n' "$rank" "$title" "$url" "$description"
+      rank=$((rank + 1))
+    done < <(echo "$RESPONSE" | jq -r '.web.results[]? | [(.title // ""), (.url // ""), (.description // "")] | @tsv')
+    exit 0
+  fi
+
+  echo "--- RESULTS FOR: $QUERY ---"
+
+  INFOBOX=$(echo "$RESPONSE" | jq -r '.infobox // empty')
+  if [[ -n "$INFOBOX" ]]; then
+    echo "### INFOBOX ###"
+    echo "$RESPONSE" | jq -r '.infobox.content.title + ": " + .infobox.content.description'
+    echo "---"
+  fi
+
+  FAQ=$(echo "$RESPONSE" | jq -r '.faq.results // empty')
+  if [[ -n "$FAQ" ]]; then
+    echo "### FAQ ###"
+    echo "$RESPONSE" | jq -r '.faq.results[] | "Q: " + .question + "\nA: " + .answer + "\n---"'
+  fi
+
+  echo "### WEB RESULTS ###"
   echo "$RESPONSE" | jq -r '
-    if .web and .web.results then
-      .web.results | to_entries | ( ["| Rank | Title | URL | Description |","|---:|---|---|---:|"] ), ( .[] | "| " + ((.key+1)|tostring) + " | " + (.value.title // "") | gsub("\n"; " ") | gsub("\|"; "\\|") + " | " + (.value.url // "") + " | " + ((.value.description // "") | gsub("\n"; " ") | gsub("\|"; "\\|")) + " |" )
-    else
-      "No web.results in response"
-    end
+    .web.results[] |
+    "Title: " + .title + "\nURL: " + .url + "\nDescription: " + .description + "\n---"
   '
-  exit 0
+}
+
+if [[ "${1:-}" == "--worker-entry" ]]; then
+  shift
+  brave_search_main "$@"
+  exit $?
 fi
 
-# Default human-readable output
-echo "--- RESULTS FOR: $QUERY ---"
-
-# Check for Infobox
-INFOBOX=$(echo "$RESPONSE" | jq -r '.infobox // empty')
-if [ -n "$INFOBOX" ]; then
-  echo "### INFOBOX ###"
-  echo "$RESPONSE" | jq -r '.infobox.content.title + ": " + .infobox.content.description'
-  echo "---"
-fi
-
-# Check for FAQ
-FAQ=$(echo "$RESPONSE" | jq -r '.faq.results // empty')
-if [ -n "$FAQ" ]; then
-  echo "### FAQ ###"
-  echo "$RESPONSE" | jq -r '.faq.results[] | "Q: " + .question + "\nA: " + .answer + "\n---"'
-fi
-
-# Web Results
-echo "### WEB RESULTS ###"
-echo "$RESPONSE" | jq -r '
-  .web.results[] | 
-  "Title: " + .title + "\nURL: " + .url + "\nDescription: " + .description + "\n---"
-'
-
+search_worker_run "$0" "$@"

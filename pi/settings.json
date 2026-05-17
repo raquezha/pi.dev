@@ -1,6 +1,6 @@
 {
-  "defaultProvider": "antigravity-cli",
-  "defaultModel": "gemini-3.1-pro-low",
+  "defaultProvider": "github-copilot",
+  "defaultModel": "gpt-4.1",
   "defaultThinkingLevel": "medium",
   "showHardwareCursor": true,
   "hideThinkingBlock": false,
@@ -8,6 +8,6 @@
   "theme": "ghostly-pale",
   "editorPaddingX": 2,
   "packages": [],
-  "lastChangelogVersion": "0.74.0",
+  "lastChangelogVersion": "0.74.1",
   "transport": "auto"
 }

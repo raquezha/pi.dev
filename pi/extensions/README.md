@@ -5,6 +5,7 @@ Repository-local extensions live here. `./scripts/setup.sh` symlinks the default
 ## Included extensions
 - `clean-repo` — git cleanup helper
 - `powerline-footer` — UI footer styling
+- `search-subagent` — spawns isolated child pi sessions for Brave/Search work
 - `gemini-api` — manual-only public Gemini API provider under the `gemini-api/...` namespace
 - `antigravity-auth-login` — manual-only, experimental Antigravity OAuth/login provider under the `antigravity-cli/...` namespace
 
