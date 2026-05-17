@@ -3,11 +3,12 @@
   "checkpoint_id": "22ccdb68d9ad",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 105,
+  "checkpoints_count": 110,
   "files_touched": [
     "README.md",
     "docs/agents/search-worker-backend.md",
     "docs/architecture/forensic-systems-report.md",
+    "docs/notes/zerolang-for-agents.md",
     "pi/extensions/README.md",
     "pi/extensions/search-subagent/README.md",
     "pi/extensions/search-subagent/index.ts",
@@ -90,13 +91,19 @@
       "transcript": "/22/ccdb68d9ad/10/full.jsonl",
       "content_hash": "/22/ccdb68d9ad/10/content_hash.txt",
       "prompt": "/22/ccdb68d9ad/10/prompt.txt"
+    },
+    {
+      "metadata": "/22/ccdb68d9ad/11/metadata.json",
+      "transcript": "/22/ccdb68d9ad/11/full.jsonl",
+      "content_hash": "/22/ccdb68d9ad/11/content_hash.txt",
+      "prompt": "/22/ccdb68d9ad/11/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 1930593,
+    "input_tokens": 1944393,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 21256167,
-    "output_tokens": 244043,
-    "api_call_count": 398
+    "cache_read_tokens": 21282407,
+    "output_tokens": 247861,
+    "api_call_count": 409
   }
 }
