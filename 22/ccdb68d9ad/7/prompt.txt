@@ -1,0 +1,15 @@
+it seems that  1. I enabled env-protection system-wide. is not enable by default when using "pi" only
+
+when using hats liek --meta or other i's enabled Let's fix this
+
+---
+
+it should be wired via setup.sh or other sh
+
+---
+
+acrolls all hats + no hats
+
+---
+
+proceed
