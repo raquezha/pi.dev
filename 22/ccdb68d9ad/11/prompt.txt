@@ -1,17 +1,1 @@
-remove repo-backup-20260517T024020Z.git/
-
----
-
-EXECUTE
-
----
-
-readd all files get the context commit all
-
----
-
-default
-
----
-
-push all
+EXECUTE push origin main
