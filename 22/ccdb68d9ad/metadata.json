@@ -3,11 +3,24 @@
   "checkpoint_id": "22ccdb68d9ad",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 12,
+  "checkpoints_count": 32,
   "files_touched": [
     "README.md",
     "docs/architecture/forensic-systems-report.md",
-    "pi/settings.json"
+    "pi/extensions/README.md",
+    "pi/extensions/search-subagent/README.md",
+    "pi/extensions/search-subagent/index.ts",
+    "pi/settings.json",
+    "pi/skills/README.md",
+    "pi/skills/search/brave-search/SKILL.md",
+    "pi/skills/search/brave-search/read.sh",
+    "pi/skills/search/brave-search/search.sh",
+    "pi/skills/search/firecrawl/SKILL.md",
+    "pi/skills/search/firecrawl/common.sh",
+    "pi/skills/search/firecrawl/map.sh",
+    "pi/skills/search/firecrawl/scrape.sh",
+    "pi/skills/search/firecrawl/search.sh",
+    "scripts/setup.sh"
   ],
   "sessions": [
     {
@@ -21,13 +34,19 @@
       "transcript": "/22/ccdb68d9ad/1/full.jsonl",
       "content_hash": "/22/ccdb68d9ad/1/content_hash.txt",
       "prompt": "/22/ccdb68d9ad/1/prompt.txt"
+    },
+    {
+      "metadata": "/22/ccdb68d9ad/2/metadata.json",
+      "transcript": "/22/ccdb68d9ad/2/full.jsonl",
+      "content_hash": "/22/ccdb68d9ad/2/content_hash.txt",
+      "prompt": "/22/ccdb68d9ad/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 131197,
+    "input_tokens": 1072139,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 230503,
-    "output_tokens": 16414,
-    "api_call_count": 25
+    "cache_read_tokens": 9236583,
+    "output_tokens": 101010,
+    "api_call_count": 123
   }
 }
