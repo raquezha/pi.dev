@@ -1,0 +1,108 @@
+{
+  "cli_version": "0.5.6",
+  "checkpoint_id": "22ccdb68d9ad",
+  "session_id": "019e303e-b15b-72ed-b2a6-f003d20f97ff",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-17T23:42:24.802561Z",
+  "branch": "main",
+  "checkpoints_count": 5,
+  "files_touched": [
+    "README.md",
+    "pi/settings.json",
+    "pi/skills/README.md",
+    "pi/skills/search/_worker.sh",
+    "pi/skills/search/brave-search/SKILL.md",
+    "pi/skills/search/brave-search/read.sh",
+    "pi/skills/search/brave-search/search.sh",
+    "pi/skills/search/firecrawl/search.sh",
+    "scripts/setup.sh"
+  ],
+  "agent": "Pi",
+  "model": "",
+  "turn_id": "f03ce2bba008",
+  "token_usage": {
+    "input_tokens": 28787,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 173056,
+    "output_tokens": 8367,
+    "api_call_count": 25
+  },
+  "session_metrics": {
+    "turn_count": 5
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-17T23:42:24.793783Z",
+    "agent_lines": 0,
+    "agent_removed": 1,
+    "human_added": 169,
+    "human_modified": 80,
+    "human_removed": 0,
+    "total_committed": 210,
+    "total_lines_changed": 250,
+    "agent_percentage": 0.4,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 947,
+      "user_lines_removed": 80,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "README.md": 3,
+        "docs/agents/search-worker-backend.md": 28,
+        "docs/architecture/forensic-systems-report.md": 162,
+        "pi/settings.json": 2,
+        "pi/skills/README.md": 3,
+        "pi/skills/search/_worker.sh": 127,
+        "pi/skills/search/brave-search/SKILL.md": 11,
+        "pi/skills/search/brave-search/read.sh": 26,
+        "pi/skills/search/brave-search/search.sh": 80,
+        "pi/skills/search/firecrawl/SKILL.md": 48,
+        "pi/skills/search/firecrawl/common.sh": 56,
+        "pi/skills/search/firecrawl/map.sh": 131,
+        "pi/skills/search/firecrawl/scrape.sh": 138,
+        "pi/skills/search/firecrawl/search.sh": 129,
+        "scripts/setup.sh": 3
+      },
+      "user_removed_per_file": {
+        "README.md": 1,
+        "pi/settings.json": 2,
+        "pi/skills/README.md": 1,
+        "pi/skills/search/brave-search/SKILL.md": 2,
+        "pi/skills/search/brave-search/read.sh": 7,
+        "pi/skills/search/brave-search/search.sh": 65,
+        "scripts/setup.sh": 2
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 947,
+      "agent_lines_removed": 80
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 947,
+      "agent_lines_removed": 80
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 963,
+      "agent_lines_removed": 80
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 963,
+      "agent_lines_removed": 80
+    }
+  ]
+}

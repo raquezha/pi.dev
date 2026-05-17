@@ -1,0 +1,114 @@
+<skill name="firecrawl" location="/Users/raquezha/.pi/agent/skills/search/firecrawl/SKILL.md">
+References are relative to /Users/raquezha/.pi/agent/skills/search/firecrawl.
+
+# Firecrawl
+
+Use this skill when Firecrawl is the better fit than plain web search.
+
+## When to use
+- scrape a known URL into markdown
+- map a site to discover crawlable URLs
+- search the web and optionally scrape the results
+
+## Workflow
+1. Check `FIRECRAWL_API_TOKEN` is available in the current shell or `~/.pi-secrets/.env`.
+2. Pick the smallest helper:
+   - `./scrape.sh <url>`
+   - `./map.sh <url>`
+   - `./search.sh <query>`
+3. Use `--json` when the raw API response is more useful than the friendly view.
+4. Keep requests narrow; only add scrape/limit flags when needed.
+
+## Rules
+- Never print or hardcode the token.
+- Use the repo-local scripts only; do not install the upstream package.
+- Assume the model only needs the smallest useful output.
+- The launcher loads only `FIRECRAWL_API_TOKEN`, exports it for the worker, and fails fast if it is missing.
+
+## Validation
+- Missing token fails fast.
+- HTTP errors surface the Firecrawl response body.
+- Successful calls return either markdown, links, or pretty JSON.
+
+## Scripts
+- `common.sh` — shared request helpers
+- `scrape.sh` — scrape one URL
+- `map.sh` — list discoverable URLs for a site
+- `search.sh` — search Firecrawl and optionally scrape results
+
+## Worker backend
+All Firecrawl entrypoints can run through the shared search worker backend.
+
+- Default mode: `SEARCH_WORKER_MODE=auto`
+- `auto`: use tmux when available, otherwise run inline
+- `tmux`: require tmux
+- `inline`: always run inline
+- `strict`: fail if tmux is missing
+</skill>
+
+seach what is cat
+
+---
+
+we need to fix that shell not getting the token
+
+---
+
+EXECUTE
+
+---
+
+<skill name="firecrawl" location="/Users/raquezha/.pi/agent/skills/search/firecrawl/SKILL.md">
+References are relative to /Users/raquezha/.pi/agent/skills/search/firecrawl.
+
+# Firecrawl
+
+Use this skill when Firecrawl is the better fit than plain web search.
+
+## When to use
+- scrape a known URL into markdown
+- map a site to discover crawlable URLs
+- search the web and optionally scrape the results
+
+## Workflow
+1. Check `FIRECRAWL_API_TOKEN` is available in the current shell or `~/.pi-secrets/.env`.
+2. Pick the smallest helper:
+   - `./scrape.sh <url>`
+   - `./map.sh <url>`
+   - `./search.sh <query>`
+3. Use `--json` when the raw API response is more useful than the friendly view.
+4. Keep requests narrow; only add scrape/limit flags when needed.
+
+## Rules
+- Never print or hardcode the token.
+- Use the repo-local scripts only; do not install the upstream package.
+- Assume the model only needs the smallest useful output.
+- The launcher loads only `FIRECRAWL_API_TOKEN`, exports it for the worker, and fails fast if it is missing.
+
+## Validation
+- Missing token fails fast.
+- HTTP errors surface the Firecrawl response body.
+- Successful calls return either markdown, links, or pretty JSON.
+
+## Scripts
+- `common.sh` — shared request helpers
+- `scrape.sh` — scrape one URL
+- `map.sh` — list discoverable URLs for a site
+- `search.sh` — search Firecrawl and optionally scrape results
+
+## Worker backend
+All Firecrawl entrypoints can run through the shared search worker backend.
+
+- Default mode: `SEARCH_WORKER_MODE=auto`
+- `auto`: use tmux when available, otherwise run inline
+- `tmux`: require tmux
+- `inline`: always run inline
+- `strict`: fail if tmux is missing
+</skill>
+
+search for a cat
+
+---
+
+let's fix this: aquezha/.pi/agent/skills/search/firecrawl && ./search.sh "cat"
+jq: error (at <stdin>:1): Cannot index array with string "markdown"
