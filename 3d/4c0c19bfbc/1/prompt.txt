@@ -1,0 +1,6 @@
+- metadata.json.id: keep
+- AGENTS.d
+- I recommend print-only by default, optionally
+   apply with a flag.
+
+EXECUTE
