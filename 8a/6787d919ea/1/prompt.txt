@@ -1,0 +1,52 @@
+let's fix the workflwo
+
+valuating active task issues
+
+ I need to find the expected source ID for the active task. I wonder if we can update the active task, but it seems like the guard is saying that the script failed to stop the ask. This might be due to some
+ earlier issues with the active file. Should I ask for human help to fix the active task metadata? The guard indicates that if the script fails, I should stop and not proceed. I need to be cautious here.
+
+ Implementation blocked before code changes.
+
+ Branch enforcement script failed:
+
+ ```text
+   ERROR: WORK.md not found at .../.workflow/tasks//WORK.md.
+   Check if the task was initialized correctly with /triage.
+ ```
+
+ Cause:
+ - .workflow/active_task.json currently has active_task, but the branch script expects sourceId / id / taskPath.
+ - No code was modified.
+
+ Human review required:
+ - Please approve fixing .workflow/active_task.json to include the expected task path/id, then I can rerun the branch enforcement script and proceed.
+
+ Expected safe content would include something like:
+
+ ```json
+   {
+     "active_task": "jira-S3-6160",
+     "sourceId": "jira-S3-6160",
+     "taskPath": ".workflow/tasks/jira-S3-6160",
+     "branch": "feature/S3-6160-orders-amount-to-collect"
+   }
+ ```
+
+i always encouter this also notice there's also type on //WORK let' finvestiage
+
+---
+
+wahat look at it at new perspective and investigage
+
+---
+
+see i told yah. let's refactor everythign and pave the right path, let's not do a quick patch let's fix this the right way future proof
+
+---
+
+- metadata.json.id: keep
+- AGENTS.d
+- I recommend print-only by default, optionally
+   apply with a flag.
+
+EXECUTE
