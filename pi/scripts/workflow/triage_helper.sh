@@ -20,7 +20,9 @@ if [ "$SOURCE" == "local" ] && [[ "$ID_LOWER" =~ ^(problem|task|issue|work|todo)
     echo "Generic local ID detected. Falling back to branch-derived name '$ID'..."
 fi
 
-TASK_DIR="$BASE_DIR/$SOURCE-$ID"
+# Construct the canonical task folder name and path
+TASK_FOLDER="$SOURCE-$ID"
+TASK_DIR="$BASE_DIR/$TASK_FOLDER"
 mkdir -p "$TASK_DIR"
 
 echo "Initializing workspace in $TASK_DIR..."
@@ -58,9 +60,21 @@ esac
 # Since we just created metadata.json, let's just use a temporary file and jq if available, or simple python.
 if command -v jq >/dev/null 2>&1; then
     jq --arg branch "$BRANCH_NAME" '. + {branch: $branch}' "$TASK_DIR/metadata.json" > "$TASK_DIR/metadata.json.tmp" && mv "$TASK_DIR/metadata.json.tmp" "$TASK_DIR/metadata.json"
+    # Also record the task folder name for clarity
+    jq --arg tf "$TASK_FOLDER" '. + {taskFolder: $tf}' "$TASK_DIR/metadata.json" > "$TASK_DIR/metadata.json.tmp" && mv "$TASK_DIR/metadata.json.tmp" "$TASK_DIR/metadata.json"
 else
     # Fallback to simple python
-    python3 -c "import json, sys; d=json.load(open(sys.argv[1])); d['branch']='$BRANCH_NAME'; json.dump(d, open(sys.argv[1], 'w'))" "$TASK_DIR/metadata.json"
+    python3 - <<PY
+import json,sys
+p=sys.argv[1]
+branch=sys.argv[2]
+tf=sys.argv[3]
+d=json.load(open(p))
+d['branch']=branch
+d['taskFolder']=tf
+json.dump(d,open(p,'w'))
+PY
+    "$TASK_DIR/metadata.json" "$BRANCH_NAME" "$TASK_FOLDER"
 fi
 
 # Append mandatory sections for RPIV workflow
@@ -71,7 +85,10 @@ if ! grep -q "\[META\]" "$TASK_DIR/WORK.md"; then
     echo -e "\n[META]\nBranch: $BRANCH_NAME" >> "$TASK_DIR/WORK.md"
 fi
 
-# Create the Pointer for the Agent
-echo "{\"active_task\": \"$SOURCE-$ID\", \"sourceId\": \"$ID\", \"taskPath\": \"$TASK_DIR\", \"source\": \"$SOURCE\", \"id\": \"$ID\", \"path\": \"$TASK_DIR\"}" > ".workflow/active_task.json"
+# Create the Pointer for the Agent (canonical shape)
+# Keep metadata.id as the raw ID (per repo conventions)
+cat > ".workflow/active_task.json" <<JSON
+{"active_task": "$TASK_FOLDER", "source": "$SOURCE", "id": "$ID", "sourceId": "$ID", "taskPath": "$TASK_DIR", "path": "$TASK_DIR", "branch": "$BRANCH_NAME"}
+JSON
 
 echo "Triage complete. Single-file WORK.md ready at $TASK_DIR."
