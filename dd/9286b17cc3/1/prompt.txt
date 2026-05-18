@@ -1,0 +1,18 @@
+- metadata.json.id: keep
+- AGENTS.d
+- I recommend print-only by default, optionally
+   apply with a flag.
+
+EXECUTE
+
+---
+
+no need to migrate everythign is fine anyway
+
+---
+
+commit and push everything
+
+---
+
+can we remove entire in this remove "entire.io" not entire the word
