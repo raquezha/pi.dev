@@ -446,7 +446,7 @@ echo "  Next steps (The Hierarchy):"
 echo ""
 echo "  1. GLOBAL MACHINE SETUP (Once per Mac)"
 echo "     - Install Pi:     npm install -g @mariozechner/pi-coding-agent"
-echo "     - Install Entire: curl -fsSL https://entire.io/install.sh | bash"
+# The 'entire' installer URL has been removed from this script. Install 'entire' via your preferred package manager or from the vendor's site.
 echo "     - Login:          entire login"
 echo "     - Build Agent:    ./scripts/install-entire-agent.sh"
 echo "     - Optional:       Install tmux (brew install tmux) for multitasking"
