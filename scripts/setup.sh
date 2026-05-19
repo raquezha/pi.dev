@@ -115,6 +115,36 @@ else
   warn "triage_helper.sh not found at $TRIAGE_SCRIPT"
 fi
 
+# ── Install global git commit hook ─────────────────────────────────────
+GITHOOKS_DIR="$HOME/.githooks"
+REPO_HOOK="$PI_DIR/hooks/commit-msg"
+DEST_HOOK="$GITHOOKS_DIR/commit-msg"
+
+info "Installing global git commit hook..."
+
+mkdir -p "$GITHOOKS_DIR"
+
+if [[ -f "$REPO_HOOK" ]]; then
+  # Back up a real existing hook file (not symlink)
+  if [[ -e "$DEST_HOOK" && ! -L "$DEST_HOOK" ]]; then
+    local_backup="$DEST_HOOK.backup.$(date +%s)"
+    mv "$DEST_HOOK" "$local_backup"
+    warn "Backed up existing global hook to $(basename "$local_backup")"
+  fi
+
+  # Create or update symlink to repo hook
+  if [[ -L "$DEST_HOOK" ]]; then
+    rm "$DEST_HOOK"
+  fi
+  ln -s "$REPO_HOOK" "$DEST_HOOK"
+  chmod +x "$REPO_HOOK" "$DEST_HOOK"
+  git config --global core.hooksPath "$GITHOOKS_DIR"
+  ok "Installed commit-msg hook and configured git core.hooksPath → $GITHOOKS_DIR"
+else
+  warn "Repo hook not found at $REPO_HOOK; skipping global hook installation"
+fi
+# ── end hook install ─────────────────────────────────────────────────
+
 # ── Symlink helpers ───────────────────────────────────────────────────
 
 link_item() {

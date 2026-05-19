@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+MSG_FILE="$1"
+
+# If commit message contains literal backslash-n sequences, convert them to real newlines.
+if grep -q '\\n' "$MSG_FILE"; then
+  # Replace literal \n with actual newline (safely, across file)
+  perl -0777 -pe 's/\\n/\n/g' -i "$MSG_FILE"
+fi
+
+# Read first non-empty line (subject)
+FIRST_LINE="$(sed -n '1p' "$MSG_FILE" | tr -d '\r')"
+
+# Allow merge commits and empty messages
+if [[ "$FIRST_LINE" =~ ^Merge\  ]] || [[ -z "$FIRST_LINE" ]]; then
+  exit 0
+fi
+
+# Allow bypass tokens
+if grep -Eqi '\[skip commitlint\]|\[ci skip\]' "$MSG_FILE"; then
+  echo "Bypass token found in commit message — skipping commitlint."
+  exit 0
+fi
+
+# Basic Conventional Commit subject regex
+if printf '%s' "$FIRST_LINE" | grep -Eq '^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert)(\([^)]+\))?(!)?:\s.+'; then
+  exit 0
+fi
+
+cat <<EOF >&2
+ERROR: Commit message does not follow Conventional Commits.
+
+Expected: <type>(scope)?: subject
+Valid types: feat, fix, docs, style, refactor, perf, test, chore, build, ci, revert
+
+Examples:
+  feat(parser): add support for new syntax
+  fix: crash when input is empty
+
+If this is intentional, include '[skip commitlint]' in the commit message to bypass.
+EOF
+exit 1
