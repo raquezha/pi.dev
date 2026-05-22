@@ -32,6 +32,7 @@ Workspace & namespacing
 
 Hats (mindsets)
 - Use the shell integration flags to load specific mindsets and skill sets: `--rpiv`, `--android`, `--pm`, `--dev`, `--meta`, `--write`, `--antigravity`.
+- When shell integration loads skills, it auto-selects the highest-priority suggested model for that bundle on first launch; explicit `--model`/`--provider` wins, and unavailable suggestions fall back to the current selected model.
 
 Anti-bloat checklist (before editing durable docs)
 1. Is this a durable rule or a session event?
@@ -46,3 +47,4 @@ Where to edit durable docs
 References
 - `pi/skills/workflow/update-docs/SKILL.md`
 - `pi/skills/README.md`
+- Model routing cheat sheet: `docs/agents/recommended-skill-models.md`

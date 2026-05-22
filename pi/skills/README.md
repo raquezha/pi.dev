@@ -45,6 +45,14 @@ Skills for keeping durable repo documentation and agent context aligned without 
 
 ---
 
+## Model routing
+
+- Shell integration can auto-select a suggested model when a skill bundle is loaded.
+- Priority order: explicit `--model`/`--provider` > skill suggested model > current selected model.
+- If the suggested model is unavailable, pi stays on the current selected model.
+- Keep skill-level model guidance small and durable; use this README for the policy and skill frontmatter for the hint.
+- Cheat sheet: `docs/agents/recommended-skill-models.md`.
+
 ## How to Add Skills
 1. Create a category directory (e.g., `devops/`).
 2. Create a skill directory inside it (e.g., `gitlab-mr/`).
