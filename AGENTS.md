@@ -13,6 +13,7 @@ pi.dev agent guardrails
 - **Commits**: Use Conventional Commits for all commits.
 
 - **Where to find pi-local workflow rules**: See `pi/AGENTS.md` and `docs/agents/workflow.md` for repository-specific workflow, hats, and naming conventions. For guidance on durable documentation edits, see `pi/skills/workflow/update-docs/SKILL.md`.
+- **Markdown preview package**: `./scripts/setup.sh` installs/enables `npm:pi-markdown-preview` globally in Pi. It is not tied to a hat and should be available in normal sessions alongside search skills like Brave/Firecrawl.
 
 Active task canonical schema
 
