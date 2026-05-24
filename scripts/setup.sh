@@ -61,30 +61,6 @@ if [[ ! -d "$PI_DIR" ]]; then
   exit 1
 fi
 
-# ── Optional: install markdown preview package ───────────────────────
-
-echo ""
-info "Ensuring pi markdown preview package is installed and enabled..."
-MARKDOWN_PKG="npm:pi-markdown-preview"
-MARKDOWN_PKG_DIR="$AGENT_DIR/npm/pi-markdown-preview"
-MARKDOWN_IN_SETTINGS=0
-if pi list 2>/dev/null | grep -Eq "pi-markdown-preview|npm:pi-markdown-preview"; then
-  MARKDOWN_IN_SETTINGS=1
-fi
-
-if [[ -d "$MARKDOWN_PKG_DIR" && $MARKDOWN_IN_SETTINGS -eq 1 ]]; then
-  ok "$MARKDOWN_PKG already installed and enabled"
-else
-  if [[ -d "$MARKDOWN_PKG_DIR" && $MARKDOWN_IN_SETTINGS -eq 0 ]]; then
-    warn "$MARKDOWN_PKG files exist but package is not enabled in settings; re-linking via pi install"
-  fi
-  if pi install "$MARKDOWN_PKG"; then
-    ok "Installed/enabled $MARKDOWN_PKG"
-  else
-    warn "Failed to install/enable $MARKDOWN_PKG"
-  fi
-fi
-
 # ── Ensure directories exist ─────────────────────────────────────────
 
 mkdir -p "$AGENT_DIR/extensions"
@@ -249,7 +225,33 @@ echo ""
 # Safe defaults: config, models, keybindings, themes, and core UI extensions.
 # Intentionally NOT linked by default: AGENTS.md, skills, prompts, and manual-only extensions.
 # Those are opt-in because they increase startup context or behavior surface.
-link_item "$PI_DIR/settings.json"    "$AGENT_DIR/settings.json"    "settings.json"
+# settings.json is merged, not symlinked, so repo defaults do not wipe user-managed
+# state such as installed package registrations.
+sync_settings_json() {
+  local src="$1"
+  local dest="$2"
+
+  if [[ ! -f "$src" ]]; then
+    warn "Skipping settings.json (source not found: $src)"
+    return
+  fi
+
+  if [[ ! -e "$dest" ]]; then
+    cp "$src" "$dest"
+    ok "Created settings.json from repo defaults"
+    return
+  fi
+
+  if jq -s '.[0] * .[1]' "$src" "$dest" > "$dest.tmp"; then
+    mv "$dest.tmp" "$dest"
+    ok "Merged settings.json defaults (preserved user settings and packages)"
+  else
+    rm -f "$dest.tmp"
+    warn "Failed to merge settings.json; leaving existing file untouched"
+  fi
+}
+
+sync_settings_json "$PI_DIR/settings.json" "$AGENT_DIR/settings.json"
 link_item "$PI_DIR/models.json"      "$AGENT_DIR/models.json"      "models.json"
 link_item "$PI_DIR/keybindings.json" "$AGENT_DIR/keybindings.json" "keybindings.json"
 
@@ -288,7 +290,7 @@ if ! grep -q '"env-protection": true' "$AGENT_DIR/settings.json"; then
 else
   ok "env-protection already enabled in settings.json"
 fi
-link_item "$PI_DIR/extensions/search-subagent"     "$AGENT_DIR/extensions/search-subagent"     "extensions/search-subagent"
+link_item "$PI_DIR/extensions/search-subagent"        "$AGENT_DIR/extensions/search-subagent"        "extensions/search-subagent"
 
 # Manual-only extensions are not linked here. Load them explicitly when needed.
 if [[ -L "$AGENT_DIR/extensions/gemini-api" ]]; then
