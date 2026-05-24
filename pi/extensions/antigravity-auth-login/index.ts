@@ -65,6 +65,12 @@ const ANTIGRAVITY_DEBUG = process.env.ANTIGRAVITY_DEBUG === "1" || process.env.A
 
 let streamSimpleGoogleGeminiCliPromise: Promise<{ streamSimpleGoogleGeminiCli: any }> | undefined;
 
+const MODEL_ALIASES: Record<string, string> = {
+	"gemini-3.5-flash": "gemini-3-flash",
+	"gemini-3.1-pro-high": "gemini-3.1-pro-low",
+	"gpt-oss-120b": "gpt-oss-120b-medium",
+};
+
 async function loadStreamSimpleGoogleGeminiCli() {
 	if (!streamSimpleGoogleGeminiCliPromise) {
 		const candidates: string[] = [];
@@ -93,6 +99,7 @@ async function loadStreamSimpleGoogleGeminiCli() {
 		candidates.push("@mariozechner/pi-ai/google-gemini-cli");
 
 		const errors: string[] = [];
+		let lastError: unknown;
 		for (const candidate of candidates) {
 			try {
 				let mod: any;
@@ -246,12 +253,12 @@ function startCallbackServer(): Promise<{ server: Server; getCode: () => Promise
 
 function antigravityModels(): ModelDef[] {
 	return [
+		{ id: "gemini-3-flash", name: "Gemini 3 Flash (Google Antigravity)", reasoning: true, input: ["text", "image"], cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }, contextWindow: 1048576, maxTokens: 65535 },
 		{ id: "gemini-3.1-pro-high", name: "Gemini 3.1 Pro (high) (Google Antigravity)", reasoning: true, input: ["text", "image"], cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }, contextWindow: 1048576, maxTokens: 65535 },
 		{ id: "gemini-3.1-pro-low", name: "Gemini 3.1 Pro (low) (Google Antigravity)", reasoning: true, input: ["text", "image"], cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }, contextWindow: 1048576, maxTokens: 65535 },
-		{ id: "gemini-3-flash", name: "Gemini 3 Flash (Google Antigravity)", reasoning: true, input: ["text", "image"], cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }, contextWindow: 1048576, maxTokens: 65535 },
 		{ id: "claude-sonnet-4-6", name: "Claude Sonnet 4.6 (Google Antigravity)", reasoning: true, input: ["text", "image"], cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }, contextWindow: 200000, maxTokens: 64000 },
 		{ id: "claude-opus-4-6-thinking", name: "Claude Opus 4.6 Thinking (Google Antigravity)", reasoning: true, input: ["text", "image"], cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }, contextWindow: 200000, maxTokens: 64000 },
-		{ id: "gpt-oss-120b", name: "GPT-OSS-120b (Google Antigravity)", reasoning: false, input: ["text"], cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }, contextWindow: 131072, maxTokens: 32768 },
+		{ id: "gpt-oss-120b-medium", name: "GPT-OSS-120b Medium (Google Antigravity)", reasoning: false, input: ["text"], cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }, contextWindow: 131072, maxTokens: 32768 },
 	];
 }
 
@@ -394,14 +401,16 @@ function streamAntigravity(model: Model<Api>, context: Context, options?: Simple
 	(async () => {
 		try {
 			const transportBaseUrl = resolveTransportBaseUrl();
+			const runtimeModelId = MODEL_ALIASES[model.id] || model.id;
 			const innerModel = {
 				...model,
+				id: runtimeModelId,
 				provider: TRANSPORT_PROVIDER_ID,
 				api: TRANSPORT_API,
 				...(transportBaseUrl ? { baseUrl: transportBaseUrl } : {}),
 			} as Model<"google-gemini-cli">;
 
-			log(`provider request provider=${PROVIDER_ID} transportProvider=${TRANSPORT_PROVIDER_ID} api=${TRANSPORT_API} model=${model.id} endpoint=${transportBaseUrl || "fallbacks"}`);
+			log(`provider request provider=${PROVIDER_ID} transportProvider=${TRANSPORT_PROVIDER_ID} api=${TRANSPORT_API} model=${model.id} runtimeModel=${runtimeModelId} endpoint=${transportBaseUrl || "fallbacks"}`);
 
 			const { streamSimpleGoogleGeminiCli } = await loadStreamSimpleGoogleGeminiCli();
 			const innerStream = streamSimpleGoogleGeminiCli(innerModel, context, {
