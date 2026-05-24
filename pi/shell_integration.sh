@@ -6,7 +6,7 @@
 # to inject specialized skills and mindsets into the 'pi' session.
 
 pi() {
-  local REPO_DIR="$HOME/Developer/pi.dev"
+  local REPO_DIR="$HOME/RQZ/personal/pi.dev"
   local SKILLS_DIR="$REPO_DIR/pi/skills"
   local CODEX_PKG_NAME="@howaboua/pi-codex-conversion"
   local CODEX_PKG_CACHE_DIR="$HOME/.pi/agent/external-packages/pi-codex-conversion"
@@ -290,4 +290,4 @@ pi() {
   unset PI_MINDSET
 }
 
-alias reload-pi="source $HOME/Developer/pi.dev/pi/shell_integration.sh && echo 'pi.dev shell integration reloaded'"
+alias reload-pi="source $HOME/RQZ/personal/pi.dev/pi/shell_integration.sh && echo 'pi.dev shell integration reloaded'"

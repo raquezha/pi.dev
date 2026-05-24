@@ -61,6 +61,20 @@ if [[ ! -d "$PI_DIR" ]]; then
   exit 1
 fi
 
+# ── Optional: install markdown preview package ───────────────────────
+
+echo ""
+info "Ensuring pi markdown preview package is installed..."
+if [[ -d "$AGENT_DIR/npm/pi-markdown-preview" ]]; then
+  ok "npm:pi-markdown-preview already installed"
+else
+  if pi install npm:pi-markdown-preview; then
+    ok "Installed npm:pi-markdown-preview"
+  else
+    warn "Failed to install npm:pi-markdown-preview"
+  fi
+fi
+
 # ── Ensure directories exist ─────────────────────────────────────────
 
 mkdir -p "$AGENT_DIR/extensions"
