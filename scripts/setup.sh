@@ -64,14 +64,24 @@ fi
 # ── Optional: install markdown preview package ───────────────────────
 
 echo ""
-info "Ensuring pi markdown preview package is installed..."
-if [[ -d "$AGENT_DIR/npm/pi-markdown-preview" ]]; then
-  ok "npm:pi-markdown-preview already installed"
+info "Ensuring pi markdown preview package is installed and enabled..."
+MARKDOWN_PKG="npm:pi-markdown-preview"
+MARKDOWN_PKG_DIR="$AGENT_DIR/npm/pi-markdown-preview"
+MARKDOWN_IN_SETTINGS=0
+if pi list 2>/dev/null | grep -Eq "pi-markdown-preview|npm:pi-markdown-preview"; then
+  MARKDOWN_IN_SETTINGS=1
+fi
+
+if [[ -d "$MARKDOWN_PKG_DIR" && $MARKDOWN_IN_SETTINGS -eq 1 ]]; then
+  ok "$MARKDOWN_PKG already installed and enabled"
 else
-  if pi install npm:pi-markdown-preview; then
-    ok "Installed npm:pi-markdown-preview"
+  if [[ -d "$MARKDOWN_PKG_DIR" && $MARKDOWN_IN_SETTINGS -eq 0 ]]; then
+    warn "$MARKDOWN_PKG files exist but package is not enabled in settings; re-linking via pi install"
+  fi
+  if pi install "$MARKDOWN_PKG"; then
+    ok "Installed/enabled $MARKDOWN_PKG"
   else
-    warn "Failed to install npm:pi-markdown-preview"
+    warn "Failed to install/enable $MARKDOWN_PKG"
   fi
 fi
 
