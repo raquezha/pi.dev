@@ -8,11 +8,12 @@ description: Implement the next approved vertical slice from the active WORK.md 
 Execute one functional vertical slice and hand it to the human for review.
 
 ## Guardrails
-- READ: `.workflow/active_task.json` then active `WORK.md` `[PLAN]`.
+- READ: `.workflow/active_task.json` then active `WORK.md` `[PLAN]`, `[BRIEF]`, and relevant `[LOG]` evidence.
 - WRITE: code changes and `WORK.md` -> append to `[LOG]` only.
 - NEVER: edit `[BRIEF]` or `[GRILL]`.
 - NEVER: implement without explicit user instruction.
 - NEVER: add `Signed-off-by`; only the human can certify DCO.
+- NEVER: freestyle PR/MR descriptions; use the Draft PR/MR body contract below.
 
 ## Workflow
 1. Identify the first approved unchecked slice in `[PLAN]`.
@@ -26,7 +27,94 @@ Execute one functional vertical slice and hand it to the human for review.
 5. Run the slice verification command and available quality gates.
 6. Commit with Conventional Commit header and `Assisted-by: [AGENT]:[MODEL] [tools]` footer (populating the agent name and model ID from the current session context).
 7. Push and open a Draft PR/MR with `gh` or `glab` when a remote exists.
-8. Append summary, commit hash, and PR/MR link to `[LOG]` (Format: `YYYY-MM-DD hh:mm AM/PM`).
+8. Use a temporary body file (`--body-file` or API equivalent) for PR/MR descriptions to avoid shell quoting and markdown escaping bugs.
+9. Append summary, commit hash, and PR/MR link to `[LOG]` (Format: `YYYY-MM-DD hh:mm AM/PM`).
+
+## Draft PR/MR body contract
+
+Generate the Draft PR/MR body from the active `WORK.md`, implemented slice, commit(s), and verification evidence. If a section has no evidence yet, say so explicitly; do not omit the section.
+
+Use this exact section order:
+
+```md
+## Summary
+- <one to three bullets describing what changed and why>
+
+## Scope
+- <files/areas changed>
+- <notable behavior or workflow changes>
+
+## Verification
+- [x] <command or check that passed>
+- [ ] <manual check still needed, if any>
+
+## Risk / Rollback
+- Risk: <main regression or operational risk, or "Low" with reason>
+- Rollback: <revert commit, disable feature, or restore previous behavior>
+
+## RPIV Task
+- Task: `<source>:<id>`
+- Slice: <slice name>
+- Branch: `<branch>`
+
+## Human Review Checklist
+- [ ] Review changed files for repo conventions.
+- [ ] Confirm verification evidence is sufficient.
+- [ ] Confirm no secrets, local-only paths, or scratch artifacts are included.
+```
+
+### PR/MR body rules
+- Keep the body concise and reviewer-focused.
+- Prefer bullets over paragraphs.
+- Include verification commands exactly as run.
+- Include failed or skipped verification as explicit unchecked items with reasons.
+- Include known risks instead of saying “none” unless risk is genuinely low and explained.
+- Include the RPIV task id and slice name so review can trace back to `WORK.md`.
+- Do not include private notes, secrets, environment variable values, or local scratch paths.
+
+### GitHub example
+```bash
+body_file=$(mktemp)
+cat > "$body_file" <<'EOF'
+## Summary
+- ...
+
+## Scope
+- ...
+
+## Verification
+- [x] ...
+
+## Risk / Rollback
+- Risk: ...
+- Rollback: ...
+
+## RPIV Task
+- Task: `local:setup-v2`
+- Slice: Slice 1 — Idempotent `/triage` helper
+- Branch: `feat/setup-v2`
+
+## Human Review Checklist
+- [ ] Review changed files for repo conventions.
+- [ ] Confirm verification evidence is sufficient.
+- [ ] Confirm no secrets, local-only paths, or scratch artifacts are included.
+EOF
+
+gh pr create --draft --title "<title>" --body-file "$body_file"
+```
+
+### GitLab example
+```bash
+body_file=$(mktemp)
+cat > "$body_file" <<'EOF'
+## Summary
+- ...
+EOF
+
+glab mr create --draft --title "<title>" --description "$(cat "$body_file")"
+```
+
+Prefer true body-file flags when available. If the CLI only supports a string description, write the body to a temp file first and read it from there to avoid inline shell quoting mistakes.
 
 ## Output contract
 End with:
