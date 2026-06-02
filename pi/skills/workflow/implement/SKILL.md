@@ -31,6 +31,7 @@ Execute one functional vertical slice and hand it to the human for review.
    - For Jira-tracked tasks, the header MUST include the Jira key in the scope position: `fix(PROJ-123): ...` or `feat(PROJ-123): ...`.
    - If release-note tooling also needs the key in parsed text, add `Refs: PROJ-123` in the body/footer as well.
 7. Push and open a Draft PR/MR with `gh` or `glab` when a remote exists.
+   - For Jira-tracked tasks, the PR/MR title MUST also include the Jira key and should mirror the commit subject.
 8. Use a temporary body file (`--body-file` or API equivalent) for PR/MR descriptions to avoid shell quoting and markdown escaping bugs.
 9. Append summary, commit hash, and PR/MR link to `[LOG]` (Format: `YYYY-MM-DD hh:mm AM/PM`).
 
