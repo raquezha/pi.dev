@@ -4,7 +4,9 @@
   "private": true,
   "description": "Personal pi coding agent customizations — extensions, skills, prompts, themes",
   "scripts": {
-    "setup": "./scripts/setup.sh"
+    "setup": "./scripts/setup.sh",
+    "check": "./scripts/check.sh",
+    "doctor": "./scripts/doctor.sh"
   },
   "keywords": [
     "pi-package"

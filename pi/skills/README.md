@@ -18,8 +18,14 @@ Web search and information retrieval.
 - **Notes**: `./scripts/setup.sh` links this category into `~/.pi/agent/skills/` so `/skill:...` works without hats.
 - **Next Up**: Content extraction, Goggles integration.
 
+### 🧑‍💻 Dev Review & CI
+Platform-neutral review and automation triage skills.
+- **Status**: 🟢 Added
+- **Skills**: `dev/change-review`, `dev/ci-triage`
+- **Notes**: Use `change-review` as the neutral name for GitHub PRs and GitLab MRs; use `ci-triage` for GitHub Actions, GitLab CI/CD, or local quality gate failures.
+
 ### ♾️ GitLab & DevOps (Planned)
-Skills for managing GitLab CI/CD pipelines, MR reviews, and environment deployments.
+Skills for broader GitLab CI/CD management, MR automation, and environment deployments.
 - **Status**: ⚪ Planned
 
 ### 🔁 Workflow

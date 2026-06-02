@@ -26,7 +26,7 @@ The agent can also use the following commands to search the web or read specific
 
 ### Search and Output as Markdown Table
 ```bash
-./search.sh "your search query" --table
+./search.sh "your search query" --table --limit 5
 ```
 
 ### Read a Specific URL

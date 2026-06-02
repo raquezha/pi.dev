@@ -66,7 +66,7 @@ Configured via `pi/shell_integration.sh`:
 - **RPIV Hat (`--rpiv`)**: Full Lean RPIV workflow (triage, frame, grill-with-docs, plan, implement, verify, sync, update-docs).
 - **Android Hat (`--android`)**: Specialized for KMP/Android development with quality gates.
 - **PM Hat (`--pm`)**: Product/PM workflows (search, triage, frame, grill-with-docs, plan, sync).
-- **Dev Hat (`--dev`)**: Developer-focused skills for implementation, verification, and sync.
+- **Dev Hat (`--dev`)**: Developer-focused skills for implementation, verification, sync, change review, and CI triage.
 - **Meta Hat (`--meta`)**: Skill creation, meta workflows, and env-protection helpers.
 - **Write Hat (`--write`)**: Documentation and writing-focused skills.
 - **Antigravity Hat (`--antigravity`)**: Experimental antigravity extension; loads `pi/extensions/antigravity-auth-login`.
@@ -86,6 +86,8 @@ For a detailed breakdown of LLM metrics (Context, Caching, Tokens), see the [Age
 Located in `pi/skills/`:
 - `workflow/`: Core Lean RPIV skills.
 - `android/`: Android-specific toolkits.
+- `dev/change-review`: Platform-neutral review skill for local diffs, GitHub PRs, and GitLab MRs.
+- `dev/ci-triage`: Platform-neutral triage skill for GitHub Actions, GitLab CI/CD, and local quality gate failures.
 - `search/`: Brave Search + Firecrawl integration (linked globally by setup).
 - `meta/agent-os/`: Initialize or sync Agent-First infrastructure in any repo.
 
@@ -94,7 +96,7 @@ Located in `pi/skills/`:
 Located in `pi/extensions/`:
 - `powerline-footer/`: footer styling
 - `env-protection/`: blocks dangerous commands and env modifications
-- `search-subagent/`: spawns isolated child pi sessions for Brave/Search work
+- `search-subagent/`: runs Brave/Search work outside the main model context; fast direct mode avoids child pi/tmux by default, with optional child-pi fallback
 - `gemini-api/`: manual-only public Gemini API provider (`gemini-api/...`)
 - `antigravity-auth-login/`: manual-only, experimental Antigravity OAuth/login provider (`antigravity-cli/...`)
 
@@ -109,6 +111,12 @@ To deploy changes to your local machine:
 ./scripts/setup.sh
 ```
 This script handles symlinking, "smart pruning" of unmanaged files, and shell integration.
+
+Useful local health checks:
+```bash
+npm run check   # JSON, shell, skill frontmatter, and workflow pointer checks
+npm run doctor  # print-only local pi.dev setup report
+```
 
 Run `./scripts/setup.sh` after cloning to symlink the default repo-local extensions into `~/.pi/agent/extensions/`.
 Load `gemini-api` manually when you need it:

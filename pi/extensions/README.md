@@ -3,11 +3,13 @@
 Repository-local extensions live here. `./scripts/setup.sh` symlinks the default extensions into `~/.pi/agent/extensions/`.
 
 ## Included extensions
-- `clean-repo` — git cleanup helper
 - `powerline-footer` — UI footer styling
-- `search-subagent` — spawns isolated child pi sessions for Brave/Search work
+- `env-protection` — blocks dangerous commands and protected secret paths
+- `search-subagent` — runs Brave/Search work outside the main model context; direct no-tmux mode by default, optional child-pi fallback
 - `gemini-api` — manual-only public Gemini API provider under the `gemini-api/...` namespace
 - `antigravity-auth-login` — manual-only, experimental Antigravity OAuth/login provider under the `antigravity-cli/...` namespace
+
+`clean-repo` was retired as an extension; use the `/cleanup` skill for branch and workflow artifact cleanup.
 
 ## Gemini API extension
 Load it manually when you want Gemini models:

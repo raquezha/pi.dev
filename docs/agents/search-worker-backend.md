@@ -9,10 +9,12 @@ The launcher loads only the required allowlisted env vars from the current shell
 - Out: global agent execution, non-search skills
 
 ## Modes
-- `auto` (default): use tmux when available, otherwise run inline
+- `auto` (script default): use tmux when available, otherwise run inline
 - `tmux`: require tmux
 - `inline`: always run inline
 - `strict`: fail if tmux is missing
+
+`search_subagent` forces `SEARCH_WORKER_MODE=inline` in both fast direct mode and child-pi mode. This keeps main-model context isolation while avoiding tmux startup cost for short Brave/Firecrawl requests.
 
 ## Result contract
 The worker preserves normal stdout/stderr and exit codes from the wrapped skill command.

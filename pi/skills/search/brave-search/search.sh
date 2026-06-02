@@ -9,7 +9,7 @@ SEARCH_WORKER_REQUIRED_ENV="BRAVE_SEARCH_API_KEY"
 
 usage() {
   cat <<'EOF'
-Usage: ./search.sh <query> [--summarize] [--table]
+Usage: ./search.sh <query> [--summarize] [--table] [--limit <n>]
 EOF
 }
 
@@ -24,12 +24,24 @@ brave_search_main() {
 
   SUMMARIZE=false
   TABLE=false
-  for arg in "$@"; do
-    case "$arg" in
+  LIMIT=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
       --summarize) SUMMARIZE=true ;;
       --table) TABLE=true ;;
+      --limit)
+        [[ $# -ge 2 ]] || search_worker_error "--limit requires a value."
+        LIMIT="$2"
+        shift
+        ;;
+      *) search_worker_error "Unknown flag: $1" ;;
     esac
+    shift
   done
+
+  if [[ -n "$LIMIT" && ! "$LIMIT" =~ ^[0-9]+$ ]]; then
+    search_worker_error "--limit expects a non-negative integer."
+  fi
 
   if [[ -z "${BRAVE_SEARCH_API_KEY:-}" ]]; then
     search_worker_error "BRAVE_SEARCH_API_KEY is unavailable after launcher bootstrap."
@@ -58,7 +70,13 @@ brave_search_main() {
       description="${description//|/\\|}"
       printf '| %s | %s | %s | %s |\n' "$rank" "$title" "$url" "$description"
       rank=$((rank + 1))
-    done < <(echo "$RESPONSE" | jq -r '.web.results[]? | [(.title // ""), (.url // ""), (.description // "")] | @tsv')
+    done < <(echo "$RESPONSE" | jq -r --arg limit "$LIMIT" '
+      (.web.results // [])
+      | to_entries[]
+      | select(($limit == "") or (.key + 1) <= ($limit | tonumber))
+      | .value
+      | [(.title // ""), (.url // ""), (.description // "")] | @tsv
+    ')
     exit 0
   fi
 
@@ -78,9 +96,12 @@ brave_search_main() {
   fi
 
   echo "### WEB RESULTS ###"
-  echo "$RESPONSE" | jq -r '
-    .web.results[] |
-    "Title: " + .title + "\nURL: " + .url + "\nDescription: " + .description + "\n---"
+  echo "$RESPONSE" | jq -r --arg limit "$LIMIT" '
+    (.web.results // [])
+    | to_entries[]
+    | select(($limit == "") or (.key + 1) <= ($limit | tonumber))
+    | .value
+    | "Title: " + .title + "\nURL: " + .url + "\nDescription: " + .description + "\n---"
   '
 }
 

@@ -82,7 +82,7 @@ pi() {
       frame|plan|agent-os|brave-search|firecrawl|android-adb|android-gradle|android-project-setup|search)
         set_auto_model "github-copilot" "gpt-4.1" 3
         ;;
-      cleanup|triage|verify|sync)
+      cleanup|triage|verify|sync|change-review|ci-triage|dev)
         set_auto_model "github-copilot" "gpt-5-mini" 2
         ;;
     esac
@@ -130,12 +130,16 @@ pi() {
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/sync")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/cleanup")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/dev/change-review")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/dev/ci-triage")
         model_for_skill_path "$SKILLS_DIR/search"
         model_for_skill_path "$SKILLS_DIR/workflow/triage"
         model_for_skill_path "$SKILLS_DIR/workflow/implement"
         model_for_skill_path "$SKILLS_DIR/workflow/verify"
         model_for_skill_path "$SKILLS_DIR/workflow/sync"
         model_for_skill_path "$SKILLS_DIR/workflow/cleanup"
+        model_for_skill_path "$SKILLS_DIR/dev/change-review"
+        model_for_skill_path "$SKILLS_DIR/dev/ci-triage"
         shift
         ;;
       --rpiv)
@@ -151,6 +155,8 @@ pi() {
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/sync")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/update-docs")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/cleanup")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/dev/change-review")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/dev/ci-triage")
         model_for_skill_path "$SKILLS_DIR/search"
         model_for_skill_path "$SKILLS_DIR/workflow/triage"
         model_for_skill_path "$SKILLS_DIR/workflow/frame"
@@ -161,6 +167,8 @@ pi() {
         model_for_skill_path "$SKILLS_DIR/workflow/sync"
         model_for_skill_path "$SKILLS_DIR/workflow/update-docs"
         model_for_skill_path "$SKILLS_DIR/workflow/cleanup"
+        model_for_skill_path "$SKILLS_DIR/dev/change-review"
+        model_for_skill_path "$SKILLS_DIR/dev/ci-triage"
         shift
         ;;
       --meta)

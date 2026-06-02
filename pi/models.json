@@ -2,7 +2,7 @@
   "providers": {
     "modal": {
       "baseUrl": "https://api.us-west-2.modal.direct/v1",
-      "apiKey": "MODAL_API_KEY",
+      "apiKey": "$MODAL_API_KEY",
       "authHeader": true,
       "api": "openai-completions",
       "models": [
@@ -10,10 +10,17 @@
           "id": "zai-org/GLM-5.1-FP8",
           "name": "Modal GLM-5.1 FP8",
           "reasoning": false,
-          "input": ["text"],
+          "input": [
+            "text"
+          ],
           "contextWindow": 128000,
           "maxTokens": 131072,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
         }
       ]
     }

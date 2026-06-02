@@ -29,6 +29,8 @@ Use this cheat sheet when choosing a model for pi.dev skills.
 | plan | `github-copilot` | `gpt-4.1` | Draft thin implementation slices |
 | verify | `github-copilot` | `gpt-5-mini` | Run checks and validate results |
 | sync | `github-copilot` | `gpt-5-mini` | Update tracker/state |
+| change-review | `github-copilot` | `gpt-5-mini` | Review local diffs, GitHub PRs, and GitLab MRs |
+| ci-triage | `github-copilot` | `gpt-5-mini` | Triage GitHub Actions, GitLab CI, and local gate failures |
 | update-docs | `openai-codex` | `gpt-5.4` | Durable docs and workflow notes |
 | agent-os | `github-copilot` | `gpt-4.1` | Seed or sync repo agent context |
 | brave-search | `github-copilot` | `gpt-4.1` | Search and summarize web findings |
@@ -43,6 +45,10 @@ Use this cheat sheet when choosing a model for pi.dev skills.
 | android-logcat-smart | `openai-codex` | `gpt-5.5` | Crash and stacktrace analysis |
 | android-agp9-migration | `openai-codex` | `gpt-5.5` | AGP migration and complex build changes |
 | android-ci-component-adoption | `openai-codex` | `gpt-5.5` | CI adoption, drift repair, and multi-file updates |
+
+## Model-router doctor idea
+
+A model-router doctor would be a print-only diagnostic that explains why pi selected a provider/model for a session: explicit CLI override, hat-loaded skill priority, fallback because a provider/model is unavailable, or current-model retention. It is useful when auto-routing feels surprising. This repo currently documents routing in this file and implements hat routing in `pi/shell_integration.sh`; a dedicated command can be added later if routing needs more debugging.
 
 ## Quick examples
 
