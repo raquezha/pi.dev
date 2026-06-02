@@ -27,6 +27,7 @@ Concise definitions and best practices for LLM-related metrics and agentic terms
 - WORK.md: The single-file source of truth for a task at `.workflow/tasks/[source-id]/WORK.md` with guarded sections: `[BRIEF]`, `[GRILL]`, `[PLAN]`, `[LOG]`, `[META]`.
 - Hats (Mindsets): Shell flags such as `--rpiv`, `--dev`, `--pm`, `--android` that preload appropriate skills and behaviors.
 - Assisted-by: Commit footer to indicate AI assistance (human must still certify DCO / Signed-off-by when needed).
+- Jira commit key: For Jira-tracked RPIV tasks, include the Jira key in the commit subject and PR/MR title (for example `fix(PROJ-123): ...`) so Jira can link development and release metadata cleanly.
 - EXECUTE: An explicit human instruction that authorizes the agent to perform filesystem-modifying actions for AFK slices.
 
 ## Practical tips

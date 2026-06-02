@@ -12,6 +12,7 @@ Core phases
 - Grill (`/grill-with-docs`): Validate the brief against `CONTEXT.md`, `docs/agents/*`, and codebase rules. Record decisions in `[GRILL]`.
 - Plan (`/plan`): Produce thin, verifiable vertical slices in `[PLAN]`. Mark slices AFK/HITL and include verification commands.
 - Implement (`/implement`): The agent MUST run the branch-enforcement script to ensure it is not on a protected branch before modifying code. Execute one approved slice, commit with Conventional Commit headers, push, and open a Draft PR/MR. Append results to `[LOG]`.
+  - If the active task is Jira-tracked, the commit subject and PR/MR title MUST include the Jira key (for example: `fix(PROJ-123): ...`).
 - Verify (`/verify`): Run verification commands and quality gates. Append verification evidence to `[LOG]` and recommend `/sync` if needed.
 
 ## Branching Strategy
@@ -32,6 +33,7 @@ Workspace & namespacing
 
 Hats (mindsets)
 - Use the shell integration flags to load specific mindsets and skill sets: `--rpiv`, `--android`, `--pm`, `--dev`, `--meta`, `--write`, `--antigravity`.
+- `--dev` and `--rpiv` include platform-neutral `change-review` (GitHub PR/GitLab MR/local diff review) and `ci-triage` (GitHub Actions/GitLab CI/local gate failure triage).
 - When shell integration loads skills, it auto-selects the highest-priority suggested model for that bundle on first launch; explicit `--model`/`--provider` wins, and unavailable suggestions fall back to the current selected model.
 
 Anti-bloat checklist (before editing durable docs)

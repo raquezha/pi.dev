@@ -135,6 +135,7 @@ EXECUTE
 - Label slices AFK vs HITL. AFK slices can be implemented by the agent after EXECUTE, HITL slices require a human decision/review step.
 - Include explicit verification commands per slice and required quality gates.
 - Commit messages: Use Conventional Commits and include an `Assisted-by:` footer when the agent contributed (human must certify DCO/Signed-off-by).
+  - For Jira-tracked tasks, put the Jira key in the subject line itself (`fix(PROJ-123): ...`), not only in the body/footer.
 
 ## Troubleshooting & tips
 

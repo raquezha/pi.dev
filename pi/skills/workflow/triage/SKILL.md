@@ -17,6 +17,7 @@ Start RPIV by creating, resuming, or explicitly reopening a task workspace.
 - NEVER: create `PROBLEM.md`, `PRD.md`, `PLAN.md`, or `EVIDENCE.md`.
 - NEVER: implement code during triage.
 - NEVER: guess source from `#123`; require explicit `jira:`, `github:`, `gitlab:`, or `local:`.
+- NEVER: strip or hide the Jira key for `jira:` tasks; preserve it in `[META]` and in the triage log so `/implement` can require it in the commit subject.
 - NEVER: mutate `done` or `archived` tasks unless the user explicitly requested `reopen`, `fresh`, or `reset`.
 
 ## Command forms
@@ -78,7 +79,7 @@ Use when auto/resume mode targets a `done` or `archived` task.
    - Version-check environment/dependencies only when the task depends on a version claim.
 6. Classify the task: Problem / Proposal.
 7. **Log Findings**: append concise Repo Pulse and classification findings to `[LOG]` only. Do not edit `[BRIEF]`, `[GRILL]`, or `[PLAN]`.
-8. **Branch Guidance**: record the current branch in `[META]`. Planning on `main`/`master` is allowed; implementation must use `/implement` branch enforcement.
+8. **Branch Guidance**: record the current branch in `[META]`. For `jira:` tasks, also preserve the Jira key in `[META]` and mention that `/implement` must use it in the commit subject. Planning on `main`/`master` is allowed; implementation must use `/implement` branch enforcement.
 9. End by recommending the next valid command:
    - newly created -> `/frame`
    - existing with empty `[BRIEF]` -> `/frame`

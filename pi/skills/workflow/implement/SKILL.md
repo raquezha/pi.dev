@@ -12,6 +12,8 @@ Execute one functional vertical slice and hand it to the human for review.
 - WRITE: code changes and `WORK.md` -> append to `[LOG]` only.
 - NEVER: edit `[BRIEF]` or `[GRILL]`.
 - NEVER: implement without explicit user instruction.
+- NEVER: commit a Jira-tracked task with a Jira-less subject; if the active task source is `jira`, the commit subject MUST include the Jira key from `.workflow/active_task.json` (e.g. `fix(PROJ-123): ...`).
+- NEVER: hide the Jira key only in the commit body/footer when the task is Jira-tracked; the subject itself must carry the key.
 - NEVER: add `Signed-off-by`; only the human can certify DCO.
 - NEVER: freestyle PR/MR descriptions; use the Draft PR/MR body contract below.
 
@@ -25,7 +27,9 @@ Execute one functional vertical slice and hand it to the human for review.
    - If the script fails, STOP and ask the human for help. Do not proceed with code changes.
 4. Implement test-first where practical; otherwise document why not in `[LOG]`.
 5. Run the slice verification command and available quality gates.
-6. Commit with Conventional Commit header and `Assisted-by: [AGENT]:[MODEL] [tools]` footer (populating the agent name and model ID from the current session context).
+6. Commit with a Conventional Commit header and `Assisted-by: [AGENT]:[MODEL] [tools]` footer (populating the agent name and model ID from the current session context).
+   - For Jira-tracked tasks, the header MUST include the Jira key in the scope position: `fix(PROJ-123): ...` or `feat(PROJ-123): ...`.
+   - If release-note tooling also needs the key in parsed text, add `Refs: PROJ-123` in the body/footer as well.
 7. Push and open a Draft PR/MR with `gh` or `glab` when a remote exists.
 8. Use a temporary body file (`--body-file` or API equivalent) for PR/MR descriptions to avoid shell quoting and markdown escaping bugs.
 9. Append summary, commit hash, and PR/MR link to `[LOG]` (Format: `YYYY-MM-DD hh:mm AM/PM`).
