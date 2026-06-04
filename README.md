@@ -67,9 +67,9 @@ Configured via `pi/shell_integration.sh`:
 - **Android Hat (`--android`)**: Specialized for KMP/Android development with quality gates.
 - **PM Hat (`--pm`)**: Product/PM workflows (search, triage, frame, grill-with-docs, plan, sync).
 - **Dev Hat (`--dev`)**: Developer-focused skills for implementation, verification, and sync.
-- **Meta Hat (`--meta`)**: Skill creation, meta workflows, and env-protection helpers.
+- **Meta Hat (`--meta`)**: Skill creation, meta workflows, and noleaks helpers.
 - **Write Hat (`--write`)**: Documentation and writing-focused skills.
-- **Antigravity Hat (`--antigravity`)**: Experimental antigravity extension; loads `pi/extensions/antigravity-auth-login`.
+- **Antigravity Hat (`--antigravity`)**: Experimental antigravity extension; loads `pi/extensions/noantigravity`.
 
 ## 📂 Artifacts & Anti-Bloat
 
@@ -93,10 +93,10 @@ Located in `pi/skills/`:
 
 Located in `pi/extensions/`:
 - `powerline-footer/`: footer styling
-- `env-protection/`: blocks dangerous commands and env modifications
-- `search-subagent/`: spawns isolated child pi sessions for Brave/Search work
+- `noleaks/`: blocks dangerous commands and env modifications
+- `nosearch/`: spawns isolated child pi sessions for Brave/Search work
 - `gemini-api/`: manual-only public Gemini API provider (`gemini-api/...`)
-- `antigravity-auth-login/`: manual-only, experimental Antigravity OAuth/login provider (`antigravity-cli/...`)
+- `noantigravity/`: manual-only, experimental Antigravity OAuth/login provider (`antigravity-cli/...`)
 
 ## 🚀 Setup & Workspace Management
 
@@ -117,17 +117,17 @@ Load `gemini-api` manually when you need it:
 pi -e ./pi/extensions/gemini-api
 ```
 
-Load `antigravity-auth-login` manually when you want the OAuth login flow back for investigation:
+Load `noantigravity` manually when you want the OAuth login flow back for investigation:
 
 ```bash
 pi --antigravity
 # or
-ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
+ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/noantigravity
 ```
 
 By default this now registers as `antigravity-cli/...` and uses a direct custom-provider `streamSimple` transport instead of relying on built-in `google-gemini-cli` runtime dispatch. A minimal latest-Pi `gemini-3-flash` print-mode request is now verified end-to-end.
 
-On latest Pi, this path is still experimental. Use `/antigravity.doctor` after startup and check `pi/extensions/antigravity-auth-login/README.md` for the current version matrix, diagnostics workflow, and fallback pinning criteria.
+On latest Pi, this path is still experimental. Use `/antigravity.doctor` after startup and check `pi/extensions/noantigravity/README.md` for the current version matrix, diagnostics workflow, and fallback pinning criteria.
 
 Set `GEMINI_API_KEY` or `GOOGLE_API_KEY` in your shell rc (`~/.zshrc`, etc.) if you want Gemini models available in that session.
 

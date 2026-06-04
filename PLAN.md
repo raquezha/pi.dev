@@ -51,7 +51,7 @@ Build a "Staff Engineer" grade agentic workflow engine that:
 | **Android** | `pi --android` | Android-specific skills (modifier) |
 | **PM** | `pi --pm` | search, triage, frame, grill-with-docs, plan, sync |
 | **Dev** | `pi --dev` | search, triage, implement, verify, sync |
-| **Meta** | `pi --meta` | meta skill creation, env-protection helpers |
+| **Meta** | `pi --meta` | meta skill creation, noleaks helpers |
 | **Write** | `pi --write` | documentation and writing-focused skills |
 | **Antigravity** | `pi --antigravity` | loads antigravity experimental extension |
 

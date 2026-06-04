@@ -93,8 +93,8 @@ function runChildPi(args: string[], signal?: AbortSignal): Promise<SubagentResul
 }
 
 export default function (pi: ExtensionAPI) {
-  pi.registerCommand("search-subagent.smoke", {
-    description: "Run a deterministic child-pi smoke test for the search subagent wiring.",
+  pi.registerCommand("nosearch.smoke", {
+    description: "Run a deterministic child-pi smoke test for the nosearch subagent wiring.",
     handler: async (_args, ctx) => {
       const child = await runChildPi(
         [

@@ -20,10 +20,10 @@ The `pi.dev` architecture is an orchestration wrapper. It is not an agent engine
     *   *Key Files*: `pi/skills/workflow/*`
 5.  **Capability Interceptors (Extensions)**
     *   *Purpose*: Runtime blocking of tools to prevent credential exfiltration.
-    *   *Key Files*: `pi/extensions/env-protection/index.ts`
+    *   *Key Files*: `pi/extensions/noleaks/index.ts`
 
 **Dependency Graph Flow:**
-`pi CLI` ➔ `shell_integration.sh (Hat Router)` ➔ `env-protection (Interceptor)` ➔ `LLM Core` ➔ `Skills (Prompt Injection)` ➔ `.workflow/tasks/ (State Read/Write)` ➔ `bash/edit/read (Action)`
+`pi CLI` ➔ `shell_integration.sh (Hat Router)` ➔ `noleaks (Interceptor)` ➔ `LLM Core` ➔ `Skills (Prompt Injection)` ➔ `.workflow/tasks/ (State Read/Write)` ➔ `bash/edit/read (Action)`
 
 ---
 

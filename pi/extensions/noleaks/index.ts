@@ -18,13 +18,13 @@ export default function (pi: ExtensionAPI) {
   try {
     // prefer pi.log if available, otherwise console
     if (typeof (pi as any).log === "function") {
-      (pi as any).log("🔒 env-protection active — secrets are guarded");
+      (pi as any).log("🔒 noleaks active — secrets are guarded");
     } else {
-      console.log("🔒 env-protection active — secrets are guarded");
+      console.log("🔒 noleaks active — secrets are guarded");
     }
   } catch (e) {
     // best-effort: don't crash extension on logging failure
-    try { console.log("🔒 env-protection active — secrets are guarded"); } catch {}
+    try { console.log("🔒 noleaks active — secrets are guarded"); } catch {}
   }
 
 
@@ -140,7 +140,7 @@ export default function (pi: ExtensionAPI) {
 
   pi.on("session_start", async (event, ctx) => {
     if (ctx.hasUI && typeof (ctx.ui as any).setExtensionStatus === "function") {
-      (ctx.ui as any).setExtensionStatus("env-protection", "🔒");
+      (ctx.ui as any).setExtensionStatus("noleaks", "🔒");
     }
   });
 

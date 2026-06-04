@@ -27,7 +27,7 @@ What is still under verification:
 ```bash
 pi --antigravity
 # or
-ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/antigravity-auth-login
+ANTIGRAVITY_DEBUG=1 pi -e ./pi/extensions/noantigravity
 ```
 
 Then select an `antigravity-cli/...` model and use `/login antigravity-cli` if needed.
@@ -37,7 +37,7 @@ The login flow reads `ANTIGRAVITY_CLIENT_SECRET` from your shell, and also from 
 Optional transport override for endpoint experiments:
 
 ```bash
-ANTIGRAVITY_DEBUG=1 ANTIGRAVITY_BASE_URL=https://daily-cloudcode-pa.sandbox.googleapis.com pi -e ./pi/extensions/antigravity-auth-login
+ANTIGRAVITY_DEBUG=1 ANTIGRAVITY_BASE_URL=https://daily-cloudcode-pa.sandbox.googleapis.com pi -e ./pi/extensions/noantigravity
 ```
 
 ## Diagnostics
@@ -73,7 +73,7 @@ The log must **not** be used to capture tokens, refresh credentials, authorizati
 6. Inspect `~/.pi/agent/antigravity.log` for `provider request` and `upstream status`
 7. Optional non-interactive verification:
    ```bash
-   ANTIGRAVITY_DEBUG=1 pi --no-session --no-context-files --no-extensions -e ./pi/extensions/antigravity-auth-login --model antigravity-cli/gemini-3-flash -p "reply with exactly: OK"
+   ANTIGRAVITY_DEBUG=1 pi --no-session --no-context-files --no-extensions -e ./pi/extensions/noantigravity --model antigravity-cli/gemini-3-flash -p "reply with exactly: OK"
    ```
 8. If needed, repeat once with `ANTIGRAVITY_BASE_URL=...` to compare endpoint behavior
 

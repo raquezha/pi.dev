@@ -280,21 +280,21 @@ fi
 
 # Link specific extensions (opt-in)
 link_item "$PI_DIR/extensions/powerline-footer"   "$AGENT_DIR/extensions/powerline-footer"   "extensions/powerline-footer"
-link_item "$PI_DIR/extensions/env-protection"     "$AGENT_DIR/extensions/env-protection"     "extensions/env-protection"
+link_item "$PI_DIR/extensions/noleaks"            "$AGENT_DIR/extensions/noleaks"            "extensions/noleaks"
 
 # Auto-enable env-protection system-wide across all hats
 if [[ ! -f "$AGENT_DIR/settings.json" ]]; then
   info "Creating default settings.json for pi agent"
   echo '{}' > "$AGENT_DIR/settings.json"
 fi
-if ! grep -q '"env-protection": true' "$AGENT_DIR/settings.json"; then
-  jq '. + {"env-protection": true}' "$AGENT_DIR/settings.json" > "$AGENT_DIR/settings.json.tmp"
+if ! grep -q '"noleaks": true' "$AGENT_DIR/settings.json"; then
+  jq '. + {"noleaks": true}' "$AGENT_DIR/settings.json" > "$AGENT_DIR/settings.json.tmp"
   mv "$AGENT_DIR/settings.json.tmp" "$AGENT_DIR/settings.json"
-  ok "Enabled env-protection globally in settings.json"
+  ok "Enabled noleaks globally in settings.json"
 else
-  ok "env-protection already enabled in settings.json"
+  ok "noleaks already enabled in settings.json"
 fi
-link_item "$PI_DIR/extensions/search-subagent"        "$AGENT_DIR/extensions/search-subagent"        "extensions/search-subagent"
+link_item "$PI_DIR/extensions/nosearch"             "$AGENT_DIR/extensions/nosearch"             "extensions/nosearch"
 link_item "$PI_DIR/extensions/notrace"                 "$AGENT_DIR/extensions/notrace"                 "extensions/notrace"
 # link_item "$PI_DIR/extensions/arize-phoenix"          "$AGENT_DIR/extensions/arize-phoenix"          "extensions/arize-phoenix"
 
@@ -303,9 +303,9 @@ if [[ -L "$AGENT_DIR/extensions/gemini-api" ]]; then
   rm "$AGENT_DIR/extensions/gemini-api"
   warn "Removed manual-only extensions/gemini-api; load it with pi -e ./pi/extensions/gemini-api"
 fi
-if [[ -L "$AGENT_DIR/extensions/antigravity-auth-login" ]]; then
-  rm "$AGENT_DIR/extensions/antigravity-auth-login"
-  warn "Removed manual-only extensions/antigravity-auth-login; use pi --antigravity or pi -e ./pi/extensions/antigravity-auth-login"
+if [[ -L "$AGENT_DIR/extensions/noantigravity" ]]; then
+  rm "$AGENT_DIR/extensions/noantigravity"
+  warn "Removed manual-only extensions/noantigravity; use pi --antigravity or pi -e ./pi/extensions/noantigravity"
 fi
 
 # ── Link prompts ─────────────────────────────────────────────────────

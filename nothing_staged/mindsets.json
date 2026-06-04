@@ -18,7 +18,7 @@
     },
     "meta": {
       "skills": ["meta", "search"],
-      "extensions": ["env-protection"]
+      "extensions": ["noleaks"]
     },
     "write": {
       "skills": ["search"],
@@ -26,7 +26,7 @@
     },
     "antigravity": {
       "skills": [],
-      "extensions": ["antigravity-auth-login"]
+      "extensions": ["noantigravity"]
     }
   },
   "default_models": {

@@ -166,7 +166,7 @@ pi() {
       --meta)
         MINDSET="\033[0;35mmeta\033[0m"
         export PI_MINDSET="meta"
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/meta" "--skill" "$SKILLS_DIR/search" "--extension" "$REPO_DIR/pi/extensions/env-protection/index.ts")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/meta" "--skill" "$SKILLS_DIR/search" "--extension" "$REPO_DIR/pi/extensions/noleaks/index.ts")
         model_for_skill_path "$SKILLS_DIR/meta"
         model_for_skill_path "$SKILLS_DIR/search"
         shift
@@ -181,7 +181,7 @@ pi() {
       --antigravity)
         MINDSET="\033[0;31mantigravity\033[0m"
         export PI_MINDSET="antigravity"
-        EXTRA_EXTENSIONS+=("--extension" "$REPO_DIR/pi/extensions/antigravity-auth-login")
+        EXTRA_EXTENSIONS+=("--extension" "$REPO_DIR/pi/extensions/noantigravity")
         shift
         ;;
       --codex)
