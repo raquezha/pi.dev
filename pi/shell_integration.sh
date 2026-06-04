@@ -94,11 +94,9 @@ pi() {
       --android)
         MINDSET="\033[0;32mandroid\033[0m"
         export PI_MINDSET="android"
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/android")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/triage")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/implement")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/verify")
-        model_for_skill_path "$SKILLS_DIR/android"
         model_for_skill_path "$SKILLS_DIR/norpiv/triage"
         model_for_skill_path "$SKILLS_DIR/norpiv/implement"
         model_for_skill_path "$SKILLS_DIR/norpiv/verify"
