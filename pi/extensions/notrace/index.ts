@@ -131,7 +131,7 @@ export default function (pi: ExtensionAPI) {
     const totalDurationMs = sessionEndTime - sessionStartTime;
 
     const taskDir = getActiveTaskDir(ctx.cwd);
-    const reportPath = path.join(taskDir, "trace.html");
+    const reportPath = path.join(taskDir, "notrace.html");
 
     // Gather statistics
     let totalTokens = 0;
@@ -175,10 +175,10 @@ export default function (pi: ExtensionAPI) {
     try {
       writeFileSync(reportPath, htmlContent, "utf-8");
       // Output a nice clickable file:// link to the console for the user
-      console.log(`\n📊 [Trace] Observability report generated:`);
+      console.log(`\n📊 [notrace] Observability report generated:`);
       console.log(`👉 \x1b[36mfile://${reportPath}\x1b[0m\n`);
     } catch (err: any) {
-      console.warn(`[Trace] Failed to write HTML report: ${err?.message || err}`);
+      console.warn(`[notrace] Failed to write HTML report: ${err?.message || err}`);
     }
   });
 }
@@ -192,7 +192,7 @@ function generateHtmlReport(data: any): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agent Session Trace - ${data.traceId}</title>
+  <title>notrace - ${data.traceId}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
@@ -487,7 +487,7 @@ function generateHtmlReport(data: any): string {
   <div class="container">
     <header>
       <div class="brand">
-        <h1>Antigravity Trace</h1>
+        <h1>notrace</h1>
         <span class="brand-tag">Local Observability</span>
       </div>
       <div class="meta-time">

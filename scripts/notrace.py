@@ -4,9 +4,9 @@ import os
 from google.antigravity import types
 from google.antigravity.hooks import hooks
 
-class HTMLObservability:
+class NoTrace:
     """
-    HTMLObservability hook manager for the Google Antigravity SDK.
+    NoTrace hook manager for the Google Antigravity SDK.
     Collects execution telemetry (session, turns, tool calls, errors) and
     outputs a self-contained premium interactive HTML report at session shutdown.
     """
@@ -67,15 +67,15 @@ class HTMLObservability:
         }
 
         html_content = self.generate_html_report(report_data)
-        report_path = os.path.join(self.output_dir, "trace.html")
+        report_path = os.path.join(self.output_dir, "notrace.html")
         
         try:
             with open(report_path, "w", encoding="utf-8") as f:
                 f.write(html_content)
-            print(f"\n📊 [Trace] Observability report generated:")
+            print(f"\n📊 [notrace] Observability report generated:")
             print(f"👉 file://{os.path.abspath(report_path)}\n")
         except Exception as e:
-            print(f"[Trace] Failed to write HTML report: {e}")
+            print(f"[notrace] Failed to write HTML report: {e}")
 
     async def pre_turn(self, data: str) -> types.HookResult:
         self.events.append({
@@ -162,7 +162,7 @@ class HTMLObservability:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agent Session Trace - {data['traceId']}</title>
+  <title>notrace - {data['traceId']}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
@@ -457,7 +457,7 @@ class HTMLObservability:
   <div class="container">
     <header>
       <div class="brand">
-        <h1>Antigravity Trace</h1>
+        <h1>notrace</h1>
         <span class="brand-tag">Local Observability</span>
       </div>
       <div class="meta-time">

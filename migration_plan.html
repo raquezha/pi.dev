@@ -221,7 +221,7 @@
 
     <!-- Phase 1 -->
     <div class="section">
-      <div class="section-title">📦 Phase 1: NPM Packaging for pi.trace</div>
+      <div class="section-title">📦 Phase 1: NPM Packaging for notrace</div>
       <p style="color: var(--text-muted); font-size: 0.95rem;">Preparing and publishing the local HTML Trace Viewer as a global NPM package.</p>
       
       <div class="task-list">
@@ -229,7 +229,7 @@
           <div class="task-checkbox" id="check-p1-1"></div>
           <div class="task-content">
             <div class="task-text" id="text-p1-1">Initialize standalone package directory</div>
-            <div class="task-desc">Create a separate workspace folder `pi-extension-trace/` with `src/index.ts` containing the trace code.</div>
+            <div class="task-desc">Create a separate workspace folder `packages/notrace/` with `src/index.ts` containing the trace code.</div>
           </div>
         </div>
 
@@ -238,7 +238,7 @@
           <div class="task-content">
             <div class="task-text" id="text-p1-2">Create package.json metadata</div>
             <div class="task-desc">Set entry points and add `@mariozechner/pi-coding-agent` to peerDependencies.</div>
-            <div class="code-block">"name": "pi-extension-trace",
+            <div class="code-block">"name": "notrace",
 "main": "dist/index.js",
 "peerDependencies": {
   "@mariozechner/pi-coding-agent": ">=0.70.0"
@@ -361,8 +361,8 @@ esac</div>
         <div class="task-item" onclick="toggleTask('p3-3')">
           <div class="task-checkbox" id="check-p3-3"></div>
           <div class="task-content">
-            <div class="task-text" id="text-p3-3">Verify trace file generation</div>
-            <div class="task-desc">Verify that running `pi -p "test"` on both OS setups outputs `trace.html` in `.workflow/` without manual configuration.</div>
+            <div class="task-text" id="text-p3-3">Verify trace file generation (notrace.html)</div>
+            <div class="task-desc">Verify that running `pi -p "test"` on both OS setups outputs `notrace.html` in `.workflow/` without manual configuration.</div>
             <div class="tip-box">
               <div class="tip-title">⚡ High-Efficiency tip</div>
               Use `pi --no-extensions` or explicitly register model constraints to speed up local diagnostic checks.

@@ -2,13 +2,13 @@
 
 This guide walks you through setting up a zero-dependency, local-first HTML trace visualizer for Python agents built using the **Google Antigravity (AGY) SDK**. 
 
-It uses the SDK's lifecycle hook system to log session details, turns, tool calls, and outputs an identical premium dark-themed interactive HTML trace page (`trace.html`) directly to the project root directory on shutdown.
+It uses the SDK's lifecycle hook system to log session details, turns, tool calls, and outputs an identical premium dark-themed interactive HTML trace page (`notrace.html`) directly to the project root directory on shutdown.
 
 ---
 
 ## 🛠️ Step 1: Add the Observability Script to Your Project
 
-1. Copy the helper class code from [scripts/html_observability.py](file:///Users/raquezha/RQZ/personal/pi.dev/scripts/html_observability.py) and save it as `html_observability.py` in your agent's project root or library folder.
+1. Copy the helper class code from [scripts/notrace.py](file:///Users/raquezha/RQZ/personal/pi.dev/scripts/notrace.py) and save it as `notrace.py` in your agent's project root or library folder.
 
 > [!NOTE]
 > The module is self-contained and only requires the standard python library (`json`, `time`, `os`) and the `google.antigravity` SDK imports.
@@ -24,13 +24,13 @@ Here is a complete integration example:
 ```python
 import asyncio
 from google.antigravity import Agent, LocalAgentConfig
-from html_observability import HTMLObservability
+from notrace import NoTrace
 
 async def main():
     # 1. Initialize the HTML trace logger
-    observer = HTMLObservability(
+    observer = NoTrace(
         project_name="my-antigravity-python-agent",
-        output_dir="." # Directory where trace.html will be generated
+        output_dir="." # Directory where notrace.html will be generated
     )
 
     # 2. Register hooks into the local agent configuration
@@ -46,7 +46,7 @@ async def main():
         response = await agent.chat("Calculate the sum of prime numbers between 1 and 50.")
         print(f"Agent Response: {response}")
 
-    # On session exit, trace.html is written out automatically!
+    # On session exit, notrace.html is written out automatically!
 
 if __name__ == "__main__":
     asyncio.run(main())
@@ -56,11 +56,11 @@ if __name__ == "__main__":
 
 ## 📊 Step 3: Inspect Your Traces
 
-When the python execution block exits (i.e. exiting the `async with Agent(config)` context), the session teardown handler will write `trace.html` to your designated folder:
+When the python execution block exits (i.e. exiting the `async with Agent(config)` context), the session teardown handler will write `notrace.html` to your designated folder:
 
 ```text
-📊 [Trace] Observability report generated:
-👉 file:///path/to/your/project/trace.html
+📊 [notrace] Observability report generated:
+👉 file:///path/to/your/project/notrace.html
 ```
 
 Open this file in your web browser (Chrome, Safari, etc.) to explore your agent session metrics and interactive timeline cards!

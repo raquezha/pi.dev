@@ -295,7 +295,7 @@ else
   ok "env-protection already enabled in settings.json"
 fi
 link_item "$PI_DIR/extensions/search-subagent"        "$AGENT_DIR/extensions/search-subagent"        "extensions/search-subagent"
-link_item "$PI_DIR/extensions/html-observability"     "$AGENT_DIR/extensions/html-observability"     "extensions/html-observability"
+link_item "$PI_DIR/extensions/notrace"                 "$AGENT_DIR/extensions/notrace"                 "extensions/notrace"
 # link_item "$PI_DIR/extensions/arize-phoenix"          "$AGENT_DIR/extensions/arize-phoenix"          "extensions/arize-phoenix"
 
 # Manual-only extensions are not linked here. Load them explicitly when needed.
