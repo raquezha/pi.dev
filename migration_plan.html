@@ -289,7 +289,7 @@ esac</div>
           <div class="task-checkbox" id="check-p2-2"></div>
           <div class="task-content">
             <div class="task-text" id="text-p2-2">Configure settings.json template</div>
-            <div class="task-desc">Setup settings template containing your default provider and registering `"packages": ["pi-extension-trace"]`.</div>
+            <div class="task-desc">Setup settings template containing your default provider. Keep `"packages": []` empty by default to prevent global autoloading.</div>
           </div>
         </div>
 
@@ -298,6 +298,39 @@ esac</div>
           <div class="task-content">
             <div class="task-text" id="text-p2-3">Add shell config integrations</div>
             <div class="task-desc">Include shell loaders that source `.pi-secrets/.env` and initialize path wrappers on startup.</div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask('p2-4')">
+          <div class="task-checkbox" id="check-p2-4"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p2-4">Create declarative mindsets.json</div>
+            <div class="task-desc">Extract hardcoded Bash cases for mindsets, custom models, extensions, and skills into a clean, platform-independent JSON config file.</div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask('p2-5')">
+          <div class="task-checkbox" id="check-p2-5"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p2-5">Implement location-agnostic path resolver</div>
+            <div class="task-desc">Update `shell_integration.sh` to resolve the root folder dynamically relative to the script location, avoiding hardcoded home directories.</div>
+            <div class="code-block">NOTHING_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"</div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask('p2-6')">
+          <div class="task-checkbox" id="check-p2-6"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p2-6">Harden env-protection with OS profiles</div>
+            <div class="task-desc">Implement platform-specific safety rules inside the security extension to block sensitive directories on both Linux and macOS.</div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask('p2-7')">
+          <div class="task-checkbox" id="check-p2-7"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p2-7">Track active task state (WORK.md) in Git</div>
+            <div class="task-desc">Store active task brief files in a tracked workspace repository branch so that standard commits naturally sync task progress across systems.</div>
           </div>
         </div>
       </div>
@@ -345,7 +378,7 @@ esac</div>
     // Task Keys to preserve checked states across reloads
     const taskKeys = [
       'p1-1', 'p1-2', 'p1-3', 'p1-4',
-      'p2-1', 'p2-2', 'p2-3',
+      'p2-1', 'p2-2', 'p2-3', 'p2-4', 'p2-5', 'p2-6', 'p2-7',
       'p3-1', 'p3-2', 'p3-3'
     ];
 
