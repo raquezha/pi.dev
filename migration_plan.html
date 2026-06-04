@@ -884,6 +884,17 @@ $ npm install -g notrace noleaks</div>
                   </div>
                 </div>
               </div>
+
+              <div class="task-item" id="task-p3-4">
+                <div class="task-checkbox" onclick="toggleTask('p3-4'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p3-4')">
+                  <div class="task-text">Write readable READMEs for each skill</div>
+                  <div class="task-desc">Create visually appealing, comprehensive READMEs in each skill package.</div>
+                  <div class="task-details">
+                    <p>Allows anyone to easily follow along and copy your exact nothing setup.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1018,6 +1029,7 @@ $ npm install -g notrace noleaks</div>
               <button class="selector-btn" onclick="selectMindset('pm', this)">--pm</button>
               <button class="selector-btn" onclick="selectMindset('android', this)">--android</button>
               <button class="selector-btn" onclick="selectMindset('meta', this)">--meta</button>
+              <button class="selector-btn" onclick="selectMindset('nothing', this)">--nothing</button>
             </div>
             
             <div class="sim-details" id="simulator-output">
@@ -1137,8 +1149,12 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
         </div>
         <pre id="code-mindsets">{
   <span class="code-string">"mindsets"</span>: {
+    <span class="code-string">"nothing"</span>: {
+      <span class="code-string">"skills"</span>: [<span class="code-string">"meta/nothing"</span>],
+      <span class="code-string">"extensions"</span>: []
+    },
     <span class="code-string">"android"</span>: {
-      <span class="code-string">"skills"</span>: [<span class="code-string">"android"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>],
+      <span class="code-string">"skills"</span>: [<span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>],
       <span class="code-string">"extensions"</span>: []
     },
     <span class="code-string">"pm"</span>: {
@@ -1152,12 +1168,11 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
     <span class="code-string">"rpiv"</span>: {
       <span class="code-string">"skills"</span>: [<span class="code-string">"search"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/frame"</span>, <span class="code-string">"norpiv/grill-with-docs"</span>, <span class="code-string">"norpiv/plan"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>, <span class="code-string">"norpiv/sync"</span>, <span class="code-string">"norpiv/update-docs"</span>, <span class="code-string">"norpiv/cleanup"</span>],
       <span class="code-string">"extensions"</span>: [<span class="code-string">"notrace"</span>]
+    },
+    <span class="code-string">"meta"</span>: {
+      <span class="code-string">"skills"</span>: [<span class="code-string">"meta"</span>, <span class="code-string">"search"</span>],
+      <span class="code-string">"extensions"</span>: [<span class="code-string">"noleaks"</span>]
     }
-  },
-  <span class="code-string">"default_models"</span>: {
-    <span class="code-string">"implement"</span>: { <span class="code-string">"provider"</span>: <span class="code-string">"openai-codex"</span>, <span class="code-string">"model"</span>: <span class="code-string">"gpt-5.5"</span>, <span class="code-string">"priority"</span>: 5 },
-    <span class="code-string">"norpiv"</span>: { <span class="code-string">"provider"</span>: <span class="code-string">"openai-codex"</span>, <span class="code-string">"model"</span>: <span class="code-string">"gpt-5.5"</span>, <span class="code-string">"priority"</span>: 5 },
-    <span class="code-string">"triage"</span>: { <span class="code-string">"provider"</span>: <span class="code-string">"github-copilot"</span>, <span class="code-string">"model"</span>: <span class="code-string">"gpt-5-mini"</span>, <span class="code-string">"priority"</span>: 2 }
   }
 }</pre>
       </div>
@@ -1215,10 +1230,15 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
         </div>
         <pre id="code-settings">{
   <span class="code-string">"defaultProvider"</span>: <span class="code-string">"groq"</span>,
-  <span class="code-string">"defaultModel"</span>: <span class="code-string">"llama-3.3-70b-versatile"</span>,
   <span class="code-string">"theme"</span>: <span class="code-string">"dracula-vibrant"</span>,
   <span class="code-string">"packages"</span>: [],
-  <span class="code-string">"noleaks"</span>: <span class="code-keyword">true</span>
+  <span class="code-string">"noleaks"</span>: <span class="code-keyword">true</span>,
+  <span class="code-string">"mcpServers"</span>: {
+    <span class="code-string">"android-skills"</span>: {
+      <span class="code-string">"command"</span>: <span class="code-string">"npx"</span>,
+      <span class="code-string">"args"</span>: [<span class="code-string">"-y"</span>, <span class="code-string">"android-skills-mcp"</span>]
+    }
+  }
 }</pre>
       </div>
     </div>
@@ -1239,6 +1259,7 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
       'p3-1': true,  // Completed
       'p3-2': true,  // Completed
       'p3-3': true,  // Completed
+      'p3-4': false,
       'p4-1': false,
       'p4-2': false,
       'p4-3': false
@@ -1282,7 +1303,7 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
     function updateCalculatedProgress() {
       const list = Object.keys(tasks);
       const groups = { p1: 0, p2: 0, p3: 0, p4: 0 };
-      const groupTotals = { p1: 5, p2: 4, p3: 3, p4: 3 };
+      const groupTotals = { p1: 5, p2: 4, p3: 4, p4: 3 };
 
       list.forEach(key => {
         const prefix = key.split('-')[0]; // 'p1', 'p2' etc.
@@ -1323,6 +1344,11 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
 
     // Interactive Simulator Data
     const simulatorData = {
+      nothing: {
+        role: "Minimal Bootstrap State (Dynamic Setup)",
+        skills: ["meta/nothing"],
+        extensions: []
+      },
       rpiv: {
         role: "Full RPIV Lifecycle Controller",
         skills: ["search", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/update-docs", "norpiv/cleanup"],
