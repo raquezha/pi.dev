@@ -92,7 +92,7 @@ Located in `pi/skills/`:
 ## 🔌 Extensions
 
 Located in `pi/extensions/`:
-- `powerline-footer/`: footer styling
+- `nofooter/`: footer styling
 - `noleaks/`: blocks dangerous commands and env modifications
 - `nosearch/`: spawns isolated child pi sessions for Brave/Search work
 - `gemini-api/`: manual-only public Gemini API provider (`gemini-api/...`)

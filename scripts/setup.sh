@@ -279,7 +279,7 @@ if [[ -L "$AGENT_DIR/extensions/arize-phoenix" ]]; then
 fi
 
 # Link specific extensions (opt-in)
-link_item "$PI_DIR/extensions/powerline-footer"   "$AGENT_DIR/extensions/powerline-footer"   "extensions/powerline-footer"
+link_item "$PI_DIR/extensions/nofooter"           "$AGENT_DIR/extensions/nofooter"           "extensions/nofooter"
 link_item "$PI_DIR/extensions/noleaks"            "$AGENT_DIR/extensions/noleaks"            "extensions/noleaks"
 
 # Auto-enable env-protection system-wide across all hats
