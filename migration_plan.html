@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Migration Plan: "nothing" Setup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0e;
+      --bg-panel: rgba(22, 22, 28, 0.45);
+      --bg-card: rgba(30, 30, 38, 0.6);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      --text: #e2e2e9;
+      --text-muted: #9f9fa9;
+      --accent: #8b5cf6;
+      --accent-gradient: linear-gradient(135deg, #a78bfa, #8b5cf6);
+      --success: #10b981;
+      --error: #ef4444;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.25rem;
+    }
+
+    .brand p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .status-badge {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .section {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(12px);
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .task-item:hover {
+      border-color: var(--border-hover);
+      transform: translateX(2px);
+    }
+
+    .task-item.completed {
+      border-color: rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.03);
+    }
+
+    .task-item.completed .task-text {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .task-checkbox {
+      margin-top: 0.25rem;
+      width: 1.1rem;
+      height: 1.1rem;
+      border-radius: 4px;
+      border: 2px solid var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .task-item.completed .task-checkbox {
+      background: var(--success);
+      border-color: var(--success);
+    }
+
+    .task-checkbox::after {
+      content: '✓';
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: bold;
+      display: none;
+    }
+
+    .task-item.completed .task-checkbox::after {
+      display: block;
+    }
+
+    .task-content {
+      flex: 1;
+    }
+
+    .task-text {
+      font-weight: 500;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .task-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .code-block {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.85rem;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 0.75rem;
+      color: #e2e2e9;
+      white-space: pre-wrap;
+    }
+
+    .tip-box {
+      background: rgba(139, 92, 246, 0.1);
+      border-left: 4px solid var(--accent);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .tip-title {
+      font-weight: 600;
+      color: #c084fc;
+      margin-bottom: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <h1>nothing Migration Roadmap</h1>
+        <p>Transitioning from local symlinks to global NPM-packaged workflow configs</p>
+      </div>
+      <div class="status-badge" id="overall-progress">0% Completed</div>
+    </header>
+
+    <!-- Phase 1 -->
+    <div class="section">
+      <div class="section-title">📦 Phase 1: NPM Packaging for pi.trace</div>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">Preparing and publishing the local HTML Trace Viewer as a global NPM package.</p>
+      
+      <div class="task-list">
+        <div class="task-item" onclick="toggleTask('p1-1')">
+          <div class="task-checkbox" id="check-p1-1"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p1-1">Initialize standalone package directory</div>
+            <div class="task-desc">Create a separate workspace folder `pi-extension-trace/` with `src/index.ts` containing the trace code.</div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask('p1-2')">
+          <div class="task-checkbox" id="check-p1-2"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p1-2">Create package.json metadata</div>
+            <div class="task-desc">Set entry points and add `@mariozechner/pi-coding-agent` to peerDependencies.</div>
+            <div class="code-block">"name": "pi-extension-trace",
+"main": "dist/index.js",
+"peerDependencies": {
+  "@mariozechner/pi-coding-agent": ">=0.70.0"
+}</div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask('p1-3')">
+          <div class="task-checkbox" id="check-p1-3"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p1-3">Initialize Changesets release automation</div>
+            <div class="task-desc">Install `@changesets/cli` in the root workspace and run `npx changeset init` to set up automated versioning and changelogs.</div>
+            <div class="code-block">npm install -D @changesets/cli
+npx changeset init</div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask('p1-4')">
+          <div class="task-checkbox" id="check-p1-4"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p1-4">Publish to NPM registry</div>
+            <div class="task-desc">Use `npx changeset version` and `npx changeset publish` to bump package versions and publish to NPM automatically.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="section">
+      <div class="section-title">🚀 Phase 2: Building the "nothing" Repository</div>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">Setting up your dotfiles, shell configs, and unified cross-platform bootstrap script.</p>
+
+      <div class="task-list">
+        <div class="task-item" onclick="toggleTask('p2-1')">
+          <div class="task-checkbox" id="check-p2-1"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p2-1">Write OS-detecting bootstrap.sh</div>
+            <div class="task-desc">A unified installer script that handles platform discovery (macOS vs Linux) and installs core packages.</div>
+            <div class="code-block">OS="$(uname -s)"
+case "$OS" in
+  Darwin) brew install node tmux git gh go ;;
+  Linux)  sudo apt-get install -y nodejs npm tmux git github-cli golang ;;
+esac</div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask('p2-2')">
+          <div class="task-checkbox" id="check-p2-2"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p2-2">Configure settings.json template</div>
+            <div class="task-desc">Setup settings template containing your default provider and registering `"packages": ["pi-extension-trace"]`.</div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask('p2-3')">
+          <div class="task-checkbox" id="check-p2-3"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p2-3">Add shell config integrations</div>
+            <div class="task-desc">Include shell loaders that source `.pi-secrets/.env` and initialize path wrappers on startup.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="section">
+      <div class="section-title">🔄 Phase 3: Transition & Verification</div>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">Testing the new installation chain on both macOS and Linux environments.</p>
+
+      <div class="task-list">
+        <div class="task-item" onclick="toggleTask('p3-1')">
+          <div class="task-checkbox" id="check-p3-1"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p3-1">Run bootstrap.sh on macOS</div>
+            <div class="task-desc">Execute the new installer and verify that global packages are mounted and trace functions activate successfully.</div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask('p3-2')">
+          <div class="task-checkbox" id="check-p3-2"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p3-2">Run bootstrap.sh on Linux</div>
+            <div class="task-desc">Spin up your Linux shell environment, clone "nothing", run bootstrap, and check the agent initialization.</div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask('p3-3')">
+          <div class="task-checkbox" id="check-p3-3"></div>
+          <div class="task-content">
+            <div class="task-text" id="text-p3-3">Verify trace file generation</div>
+            <div class="task-desc">Verify that running `pi -p "test"` on both OS setups outputs `trace.html` in `.workflow/` without manual configuration.</div>
+            <div class="tip-box">
+              <div class="tip-title">⚡ High-Efficiency tip</div>
+              Use `pi --no-extensions` or explicitly register model constraints to speed up local diagnostic checks.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Task Keys to preserve checked states across reloads
+    const taskKeys = [
+      'p1-1', 'p1-2', 'p1-3', 'p1-4',
+      'p2-1', 'p2-2', 'p2-3',
+      'p3-1', 'p3-2', 'p3-3'
+    ];
+
+    // Load initial state
+    taskKeys.forEach(key => {
+      const isCompleted = localStorage.getItem(key) === 'true';
+      const item = document.getElementById('check-' + key)?.parentElement;
+      if (isCompleted && item) {
+        item.classList.add('completed');
+      }
+    });
+
+    updateOverallProgress();
+
+    function toggleTask(key) {
+      const item = document.getElementById('check-' + key).parentElement;
+      const isCompleted = item.classList.contains('completed');
+      
+      if (isCompleted) {
+        item.classList.remove('completed');
+        localStorage.setItem(key, 'false');
+      } else {
+        item.classList.add('completed');
+        localStorage.setItem(key, 'true');
+      }
+
+      updateOverallProgress();
+    }
+
+    function updateOverallProgress() {
+      let completedCount = 0;
+      taskKeys.forEach(key => {
+        if (localStorage.getItem(key) === 'true') {
+          completedCount++;
+        }
+      });
+
+      const percentage = Math.round((completedCount / taskKeys.length) * 100);
+      const progressBadge = document.getElementById('overall-progress');
+      progressBadge.textContent = percentage + '% Completed';
+
+      if (percentage === 100) {
+        progressBadge.style.background = 'rgba(16, 185, 129, 0.25)';
+        progressBadge.style.color = '#10b981';
+      } else {
+        progressBadge.style.background = 'rgba(139, 92, 246, 0.15)';
+        progressBadge.style.color = '#c084fc';
+      }
+    }
+  </script>
+</body>
+</html>
