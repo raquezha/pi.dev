@@ -1100,13 +1100,22 @@ $ npm install -g notrace noleaks</div>
               <span class="naming-old"><s>env-protection/</s></span>
             </div>
 
-            <div class="naming-card">
+            <div class="naming-card active-now">
               <div class="naming-header">
                 <span class="naming-title">nosearch</span>
-                <span class="naming-tag extension">extension</span>
+                <span class="naming-tag core">core</span>
               </div>
-              <span class="naming-desc">Web scraper executing subagents on detached, isolated worker processes.</span>
-              <span class="naming-old"><s>search-subagent/</s></span>
+              <span class="naming-desc">Integrated search skills (Brave Search & Firecrawl scraper) and background subagent worker process.</span>
+              <span class="naming-old"><s>search/</s> and <s>search-subagent/</s></span>
+            </div>
+
+            <div class="naming-card active-now">
+              <div class="naming-header">
+                <span class="naming-title">nometa</span>
+                <span class="naming-tag core">core</span>
+              </div>
+              <span class="naming-desc">Meta systems engineering tools, skill creators, and nothing bootstrapper scripts.</span>
+              <span class="naming-old"><s>meta/</s></span>
             </div>
 
             <div class="naming-card">
@@ -1154,7 +1163,7 @@ $ npm install -g notrace noleaks</div>
                 <div class="sim-label">Skills Loaded</div>
                 <div class="sim-val">
                   <div class="sim-tag-list" id="sim-skills">
-                    <span class="sim-tag">search</span>
+                    <span class="sim-tag">nosearch</span>
                     <span class="sim-tag">norpiv/triage</span>
                     <span class="sim-tag">norpiv/frame</span>
                     <span class="sim-tag">norpiv/grill-with-docs</span>
@@ -1197,9 +1206,10 @@ $ npm install -g notrace noleaks</div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">norpiv/</span><span class="tree-comment"># RPIV skills & scripts</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">notrace/</span><span class="tree-comment"># HTMLTrace collector</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">noleaks/</span><span class="tree-comment"># Security block checks</span></div>
-            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">nosearch/</span><span class="tree-comment"># Subagent scraper</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">nosearch/</span><span class="tree-comment"># Integrated Search & subagent scraper</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">noantigravity/</span><span class="tree-comment"># Auth wrapper</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">nofooter/</span><span class="tree-comment"># Terminal theme</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">nometa/</span><span class="tree-comment"># Meta systems & skill creators</span></div>
           </div>
         </div>
       </div>
@@ -1264,7 +1274,7 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
         <pre id="code-mindsets">{
   <span class="code-string">"mindsets"</span>: {
     <span class="code-string">"nothing"</span>: {
-      <span class="code-string">"skills"</span>: [<span class="code-string">"meta/nothing"</span>],
+      <span class="code-string">"skills"</span>: [<span class="code-string">"nometa/nothing"</span>],
       <span class="code-string">"extensions"</span>: []
     },
     <span class="code-string">"android"</span>: {
@@ -1272,20 +1282,28 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
       <span class="code-string">"extensions"</span>: []
     },
     <span class="code-string">"pm"</span>: {
-      <span class="code-string">"skills"</span>: [<span class="code-string">"search"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/frame"</span>, <span class="code-string">"norpiv/grill-with-docs"</span>, <span class="code-string">"norpiv/plan"</span>, <span class="code-string">"norpiv/sync"</span>],
+      <span class="code-string">"skills"</span>: [<span class="code-string">"nosearch"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/frame"</span>, <span class="code-string">"norpiv/grill-with-docs"</span>, <span class="code-string">"norpiv/plan"</span>, <span class="code-string">"norpiv/sync"</span>],
       <span class="code-string">"extensions"</span>: []
     },
     <span class="code-string">"dev"</span>: {
-      <span class="code-string">"skills"</span>: [<span class="code-string">"search"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>, <span class="code-string">"norpiv/sync"</span>, <span class="code-string">"norpiv/cleanup"</span>],
+      <span class="code-string">"skills"</span>: [<span class="code-string">"nosearch"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>, <span class="code-string">"norpiv/sync"</span>, <span class="code-string">"norpiv/cleanup"</span>],
       <span class="code-string">"extensions"</span>: [<span class="code-string">"notrace"</span>]
     },
     <span class="code-string">"rpiv"</span>: {
-      <span class="code-string">"skills"</span>: [<span class="code-string">"search"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/frame"</span>, <span class="code-string">"norpiv/grill-with-docs"</span>, <span class="code-string">"norpiv/plan"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>, <span class="code-string">"norpiv/sync"</span>, <span class="code-string">"norpiv/update-docs"</span>, <span class="code-string">"norpiv/cleanup"</span>],
+      <span class="code-string">"skills"</span>: [<span class="code-string">"nosearch"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/frame"</span>, <span class="code-string">"norpiv/grill-with-docs"</span>, <span class="code-string">"norpiv/plan"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>, <span class="code-string">"norpiv/sync"</span>, <span class="code-string">"norpiv/update-docs"</span>, <span class="code-string">"norpiv/cleanup"</span>],
       <span class="code-string">"extensions"</span>: [<span class="code-string">"notrace"</span>]
     },
     <span class="code-string">"meta"</span>: {
-      <span class="code-string">"skills"</span>: [<span class="code-string">"meta"</span>, <span class="code-string">"search"</span>],
+      <span class="code-string">"skills"</span>: [<span class="code-string">"nometa"</span>, <span class="code-string">"nosearch"</span>],
       <span class="code-string">"extensions"</span>: [<span class="code-string">"noleaks"</span>]
+    },
+    <span class="code-string">"write"</span>: {
+      <span class="code-string">"skills"</span>: [<span class="code-string">"nosearch"</span>],
+      <span class="code-string">"extensions"</span>: []
+    },
+    <span class="code-string">"antigravity"</span>: {
+      <span class="code-string">"skills"</span>: [],
+      <span class="code-string">"extensions"</span>: ["noantigravity"]
     }
   }
 }</pre>
@@ -1508,22 +1526,22 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
     const simulatorData = {
       nothing: {
         role: "Minimal Bootstrap State (Dynamic Setup)",
-        skills: ["meta/nothing"],
+        skills: ["nometa/nothing"],
         extensions: []
       },
       rpiv: {
         role: "Full RPIV Lifecycle Controller",
-        skills: ["search", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/update-docs", "norpiv/cleanup"],
+        skills: ["nosearch", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/update-docs", "norpiv/cleanup"],
         extensions: ["notrace"]
       },
       dev: {
         role: "Developer Coding Assistant",
-        skills: ["search", "norpiv/triage", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/cleanup"],
+        skills: ["nosearch", "norpiv/triage", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/cleanup"],
         extensions: ["notrace"]
       },
       pm: {
         role: "Product Owner / PM Manager",
-        skills: ["search", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/sync"],
+        skills: ["nosearch", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/sync"],
         extensions: []
       },
       android: {
@@ -1533,7 +1551,7 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
       },
       meta: {
         role: "Systems / Meta Developer",
-        skills: ["meta", "search"],
+        skills: ["nometa", "nosearch"],
         extensions: ["noleaks"]
       }
     };
