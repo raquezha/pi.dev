@@ -3,25 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Migration Plan: "nothing" Setup</title>
+  <title>nothing Monorepo Migration Plan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b0b0e;
-      --bg-panel: rgba(22, 22, 28, 0.45);
-      --bg-card: rgba(30, 30, 38, 0.6);
+      --bg: #080710;
+      --bg-panel: rgba(18, 17, 28, 0.7);
+      --bg-card: rgba(28, 27, 43, 0.5);
+      --bg-card-hover: rgba(38, 37, 58, 0.8);
       --border: rgba(255, 255, 255, 0.08);
-      --border-hover: rgba(255, 255, 255, 0.15);
-      --text: #e2e2e9;
-      --text-muted: #9f9fa9;
+      --border-hover: rgba(255, 255, 255, 0.18);
+      --text: #e2e2ec;
+      --text-muted: #9fa0b0;
       --accent: #8b5cf6;
-      --accent-gradient: linear-gradient(135deg, #a78bfa, #8b5cf6);
+      --accent-glow: rgba(139, 92, 246, 0.4);
+      --accent-gradient: linear-gradient(135deg, #c084fc, #6366f1);
       --success: #10b981;
-      --error: #ef4444;
+      --success-glow: rgba(16, 185, 129, 0.2);
       --warning: #f59e0b;
       --info: #3b82f6;
+      --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     }
 
     * {
@@ -35,98 +38,423 @@
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.6;
-      padding: 2rem;
+      padding: 2rem 1rem;
       min-height: 100vh;
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 40%);
+        radial-gradient(circle at 5% 10%, rgba(99, 102, 241, 0.15) 0%, transparent 35%),
+        radial-gradient(circle at 95% 85%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
       background-attachment: fixed;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
+    /* Header */
     header {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      border-radius: 24px;
       margin-bottom: 2.5rem;
-      padding-bottom: 1.5rem;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--card-shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent-gradient);
+    }
+
+    .brand h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .brand p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+    }
+
+    .progress-widget {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.75rem 1.5rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .progress-circle-container {
+      position: relative;
+      width: 60px;
+      height: 60px;
+    }
+
+    .progress-circle-svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+
+    .progress-circle-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.05);
+      stroke-width: 6;
+    }
+
+    .progress-circle-fill {
+      fill: none;
+      stroke: var(--success);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 170;
+      stroke-dashoffset: 170;
+      transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .progress-value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .progress-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .progress-info span {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+
+    .progress-info h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    @media (min-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 3fr 2fr;
+      }
+    }
+
+    /* Panels */
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      transition: border-color 0.3s;
+    }
+
+    .panel:hover {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .panel-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
       border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    .panel-title svg {
+      width: 24px;
+      height: 24px;
+      color: var(--accent);
+    }
+
+    /* Naming Sequence Grid */
+    .naming-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 600px) {
+      .naming-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .naming-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .naming-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .naming-card.active-now {
+      border-color: rgba(139, 92, 246, 0.4);
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);
+    }
+
+    .naming-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .brand h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      background: var(--accent-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 0.25rem;
-    }
-
-    .brand p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .status-badge {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--success);
-      padding: 0.35rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.85rem;
+    .naming-title {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 1.1rem;
       font-weight: 600;
+      color: #a78bfa;
+    }
+
+    .naming-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .naming-tag.core {
+      background: rgba(99, 102, 241, 0.15);
+      color: #818cf8;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .naming-tag.extension {
+      background: rgba(236, 72, 153, 0.15);
+      color: #f472b6;
+      border: 1px solid rgba(236, 72, 153, 0.3);
+    }
+
+    .naming-tag.root {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
       border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
-    .section {
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      backdrop-filter: blur(12px);
+    .naming-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
     }
 
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 600;
-      margin-bottom: 1.25rem;
-      color: #fff;
+    .naming-old {
+      font-size: 0.75rem;
+      color: #ef4444;
       display: flex;
       align-items: center;
+      gap: 0.25rem;
+    }
+
+    /* Mindset Simulator */
+    .simulator-container {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .selector-buttons {
+      display: flex;
+      flex-wrap: wrap;
       gap: 0.5rem;
+    }
+
+    .selector-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .selector-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    .selector-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .sim-details {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 8px;
+      padding: 1.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .sim-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      padding-bottom: 0.5rem;
+    }
+
+    .sim-row:last-child {
+      border: none;
+      padding: 0;
+    }
+
+    .sim-label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .sim-val {
+      color: #fff;
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .sim-tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      justify-content: flex-end;
+      max-width: 250px;
+    }
+
+    .sim-tag {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.07);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      color: #c084fc;
+    }
+
+    .sim-tag.ext {
+      color: #f472b6;
+    }
+
+    /* Checklist & Phases */
+    .phase-container {
+      margin-bottom: 2rem;
+    }
+
+    .phase-container:last-child {
+      margin-bottom: 0;
+    }
+
+    .phase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .phase-badge {
+      background: rgba(139, 92, 246, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      padding: 0.25rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .phase-progress {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
     .task-list {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      margin-top: 1rem;
+      gap: 0.75rem;
     }
 
     .task-item {
       display: flex;
       align-items: flex-start;
       gap: 0.75rem;
-      padding: 1rem;
+      padding: 1.1rem;
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      transition: all 0.2s;
+      border-radius: 12px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
     }
 
     .task-item:hover {
       border-color: var(--border-hover);
-      transform: translateX(2px);
+      background: rgba(38, 37, 58, 0.4);
+      transform: translateX(3px);
     }
 
     .task-item.completed {
-      border-color: rgba(16, 185, 129, 0.3);
-      background: rgba(16, 185, 129, 0.03);
+      border-color: rgba(16, 185, 129, 0.25);
+      background: rgba(16, 185, 129, 0.02);
     }
 
     .task-item.completed .task-text {
@@ -135,28 +463,29 @@
     }
 
     .task-checkbox {
-      margin-top: 0.25rem;
-      width: 1.1rem;
-      height: 1.1rem;
-      border-radius: 4px;
+      margin-top: 0.2rem;
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: 6px;
       border: 2px solid var(--text-muted);
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
       transition: all 0.2s;
+      flex-shrink: 0;
     }
 
     .task-item.completed .task-checkbox {
       background: var(--success);
       border-color: var(--success);
+      box-shadow: 0 0 10px var(--success-glow);
     }
 
     .task-checkbox::after {
       content: '✓';
       color: #fff;
-      font-size: 0.75rem;
-      font-weight: bold;
+      font-size: 0.8rem;
+      font-weight: 700;
       display: none;
     }
 
@@ -171,262 +500,928 @@
     .task-text {
       font-weight: 500;
       color: #fff;
-      font-size: 1rem;
+      font-size: 0.95rem;
       margin-bottom: 0.25rem;
+      transition: color 0.2s;
     }
 
     .task-desc {
-      font-size: 0.875rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
+      margin-bottom: 0.5rem;
     }
 
-    .code-block {
+    .task-desc:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Details Drawer inside Task */
+    .task-details {
+      display: none;
+      margin-top: 0.75rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 0.75rem;
+    }
+
+    .task-item.open .task-details {
+      display: block;
+    }
+
+    /* File Tree Component */
+    .tree-container {
       font-family: 'Source Code Pro', monospace;
       font-size: 0.85rem;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      color: #cdd6f4;
+      line-height: 1.5;
+    }
+
+    .tree-node {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.15rem 0;
+    }
+
+    .tree-indent {
+      display: inline-block;
+      width: 1.25rem;
+    }
+
+    .tree-icon {
+      color: #f9e2af;
+    }
+
+    .tree-icon.dir {
+      color: #89b4fa;
+    }
+
+    .tree-icon.pkg {
+      color: #f5c2e7;
+    }
+
+    .tree-name {
+      font-weight: 500;
+    }
+
+    .tree-comment {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-left: 0.5rem;
+    }
+
+    /* Blueprints Code Viewer */
+    .tab-header {
+      display: flex;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 12px 12px 0 0;
+      overflow: hidden;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.75rem 1.25rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.03);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: var(--bg-panel);
+      color: #c084fc;
+      border-bottom: 2px solid #8b5cf6;
+      font-weight: 600;
+    }
+
+    .tab-content {
       background: rgba(0, 0, 0, 0.35);
       border: 1px solid var(--border);
-      padding: 1rem;
-      border-radius: 8px;
-      overflow-x: auto;
-      margin-top: 0.75rem;
+      border-radius: 0 0 12px 12px;
+      padding: 1.5rem;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.85rem;
       color: #e2e2e9;
-      white-space: pre-wrap;
+      overflow-x: auto;
+      max-height: 450px;
+      display: none;
     }
 
-    .tip-box {
-      background: rgba(139, 92, 246, 0.1);
-      border-left: 4px solid var(--accent);
-      padding: 1rem;
-      border-radius: 0 8px 8px 0;
-      margin-top: 1rem;
-      font-size: 0.9rem;
+    .tab-content.active {
+      display: block;
     }
 
-    .tip-title {
+    .code-comment {
+      color: #6c7086;
+    }
+
+    .code-keyword {
+      color: #cba6f7;
       font-weight: 600;
+    }
+
+    .code-string {
+      color: #a6e3a1;
+    }
+
+    .code-function {
+      color: #89b4fa;
+    }
+
+    .code-variable {
+      color: #f5e0dc;
+    }
+
+    /* Clipboard Copy Action */
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: none;
       color: #c084fc;
-      margin-bottom: 0.25rem;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(139, 92, 246, 0.15);
+      color: #fff;
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Header -->
     <header>
       <div class="brand">
-        <h1>nothing Migration Roadmap</h1>
-        <p>Transitioning from local symlinks to global NPM-packaged workflow configs</p>
+        <h1>nothing Monorepo Migration Plan</h1>
+        <p>A unified, clean setup replacing localized symlinks with published NPM packages and declarative configurations.</p>
       </div>
-      <div class="status-badge" id="overall-progress">0% Completed</div>
+      <div class="progress-widget">
+        <div class="progress-circle-container">
+          <svg class="progress-circle-svg" viewBox="0 0 60 60">
+            <circle class="progress-circle-bg" cx="30" cy="30" r="27"></circle>
+            <circle class="progress-circle-fill" id="overall-fill" cx="30" cy="30" r="27"></circle>
+          </svg>
+          <div class="progress-value" id="overall-value">0%</div>
+        </div>
+        <div class="progress-info">
+          <span>Migration Progress</span>
+          <h3 id="overall-label">Starting...</h3>
+        </div>
+      </div>
     </header>
 
-    <!-- Phase 1 -->
-    <div class="section">
-      <div class="section-title">📦 Phase 1: NPM Packaging for notrace</div>
-      <p style="color: var(--text-muted); font-size: 0.95rem;">Preparing and publishing the local HTML Trace Viewer as a global NPM package.</p>
-      
-      <div class="task-list">
-        <div class="task-item" onclick="toggleTask('p1-1')">
-          <div class="task-checkbox" id="check-p1-1"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p1-1">Initialize standalone package directory</div>
-            <div class="task-desc">Create a separate workspace folder `packages/notrace/` with `src/index.ts` containing the trace code.</div>
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+      <!-- Left Column (Roadmap & Checklists) -->
+      <div class="left-col">
+        <div class="panel">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Timeline & Execution Phases
           </div>
-        </div>
 
-        <div class="task-item" onclick="toggleTask('p1-2')">
-          <div class="task-checkbox" id="check-p1-2"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p1-2">Create package.json metadata</div>
-            <div class="task-desc">Set entry points and add `@mariozechner/pi-coding-agent` to peerDependencies.</div>
-            <div class="code-block">"name": "notrace",
-"main": "dist/index.js",
-"peerDependencies": {
-  "@mariozechner/pi-coding-agent": ">=0.70.0"
+          <!-- Phase 1 -->
+          <div class="phase-container" id="phase-1">
+            <div class="phase-header">
+              <span class="phase-badge">Phase 1: Local Renaming & Refactoring</span>
+              <span class="phase-progress" id="progress-p1">0% Done</span>
+            </div>
+            
+            <div class="task-list">
+              <div class="task-item" id="task-p1-1">
+                <div class="task-checkbox" onclick="toggleTask('p1-1'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p1-1')">
+                  <div class="task-text">Rename RPIV workflow skills ➔ `norpiv`</div>
+                  <div class="task-desc">Renamed `pi/skills/workflow` to `pi/skills/norpiv` using git tracking (Completed).</div>
+                  <div class="task-details">
+                    <p style="margin-bottom: 0.5rem;">Updated references in all skill-level SKILL.md rules, and shifted documentation pointers. Kept the task pointers referencing `.workflow/` folder structure untouched to maintain backward compatibility.</p>
+                    <div class="code-block">$ git mv pi/skills/workflow pi/skills/norpiv</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p1-2">
+                <div class="task-checkbox" onclick="toggleTask('p1-2'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p1-2')">
+                  <div class="task-text">Rename core scripts ➔ `norpiv`</div>
+                  <div class="task-desc">Renamed `pi/scripts/workflow` directory to `pi/scripts/norpiv` (Completed).</div>
+                  <div class="task-details">
+                    <p style="margin-bottom: 0.5rem;">Updated reference files like `triage_helper.sh` and `validate_active_task.sh`. Renamed the validation output reference from `workflow` paths to `norpiv` paths.</p>
+                    <div class="code-block">$ git mv pi/scripts/workflow pi/scripts/norpiv</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p1-3">
+                <div class="task-checkbox" onclick="toggleTask('p1-3'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p1-3')">
+                  <div class="task-text">Rename credentials protector ➔ `noleaks`</div>
+                  <div class="task-desc">Renamed `pi/extensions/env-protection` folder to `pi/extensions/noleaks` (Completed).</div>
+                  <div class="task-details">
+                    <p>Updated loader references and updated settings parsing flag to `"noleaks": true` inside standard configurations.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p1-4">
+                <div class="task-checkbox" onclick="toggleTask('p1-4'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p1-4')">
+                  <div class="task-text">Rename background subagent scraper ➔ `nosearch`</div>
+                  <div class="task-desc">Renamed `pi/extensions/search-subagent` to `pi/extensions/nosearch` (Completed).</div>
+                  <div class="task-details">
+                    <p>Modified command definitions to trigger scraper smoke checks using `nosearch.smoke` command registrations.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p1-5">
+                <div class="task-checkbox" onclick="toggleTask('p1-5'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p1-5')">
+                  <div class="task-text">Rename remaining extensions (`noantigravity`, `nofooter`)</div>
+                  <div class="task-desc">Renamed `antigravity-auth-login` ➔ `noantigravity` and `powerline-footer` ➔ `nofooter` (Completed).</div>
+                  <div class="task-details">
+                    <p>Matched standard naming convention patterns where every core block anchors on either nothing, something, or everything.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 2 -->
+          <div class="phase-container" id="phase-2">
+            <div class="phase-header">
+              <span class="phase-badge">Phase 2: NPM Packaging & Versioning</span>
+              <span class="phase-progress" id="progress-p2">0% Done</span>
+            </div>
+
+            <div class="task-list">
+              <div class="task-item" id="task-p2-1">
+                <div class="task-checkbox" onclick="toggleTask('p2-1'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p2-1')">
+                  <div class="task-text">Package `notrace` extension for NPM</div>
+                  <div class="task-desc">Write `package.json` and configure `tsconfig.json` for compilation inside `packages/notrace/`.</div>
+                  <div class="task-details">
+                    <p style="margin-bottom: 0.5rem;">Defines peer dependencies with the core agent to guarantee runtime compatibility.</p>
+                    <div class="code-block">{
+  "name": "notrace",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": ">=0.70.0"
+  }
 }</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p2-2">
+                <div class="task-checkbox" onclick="toggleTask('p2-2'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p2-2')">
+                  <div class="task-text">Package security shield `noleaks`</div>
+                  <div class="task-desc">Setup package file configurations inside `packages/noleaks/` workspace.</div>
+                  <div class="task-details">
+                    <p>Allows simple plug-and-play validation on any machine running node.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p2-3">
+                <div class="task-checkbox" onclick="toggleTask('p2-3'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p2-3')">
+                  <div class="task-text">Configure Changesets release automation</div>
+                  <div class="task-desc">Setup `@changesets/cli` inside the workspace root.</div>
+                  <div class="task-details">
+                    <p style="margin-bottom: 0.5rem;">Initialize automated release configs for handling semantic version increments and changelog updates.</p>
+                    <div class="code-block">$ npm install -D @changesets/cli
+$ npx changeset init</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p2-4">
+                <div class="task-checkbox" onclick="toggleTask('p2-4'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p2-4')">
+                  <div class="task-text">Publish packages to NPM Registry</div>
+                  <div class="task-desc">Publish `notrace` and `noleaks` packages under scope.</div>
+                  <div class="task-details">
+                    <p>Makes extensions instantly fetchable via npm install, avoiding directory mapping and setups.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="task-item" onclick="toggleTask('p1-3')">
-          <div class="task-checkbox" id="check-p1-3"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p1-3">Initialize Changesets release automation</div>
-            <div class="task-desc">Install `@changesets/cli` in the root workspace and run `npx changeset init` to set up automated versioning and changelogs.</div>
-            <div class="code-block">npm install -D @changesets/cli
-npx changeset init</div>
+          <!-- Phase 3 -->
+          <div class="phase-container" id="phase-3">
+            <div class="phase-header">
+              <span class="phase-badge">Phase 3: Building "nothing" monorepo</span>
+              <span class="phase-progress" id="progress-p3">0% Done</span>
+            </div>
+
+            <div class="task-list">
+              <div class="task-item" id="task-p3-1">
+                <div class="task-checkbox" onclick="toggleTask('p3-1'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p3-1')">
+                  <div class="task-text">Write cross-platform `bootstrap.sh`</div>
+                  <div class="task-desc">Replace complex symlinks setups with node-based global installs.</div>
+                  <div class="task-details">
+                    <p style="margin-bottom: 0.5rem;">Installs core packages globally based on target environment, and fetches packages from NPM registry.</p>
+                    <div class="code-block">$ npm install -g @mariozechner/pi-coding-agent
+$ npm install -g notrace noleaks</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p3-2">
+                <div class="task-checkbox" onclick="toggleTask('p3-2'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p3-2')">
+                  <div class="task-text">Extract declarative configurations (`mindsets.json`)</div>
+                  <div class="task-desc">Stage mindset configs to dynamically load target skills lists on startup.</div>
+                  <div class="task-details">
+                    <p>Supports configuring defaults for multiple user hats (rpiv, dev, pm, android, meta, etc.).</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p3-3">
+                <div class="task-checkbox" onclick="toggleTask('p3-3'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p3-3')">
+                  <div class="task-text">Integrate dynamically-resolving path loaders</div>
+                  <div class="task-desc">Set dynamic variable references inside wrapper configurations.</div>
+                  <div class="task-details">
+                    <p style="margin-bottom: 0.5rem;">Avoids hardcoded directories inside your dotfiles loaders:</p>
+                    <div class="code-block">NOTHING_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="task-item" onclick="toggleTask('p1-4')">
-          <div class="task-checkbox" id="check-p1-4"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p1-4">Publish to NPM registry</div>
-            <div class="task-desc">Use `npx changeset version` and `npx changeset publish` to bump package versions and publish to NPM automatically.</div>
-          </div>
-        </div>
-      </div>
-    </div>
+          <!-- Phase 4 -->
+          <div class="phase-container" id="phase-4">
+            <div class="phase-header">
+              <span class="phase-badge">Phase 4: Transition & Verification</span>
+              <span class="phase-progress" id="progress-p4">0% Done</span>
+            </div>
 
-    <!-- Phase 2 -->
-    <div class="section">
-      <div class="section-title">🚀 Phase 2: Building the "nothing" Repository</div>
-      <p style="color: var(--text-muted); font-size: 0.95rem;">Setting up your dotfiles, shell configs, and unified cross-platform bootstrap script.</p>
+            <div class="task-list">
+              <div class="task-item" id="task-p4-1">
+                <div class="task-checkbox" onclick="toggleTask('p4-1'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p4-1')">
+                  <div class="task-text">Verify bootstrap configuration on macOS</div>
+                  <div class="task-desc">Run installer script to configure shell profiles and test aliases.</div>
+                  <div class="task-details">
+                    <p>Verify that running the `pi` command works correctly with dynamic flags.</p>
+                  </div>
+                </div>
+              </div>
 
-      <div class="task-list">
-        <div class="task-item" onclick="toggleTask('p2-1')">
-          <div class="task-checkbox" id="check-p2-1"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p2-1">Write OS-detecting bootstrap.sh</div>
-            <div class="task-desc">A unified installer script that handles platform discovery (macOS vs Linux) and installs core packages.</div>
-            <div class="code-block">OS="$(uname -s)"
-case "$OS" in
-  Darwin) brew install node tmux git gh go ;;
-  Linux)  sudo apt-get install -y nodejs npm tmux git github-cli golang ;;
-esac</div>
-          </div>
-        </div>
+              <div class="task-item" id="task-p4-2">
+                <div class="task-checkbox" onclick="toggleTask('p4-2'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p4-2')">
+                  <div class="task-text">Verify bootstrap configuration on Linux</div>
+                  <div class="task-desc">Run installer script on target Linux setup to verify platform discovery logic.</div>
+                  <div class="task-details">
+                    <p>Confirms that package installations and configurations mirror macOS environments flawlessly.</p>
+                  </div>
+                </div>
+              </div>
 
-        <div class="task-item" onclick="toggleTask('p2-2')">
-          <div class="task-checkbox" id="check-p2-2"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p2-2">Configure settings.json template</div>
-            <div class="task-desc">Setup settings template containing your default provider. Keep `"packages": []` empty by default to prevent global autoloading.</div>
-          </div>
-        </div>
-
-        <div class="task-item" onclick="toggleTask('p2-3')">
-          <div class="task-checkbox" id="check-p2-3"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p2-3">Add shell config integrations</div>
-            <div class="task-desc">Include shell loaders that source `.pi-secrets/.env` and initialize path wrappers on startup.</div>
-          </div>
-        </div>
-
-        <div class="task-item" onclick="toggleTask('p2-4')">
-          <div class="task-checkbox" id="check-p2-4"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p2-4">Create declarative mindsets.json</div>
-            <div class="task-desc">Extract hardcoded Bash cases for mindsets, custom models, extensions, and skills into a clean, platform-independent JSON config file.</div>
-          </div>
-        </div>
-
-        <div class="task-item" onclick="toggleTask('p2-5')">
-          <div class="task-checkbox" id="check-p2-5"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p2-5">Implement location-agnostic path resolver</div>
-            <div class="task-desc">Update `shell_integration.sh` to resolve the root folder dynamically relative to the script location, avoiding hardcoded home directories.</div>
-            <div class="code-block">NOTHING_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"</div>
-          </div>
-        </div>
-
-        <div class="task-item" onclick="toggleTask('p2-6')">
-          <div class="task-checkbox" id="check-p2-6"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p2-6">Harden noleaks with OS profiles</div>
-            <div class="task-desc">Implement platform-specific safety rules inside the security extension to block sensitive directories on both Linux and macOS.</div>
-          </div>
-        </div>
-
-        <div class="task-item" onclick="toggleTask('p2-7')">
-          <div class="task-checkbox" id="check-p2-7"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p2-7">Track active task state (WORK.md) in Git</div>
-            <div class="task-desc">Store active task brief files in a tracked workspace repository branch so that standard commits naturally sync task progress across systems.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Phase 3 -->
-    <div class="section">
-      <div class="section-title">🔄 Phase 3: Transition & Verification</div>
-      <p style="color: var(--text-muted); font-size: 0.95rem;">Testing the new installation chain on both macOS and Linux environments.</p>
-
-      <div class="task-list">
-        <div class="task-item" onclick="toggleTask('p3-1')">
-          <div class="task-checkbox" id="check-p3-1"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p3-1">Run bootstrap.sh on macOS</div>
-            <div class="task-desc">Execute the new installer and verify that global packages are mounted and trace functions activate successfully.</div>
-          </div>
-        </div>
-
-        <div class="task-item" onclick="toggleTask('p3-2')">
-          <div class="task-checkbox" id="check-p3-2"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p3-2">Run bootstrap.sh on Linux</div>
-            <div class="task-desc">Spin up your Linux shell environment, clone "nothing", run bootstrap, and check the agent initialization.</div>
-          </div>
-        </div>
-
-        <div class="task-item" onclick="toggleTask('p3-3')">
-          <div class="task-checkbox" id="check-p3-3"></div>
-          <div class="task-content">
-            <div class="task-text" id="text-p3-3">Verify trace file generation (notrace.html)</div>
-            <div class="task-desc">Verify that running `pi -p "test"` on both OS setups outputs `notrace.html` in `.workflow/` without manual configuration.</div>
-            <div class="tip-box">
-              <div class="tip-title">⚡ High-Efficiency tip</div>
-              Use `pi --no-extensions` or explicitly register model constraints to speed up local diagnostic checks.
+              <div class="task-item" id="task-p4-3">
+                <div class="task-checkbox" onclick="toggleTask('p4-3'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p4-3')">
+                  <div class="task-text">Validate telemetry trace output</div>
+                  <div class="task-desc">Run test execution using trace triggers to confirm `notrace.html` output behavior.</div>
+                  <div class="task-details">
+                    <p>Confirms the HTML observability extension compiles and loads properly under the global package registry.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Right Column (Inventory, Simulator, Blueprints) -->
+      <div class="right-col">
+        <!-- Naming paradigm overview -->
+        <div class="panel">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Naming Sequence Alignment
+          </div>
+          <div class="naming-grid">
+            <div class="naming-card active-now">
+              <div class="naming-header">
+                <span class="naming-title">nothing</span>
+                <span class="naming-tag root">root</span>
+              </div>
+              <span class="naming-desc">Unified monorepo repository containing configuration, loader scripts, and packages.</span>
+            </div>
+
+            <div class="naming-card active-now">
+              <div class="naming-header">
+                <span class="naming-title">norpiv</span>
+                <span class="naming-tag core">core</span>
+              </div>
+              <span class="naming-desc">Lean RPIV workflow orchestrator skills and validation scripts.</span>
+              <span class="naming-old"><s>workflow/</s></span>
+            </div>
+
+            <div class="naming-card active-now">
+              <div class="naming-header">
+                <span class="naming-title">notrace</span>
+                <span class="naming-tag extension">extension</span>
+              </div>
+              <span class="naming-desc">Interactive local-first HTML telemetry and trace viewer.</span>
+              <span class="naming-old"><s>html-observability/</s></span>
+            </div>
+
+            <div class="naming-card active-now">
+              <div class="naming-header">
+                <span class="naming-title">noleaks</span>
+                <span class="naming-tag extension">extension</span>
+              </div>
+              <span class="naming-desc">Security credential shield blocking dangerous actions and path reads.</span>
+              <span class="naming-old"><s>env-protection/</s></span>
+            </div>
+
+            <div class="naming-card">
+              <div class="naming-header">
+                <span class="naming-title">nosearch</span>
+                <span class="naming-tag extension">extension</span>
+              </div>
+              <span class="naming-desc">Web scraper executing subagents on detached, isolated worker processes.</span>
+              <span class="naming-old"><s>search-subagent/</s></span>
+            </div>
+
+            <div class="naming-card">
+              <div class="naming-header">
+                <span class="naming-title">noantigravity</span>
+                <span class="naming-tag extension">extension</span>
+              </div>
+              <span class="naming-desc">OAuth login provider wrapping public APIs.</span>
+              <span class="naming-old"><s>antigravity-auth-login/</s></span>
+            </div>
+
+            <div class="naming-card">
+              <div class="naming-header">
+                <span class="naming-title">nofooter</span>
+                <span class="naming-tag extension">extension</span>
+              </div>
+              <span class="naming-desc">CLI theme modifier offering custom footer displays.</span>
+              <span class="naming-old"><s>powerline-footer/</s></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mindset Simulator -->
+        <div class="panel">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Interactive Mindset Simulator
+          </div>
+          <div class="simulator-container">
+            <div class="selector-buttons">
+              <button class="selector-btn active" onclick="selectMindset('rpiv', this)">--rpiv</button>
+              <button class="selector-btn" onclick="selectMindset('dev', this)">--dev</button>
+              <button class="selector-btn" onclick="selectMindset('pm', this)">--pm</button>
+              <button class="selector-btn" onclick="selectMindset('android', this)">--android</button>
+              <button class="selector-btn" onclick="selectMindset('meta', this)">--meta</button>
+            </div>
+            
+            <div class="sim-details" id="simulator-output">
+              <div class="sim-row">
+                <div class="sim-label">Target Role</div>
+                <div class="sim-val" id="sim-role" style="color:#c084fc;">Full RPIV Lifecycle Controller</div>
+              </div>
+              <div class="sim-row">
+                <div class="sim-label">Skills Loaded</div>
+                <div class="sim-val">
+                  <div class="sim-tag-list" id="sim-skills">
+                    <span class="sim-tag">search</span>
+                    <span class="sim-tag">norpiv/triage</span>
+                    <span class="sim-tag">norpiv/frame</span>
+                    <span class="sim-tag">norpiv/grill-with-docs</span>
+                    <span class="sim-tag">norpiv/plan</span>
+                    <span class="sim-tag">norpiv/implement</span>
+                    <span class="sim-tag">norpiv/verify</span>
+                    <span class="sim-tag">norpiv/sync</span>
+                    <span class="sim-tag">norpiv/update-docs</span>
+                    <span class="sim-tag">norpiv/cleanup</span>
+                  </div>
+                </div>
+              </div>
+              <div class="sim-row">
+                <div class="sim-label">Extensions</div>
+                <div class="sim-val">
+                  <div class="sim-tag-list" id="sim-extensions">
+                    <span class="sim-tag ext">notrace</span>
+                  </div>
+                </div>
+              </div>
+              <div class="sim-row">
+                <div class="sim-label">Default LLM Model</div>
+                <div class="sim-val" id="sim-model" style="font-family:'Source Code Pro', monospace; font-size:0.85rem;">openai-codex (gpt-5.5)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blueprints Tree -->
+        <div class="panel">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            nothing Monorepo Blueprints Tree
+          </div>
+          <div class="tree-container">
+            <div class="tree-node"><span class="tree-icon dir">📁</span><span class="tree-name">nothing/</span><span class="tree-comment"># Monorepo root</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-icon">📄</span><span class="tree-name">bootstrap.sh</span><span class="tree-comment"># OS-discoverable installer</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-icon">📄</span><span class="tree-name">mindsets.json</span><span class="tree-comment"># Declarative mindsets schema</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-icon">📄</span><span class="tree-name">settings.json</span><span class="tree-comment"># Core default configurations</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-icon dir">📁</span><span class="tree-name">dotfiles/</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon">📄</span><span class="tree-name">shell_integration.sh</span><span class="tree-comment"># Dynamic loader wrapper</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-icon dir">📁</span><span class="tree-name">packages/</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">norpiv/</span><span class="tree-comment"># RPIV skills & scripts</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">notrace/</span><span class="tree-comment"># HTMLTrace collector</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">noleaks/</span><span class="tree-comment"># Security block checks</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">nosearch/</span><span class="tree-comment"># Subagent scraper</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">noantigravity/</span><span class="tree-comment"># Auth wrapper</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">nofooter/</span><span class="tree-comment"># Terminal theme</span></div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- Blueprints Code Panel -->
+    <div class="panel" style="margin-top: 1rem;">
+      <div class="panel-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        File Blueprints & Configurations
+      </div>
+      
+      <div class="tab-header">
+        <button class="tab-btn active" onclick="switchTab('bootstrap', this)">bootstrap.sh</button>
+        <button class="tab-btn" onclick="switchTab('mindsets', this)">mindsets.json</button>
+        <button class="tab-btn" onclick="switchTab('shell', this)">shell_integration.sh</button>
+        <button class="tab-btn" onclick="switchTab('settings', this)">settings.json</button>
+      </div>
+
+      <!-- Tab: bootstrap.sh -->
+      <div class="tab-content active" id="tab-bootstrap">
+        <div class="code-header">
+          <span>Path: bootstrap.sh (Staged blueprint)</span>
+          <button class="copy-btn" onclick="copyCode('code-bootstrap')">Copy Code</button>
+        </div>
+        <pre id="code-bootstrap"><span class="code-comment">#!/usr/bin/env bash</span>
+<span class="code-keyword">set</span> -euo pipefail
+
+<span class="code-comment"># 1. Detect OS Platform</span>
+OS=<span class="code-string">"$(uname -s)"</span>
+<span class="code-keyword">case</span> <span class="code-string">"$OS"</span> <span class="code-keyword">in</span>
+  Darwin)
+    <span class="code-keyword">echo</span> <span class="code-string">"Installing tools via Homebrew..."</span>
+    brew install node tmux git gh go
+    ;;
+  Linux)
+    <span class="code-keyword">echo</span> <span class="code-string">"Installing tools via apt-get..."</span>
+    <span class="code-keyword">if</span> command -v apt-get &amp;&gt;/dev/null; <span class="code-keyword">then</span>
+      sudo apt-get update &amp;&amp; sudo apt-get install -y nodejs npm tmux git github-cli golang
+    <span class="code-keyword">fi</span>
+    ;;
+<span class="code-keyword">esac</span>
+
+<span class="code-comment"># 2. Install Pi Coding Agent and extensions from NPM</span>
+<span class="code-keyword">echo</span> <span class="code-string">"Installing packages from NPM..."</span>
+npm install -g @mariozechner/pi-coding-agent
+npm install -g notrace noleaks
+
+<span class="code-comment"># 3. Mount configurations</span>
+mkdir -p <span class="code-string">"$HOME/.pi/agent"</span>
+cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span>
+<span class="code-keyword">echo</span> <span class="code-string">"Bootstrap complete! 🎉"</span></pre>
+      </div>
+
+      <!-- Tab: mindsets.json -->
+      <div class="tab-content" id="tab-mindsets">
+        <div class="code-header">
+          <span>Path: mindsets.json (Staged blueprint)</span>
+          <button class="copy-btn" onclick="copyCode('code-mindsets')">Copy Code</button>
+        </div>
+        <pre id="code-mindsets">{
+  <span class="code-string">"mindsets"</span>: {
+    <span class="code-string">"android"</span>: {
+      <span class="code-string">"skills"</span>: [<span class="code-string">"android"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>],
+      <span class="code-string">"extensions"</span>: []
+    },
+    <span class="code-string">"pm"</span>: {
+      <span class="code-string">"skills"</span>: [<span class="code-string">"search"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/frame"</span>, <span class="code-string">"norpiv/grill-with-docs"</span>, <span class="code-string">"norpiv/plan"</span>, <span class="code-string">"norpiv/sync"</span>],
+      <span class="code-string">"extensions"</span>: []
+    },
+    <span class="code-string">"dev"</span>: {
+      <span class="code-string">"skills"</span>: [<span class="code-string">"search"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>, <span class="code-string">"norpiv/sync"</span>, <span class="code-string">"norpiv/cleanup"</span>],
+      <span class="code-string">"extensions"</span>: [<span class="code-string">"notrace"</span>]
+    },
+    <span class="code-string">"rpiv"</span>: {
+      <span class="code-string">"skills"</span>: [<span class="code-string">"search"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/frame"</span>, <span class="code-string">"norpiv/grill-with-docs"</span>, <span class="code-string">"norpiv/plan"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>, <span class="code-string">"norpiv/sync"</span>, <span class="code-string">"norpiv/update-docs"</span>, <span class="code-string">"norpiv/cleanup"</span>],
+      <span class="code-string">"extensions"</span>: [<span class="code-string">"notrace"</span>]
+    }
+  },
+  <span class="code-string">"default_models"</span>: {
+    <span class="code-string">"implement"</span>: { <span class="code-string">"provider"</span>: <span class="code-string">"openai-codex"</span>, <span class="code-string">"model"</span>: <span class="code-string">"gpt-5.5"</span>, <span class="code-string">"priority"</span>: 5 },
+    <span class="code-string">"norpiv"</span>: { <span class="code-string">"provider"</span>: <span class="code-string">"openai-codex"</span>, <span class="code-string">"model"</span>: <span class="code-string">"gpt-5.5"</span>, <span class="code-string">"priority"</span>: 5 },
+    <span class="code-string">"triage"</span>: { <span class="code-string">"provider"</span>: <span class="code-string">"github-copilot"</span>, <span class="code-string">"model"</span>: <span class="code-string">"gpt-5-mini"</span>, <span class="code-string">"priority"</span>: 2 }
+  }
+}</pre>
+      </div>
+
+      <!-- Tab: shell -->
+      <div class="tab-content" id="tab-shell">
+        <div class="code-header">
+          <span>Path: dotfiles/shell_integration.sh (Staged wrapper loader)</span>
+          <button class="copy-btn" onclick="copyCode('code-shell')">Copy Code</button>
+        </div>
+        <pre id="code-shell">pi() {
+  <span class="code-keyword">local</span> NOTHING_DIR
+  NOTHING_DIR=<span class="code-string">"$(cd "$(dirname "${BASH_SOURCE[0]}")/.." &amp;&amp; pwd)"</span>
+  
+  <span class="code-keyword">local</span> MINDSETS_JSON=<span class="code-string">"$NOTHING_DIR/mindsets.json"</span>
+  <span class="code-keyword">export</span> PI_MINDSET=<span class="code-string">""</span>
+  
+  <span class="code-keyword">local</span> ARGS=()
+  <span class="code-keyword">local</span> EXTRA_SKILLS=()
+  <span class="code-keyword">local</span> EXTRA_EXTENSIONS=()
+  
+  <span class="code-comment"># Parse Custom Mindset Flags dynamically</span>
+  <span class="code-keyword">while</span> [[ $# -gt 0 ]]; <span class="code-keyword">do</span>
+    <span class="code-keyword">case</span> <span class="code-string">"$1"</span> <span class="code-keyword">in</span>
+      --android|--pm|--dev|--rpiv|--meta)
+        <span class="code-keyword">local</span> flag_name=<span class="code-string">"${1#--}"</span>
+        <span class="code-keyword">export</span> PI_MINDSET=<span class="code-string">"$flag_name"</span>
+        
+        <span class="code-comment"># Extract skills from JSON</span>
+        <span class="code-keyword">local</span> skills=$(node -e <span class="code-string">"const d=require('$MINDSETS_JSON'); console.log(d.mindsets['$flag_name'].skills.join(' '))"</span>)
+        <span class="code-keyword">for</span> sk <span class="code-keyword">in</span> $skills; <span class="code-keyword">do</span>
+          EXTRA_SKILLS+=(<span class="code-string">"--skill"</span> <span class="code-string">"$NOTHING_DIR/packages/$sk"</span>)
+        <span class="code-keyword">done</span>
+        
+        <span class="code-comment"># Extract extensions from JSON</span>
+        <span class="code-keyword">local</span> extensions=$(node -e <span class="code-string">"const d=require('$MINDSETS_JSON'); console.log(d.mindsets['$flag_name'].extensions.join(' '))"</span>)
+        <span class="code-keyword">for</span> ext <span class="code-keyword">in</span> $extensions; <span class="code-keyword">do</span>
+          EXTRA_EXTENSIONS+=(<span class="code-string">"--extension"</span> <span class="code-string">"$NOTHING_DIR/packages/$ext"</span>)
+        <span class="code-keyword">done</span>
+        <span class="code-keyword">shift</span>
+        ;;
+      *) ARGS+=(<span class="code-string">"$1"</span>); <span class="code-keyword">shift</span> ;;
+    <span class="code-keyword">esac</span>
+  <span class="code-keyword">done</span>
+
+  command pi <span class="code-string">"${EXTRA_SKILLS[@]}"</span> <span class="code-string">"${EXTRA_EXTENSIONS[@]}"</span> <span class="code-string">"${ARGS[@]}"</span>
+}</pre>
+      </div>
+
+      <!-- Tab: settings -->
+      <div class="tab-content" id="tab-settings">
+        <div class="code-header">
+          <span>Path: settings.json (Staged default configuration)</span>
+          <button class="copy-btn" onclick="copyCode('code-settings')">Copy Code</button>
+        </div>
+        <pre id="code-settings">{
+  <span class="code-string">"defaultProvider"</span>: <span class="code-string">"groq"</span>,
+  <span class="code-string">"defaultModel"</span>: <span class="code-string">"llama-3.3-70b-versatile"</span>,
+  <span class="code-string">"theme"</span>: <span class="code-string">"dracula-vibrant"</span>,
+  <span class="code-string">"packages"</span>: [],
+  <span class="code-string">"noleaks"</span>: <span class="code-keyword">true</span>
+}</pre>
+      </div>
+    </div>
   </div>
 
   <script>
-    // Task Keys to preserve checked states across reloads
-    const taskKeys = [
-      'p1-1', 'p1-2', 'p1-3', 'p1-4',
-      'p2-1', 'p2-2', 'p2-3', 'p2-4', 'p2-5', 'p2-6', 'p2-7',
-      'p3-1', 'p3-2', 'p3-3'
-    ];
+    // Hardcoded task keys & relationships with checkboxes
+    const tasks = {
+      'p1-1': true,  // Completed
+      'p1-2': true,  // Completed
+      'p1-3': true,  // Completed
+      'p1-4': true,  // Completed
+      'p1-5': true,  // Completed
+      'p2-1': false,
+      'p2-2': false,
+      'p2-3': false,
+      'p2-4': false,
+      'p3-1': false,
+      'p3-2': false,
+      'p3-3': false,
+      'p4-1': false,
+      'p4-2': false,
+      'p4-3': false
+    };
 
-    // Load initial state
-    taskKeys.forEach(key => {
-      const isCompleted = localStorage.getItem(key) === 'true';
-      const item = document.getElementById('check-' + key)?.parentElement;
-      if (isCompleted && item) {
-        item.classList.add('completed');
+    // Load initial states from LocalStorage or fallback
+    Object.keys(tasks).forEach(key => {
+      const stored = localStorage.getItem('nothing_task_' + key);
+      if (stored !== null) {
+        tasks[key] = stored === 'true';
       }
+      updateTaskUi(key);
     });
 
-    updateOverallProgress();
+    updateCalculatedProgress();
 
-    function toggleTask(key) {
-      const item = document.getElementById('check-' + key).parentElement;
-      const isCompleted = item.classList.contains('completed');
-      
-      if (isCompleted) {
-        item.classList.remove('completed');
-        localStorage.setItem(key, 'false');
+    function updateTaskUi(key) {
+      const element = document.getElementById('task-' + key);
+      if (!element) return;
+      if (tasks[key]) {
+        element.classList.add('completed');
       } else {
-        item.classList.add('completed');
-        localStorage.setItem(key, 'true');
+        element.classList.remove('completed');
       }
-
-      updateOverallProgress();
     }
 
-    function updateOverallProgress() {
-      let completedCount = 0;
-      taskKeys.forEach(key => {
-        if (localStorage.getItem(key) === 'true') {
-          completedCount++;
+    function toggleTask(key) {
+      tasks[key] = !tasks[key];
+      localStorage.setItem('nothing_task_' + key, tasks[key]);
+      updateTaskUi(key);
+      updateCalculatedProgress();
+    }
+
+    function toggleDetails(key) {
+      const element = document.getElementById('task-' + key);
+      if (element) {
+        element.classList.toggle('open');
+      }
+    }
+
+    function updateCalculatedProgress() {
+      const list = Object.keys(tasks);
+      const groups = { p1: 0, p2: 0, p3: 0, p4: 0 };
+      const groupTotals = { p1: 5, p2: 4, p3: 3, p4: 3 };
+
+      list.forEach(key => {
+        const prefix = key.split('-')[0]; // 'p1', 'p2' etc.
+        if (tasks[key]) {
+          groups[prefix]++;
         }
       });
 
-      const percentage = Math.round((completedCount / taskKeys.length) * 100);
-      const progressBadge = document.getElementById('overall-progress');
-      progressBadge.textContent = percentage + '% Completed';
+      // Update Phase Progress Texts
+      Object.keys(groups).forEach(p => {
+        const perc = Math.round((groups[p] / groupTotals[p]) * 100);
+        document.getElementById('progress-' + p).textContent = perc + '% Done';
+      });
 
-      if (percentage === 100) {
-        progressBadge.style.background = 'rgba(16, 185, 129, 0.25)';
-        progressBadge.style.color = '#10b981';
+      // Update Overall
+      const totalCompleted = Object.values(tasks).filter(Boolean).length;
+      const overallPerc = Math.round((totalCompleted / list.length) * 100);
+      
+      document.getElementById('overall-value').textContent = overallPerc + '%';
+      
+      // Update Stroke Dashoffset on circle
+      // stroke-dasharray = 170
+      const circleOffset = 170 - (170 * overallPerc / 100);
+      document.getElementById('overall-fill').style.strokeDashoffset = circleOffset;
+
+      // Update label
+      const label = document.getElementById('overall-label');
+      if (overallPerc === 100) {
+        label.textContent = "Monorepo Complete! 🎉";
+      } else if (overallPerc >= 70) {
+        label.textContent = "Refining & Testing";
+      } else if (overallPerc >= 30) {
+        label.textContent = "Packaging & Wiring";
       } else {
-        progressBadge.style.background = 'rgba(139, 92, 246, 0.15)';
-        progressBadge.style.color = '#c084fc';
+        label.textContent = "Local Refactoring";
       }
+    }
+
+    // Interactive Simulator Data
+    const simulatorData = {
+      rpiv: {
+        role: "Full RPIV Lifecycle Controller",
+        skills: ["search", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/update-docs", "norpiv/cleanup"],
+        extensions: ["notrace"],
+        model: "openai-codex (gpt-5.5) / Priority: 5"
+      },
+      dev: {
+        role: "Developer Coding Assistant",
+        skills: ["search", "norpiv/triage", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/cleanup"],
+        extensions: ["notrace"],
+        model: "openai-codex (gpt-5.5) / Priority: 5"
+      },
+      pm: {
+        role: "Product Owner / PM Manager",
+        skills: ["search", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/sync"],
+        extensions: [],
+        model: "github-copilot (gpt-4.1) / Priority: 3"
+      },
+      android: {
+        role: "Mobile/Android Engineer",
+        skills: ["android", "norpiv/triage", "norpiv/implement", "norpiv/verify"],
+        extensions: [],
+        model: "openai-codex (gpt-5.5) / Priority: 5"
+      },
+      meta: {
+        role: "Systems / Meta Developer",
+        skills: ["meta", "search"],
+        extensions: ["noleaks"],
+        model: "openai-codex (gpt-5.4) / Priority: 4"
+      }
+    };
+
+    function selectMindset(key, btn) {
+      // Set Active Button
+      const buttons = document.querySelectorAll('.selector-btn');
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Set Output Content
+      const data = simulatorData[key];
+      document.getElementById('sim-role').textContent = data.role;
+      document.getElementById('sim-model').textContent = data.model;
+
+      // Populate Skills
+      const skillsContainer = document.getElementById('sim-skills');
+      skillsContainer.innerHTML = '';
+      data.skills.forEach(sk => {
+        const span = document.createElement('span');
+        span.className = 'sim-tag';
+        span.textContent = sk;
+        skillsContainer.appendChild(span);
+      });
+
+      // Populate Extensions
+      const extensionsContainer = document.getElementById('sim-extensions');
+      extensionsContainer.innerHTML = '';
+      if (data.extensions.length === 0) {
+        extensionsContainer.textContent = 'None loaded';
+        extensionsContainer.style.color = 'var(--text-muted)';
+      } else {
+        extensionsContainer.style.color = '';
+        data.extensions.forEach(ext => {
+          const span = document.createElement('span');
+          span.className = 'sim-tag ext';
+          span.textContent = ext;
+          extensionsContainer.appendChild(span);
+        });
+      }
+    }
+
+    // Tabs logic
+    function switchTab(tabId, btn) {
+      // Switch Active Tab Button
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Switch Tab Content
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(c => c.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // Copy to clipboard
+    function copyCode(elementId) {
+      const codeText = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(codeText).then(() => {
+        const btn = document.querySelector(`#tab-${elementId.split('-')[1]} .copy-btn`);
+        const originalText = btn.textContent;
+        btn.textContent = "Copied! ✓";
+        btn.style.color = "var(--success)";
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.color = "";
+        }, 1500);
+      });
     }
   </script>
 </body>
