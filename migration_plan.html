@@ -940,6 +940,53 @@ $ npm install -g notrace noleaks</div>
               </div>
             </div>
           </div>
+
+          <!-- Phase 5 -->
+          <div class="phase-container" id="phase-5">
+            <div class="phase-header">
+              <span class="phase-badge">Phase 5: Automated Workflows (GitHub Actions)</span>
+              <span class="phase-progress" id="progress-p5">0% Done</span>
+            </div>
+
+            <div class="task-list">
+              <div class="task-item" id="task-p5-1">
+                <div class="task-checkbox" onclick="toggleTask('p5-1'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p5-1')">
+                  <div class="task-text">Create CI Validation Workflow (`ci-validate.yml`)</div>
+                  <div class="task-desc">Verify scripts and configs on push or pull request to ensure high quality and prevent breaks.</div>
+                  <div class="task-details">
+                    <p style="margin-bottom: 0.5rem;">Performs script static analysis and validates JSON file structures:</p>
+                    <ul>
+                      <li>Uses <code>shellcheck</code> on <code>bootstrap.sh</code> and shell configurations.</li>
+                      <li>Lints <code>settings.json</code> and <code>mindsets.json</code>.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p5-2">
+                <div class="task-checkbox" onclick="toggleTask('p5-2'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p5-2')">
+                  <div class="task-text">Create Upstream Android Skills Sync Workflow (`sync-upstream-skills.yml`)</div>
+                  <div class="task-desc">Automate polling for updates from google/android/skills while retaining local editing control.</div>
+                  <div class="task-details">
+                    <p style="margin-bottom: 0.5rem;">A weekly cron or manually-triggered workflow that pulls the latest files from upstream, checks for modifications, and automatically submits a reviewable Pull Request to the <code>nothing</code> repository. This allows you to inspect changes before committing them locally.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p5-3">
+                <div class="task-checkbox" onclick="toggleTask('p5-3'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p5-3')">
+                  <div class="task-text">Create Global CD Release Workflow (`publish-packages.yml`)</div>
+                  <div class="task-desc">Package, compile, and publish extensions like `notrace` automatically on tag push.</div>
+                  <div class="task-details">
+                    <p>Compiles typescript code and uploads the packaged bundle to the NPM public or private registry whenever a git tag version is created.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Logged Decisions & Rationale Panel -->
@@ -1170,6 +1217,7 @@ $ npm install -g notrace noleaks</div>
         <button class="tab-btn" onclick="switchTab('mindsets', this)">mindsets.json</button>
         <button class="tab-btn" onclick="switchTab('shell', this)">shell_integration.sh</button>
         <button class="tab-btn" onclick="switchTab('settings', this)">settings.json</button>
+        <button class="tab-btn" onclick="switchTab('github-actions', this)">sync-upstream.yml</button>
       </div>
 
       <!-- Tab: bootstrap.sh -->
@@ -1307,6 +1355,51 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
   }
 }</pre>
       </div>
+
+      <!-- Tab: github-actions -->
+      <div class="tab-content" id="tab-github-actions">
+        <div class="code-header">
+          <span>Path: .github/workflows/sync-upstream-skills.yml (Staged blueprint)</span>
+          <button class="copy-btn" onclick="copyCode('code-github-actions')">Copy Code</button>
+        </div>
+        <pre id="code-github-actions"><span class="code-comment">name: Sync Upstream Android Skills</span>
+<span class="code-comment">on:</span>
+<span class="code-comment">  schedule:</span>
+<span class="code-comment">    # Run weekly (Sundays at midnight)</span>
+<span class="code-comment">    - cron: '0 0 * * 0'</span>
+<span class="code-comment">  workflow_dispatch: # Allow manual triggering</span>
+
+<span class="code-comment">jobs:</span>
+<span class="code-comment">  sync:</span>
+<span class="code-comment">    runs-on: ubuntu-latest</span>
+<span class="code-comment">    steps:</span>
+<span class="code-comment">      - name: Checkout nothing repository</span>
+<span class="code-comment">        uses: actions/checkout@v4</span>
+
+<span class="code-comment">      - name: Clone official android/skills repository</span>
+<span class="code-comment">        run: |</span>
+<span class="code-comment">          git clone --depth 1 https://github.com/android/skills.git upstream_skills</span>
+
+<span class="code-comment">      - name: Synchronize guidelines to packages/android/</span>
+<span class="code-comment">        run: |</span>
+<span class="code-comment">          mkdir -p packages/android</span>
+<span class="code-comment">          # Synchronize files while retaining local exclusions or customizations</span>
+<span class="code-comment">          rsync -av --delete --exclude='.git' upstream_skills/ packages/android/</span>
+<span class="code-comment">          rm -rf upstream_skills</span>
+
+<span class="code-comment">      - name: Create reviewable Pull Request if modifications exist</span>
+<span class="code-comment">        uses: peter-evans/create-pull-request@v6</span>
+<span class="code-comment">        with:</span>
+<span class="code-comment">          token: ${{ secrets.GITHUB_TOKEN }}</span>
+<span class="code-comment">          commit-message: "chore(android): sync guidelines with official upstream repo"</span>
+<span class="code-comment">          title: "🔄 Update Official Android Guidelines"</span>
+<span class="code-comment">          body: |</span>
+<span class="code-comment">            This automated Pull Request syncs the local `packages/android/` guidelines</span>
+<span class="code-comment">            with the canonical upstream repository: https://github.com/android/skills.</span>
+<span class="code-comment">            Please review the diff before merging to check for rules and prompts updates.</span>
+<span class="code-comment">          branch: android-skills-sync</span>
+<span class="code-comment">          delete-branch: true</span></pre>
+      </div>
     </div>
   </div>
 
@@ -1328,7 +1421,10 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
       'p3-4': false,
       'p4-1': false,
       'p4-2': false,
-      'p4-3': false
+      'p4-3': false,
+      'p5-1': false,
+      'p5-2': false,
+      'p5-3': false
     };
 
     // Load initial states from LocalStorage or fallback
@@ -1368,8 +1464,8 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
 
     function updateCalculatedProgress() {
       const list = Object.keys(tasks);
-      const groups = { p1: 0, p2: 0, p3: 0, p4: 0 };
-      const groupTotals = { p1: 5, p2: 4, p3: 4, p4: 3 };
+      const groups = { p1: 0, p2: 0, p3: 0, p4: 0, p5: 0 };
+      const groupTotals = { p1: 5, p2: 4, p3: 4, p4: 3, p5: 3 };
 
       list.forEach(key => {
         const prefix = key.split('-')[0]; // 'p1', 'p2' etc.
