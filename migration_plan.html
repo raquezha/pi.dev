@@ -1050,10 +1050,7 @@ $ npm install -g notrace noleaks</div>
                   </div>
                 </div>
               </div>
-              <div class="sim-row">
-                <div class="sim-label">Default LLM Model</div>
-                <div class="sim-val" id="sim-model" style="font-family:'Source Code Pro', monospace; font-size:0.85rem;">openai-codex (gpt-5.5)</div>
-              </div>
+
             </div>
           </div>
         </div>
@@ -1329,32 +1326,27 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
       rpiv: {
         role: "Full RPIV Lifecycle Controller",
         skills: ["search", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/update-docs", "norpiv/cleanup"],
-        extensions: ["notrace"],
-        model: "openai-codex (gpt-5.5) / Priority: 5"
+        extensions: ["notrace"]
       },
       dev: {
         role: "Developer Coding Assistant",
         skills: ["search", "norpiv/triage", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/cleanup"],
-        extensions: ["notrace"],
-        model: "openai-codex (gpt-5.5) / Priority: 5"
+        extensions: ["notrace"]
       },
       pm: {
         role: "Product Owner / PM Manager",
         skills: ["search", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/sync"],
-        extensions: [],
-        model: "github-copilot (gpt-4.1) / Priority: 3"
+        extensions: []
       },
       android: {
         role: "Mobile/Android Engineer",
         skills: ["android", "norpiv/triage", "norpiv/implement", "norpiv/verify"],
-        extensions: [],
-        model: "openai-codex (gpt-5.5) / Priority: 5"
+        extensions: []
       },
       meta: {
         role: "Systems / Meta Developer",
         skills: ["meta", "search"],
-        extensions: ["noleaks"],
-        model: "openai-codex (gpt-5.4) / Priority: 4"
+        extensions: ["noleaks"]
       }
     };
 
@@ -1367,7 +1359,6 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
       // Set Output Content
       const data = simulatorData[key];
       document.getElementById('sim-role').textContent = data.role;
-      document.getElementById('sim-model').textContent = data.model;
 
       // Populate Skills
       const skillsContainer = document.getElementById('sim-skills');
