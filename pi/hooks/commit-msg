@@ -1,43 +1,9 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-MSG_FILE="$1"
-
-# If commit message contains literal backslash-n sequences, convert them to real newlines.
-if grep -q '\\n' "$MSG_FILE"; then
-  # Replace literal \n with actual newline (safely, across file)
-  perl -0777 -pe 's/\\n/\n/g' -i "$MSG_FILE"
+#!/bin/sh
+# Entire CLI hooks
+# Commit-msg hook: strip trailer if no user content (allows aborting empty commits)
+if command -v entire >/dev/null 2>&1; then entire hooks git commit-msg "$1" || true; else printf '%s\n' '[entire] Entire CLI is enabled but not installed or not on PATH. Skipping Entire Git hook; continuing. Installation guide: https://docs.entire.io/cli/installation#installation-methods' >&2 || :; fi
+# Chain: run pre-existing hook
+_entire_hook_dir="$(dirname "$0")"
+if [ -x "$_entire_hook_dir/commit-msg.pre-entire" ]; then
+    "$_entire_hook_dir/commit-msg.pre-entire" "$@"
 fi
-
-# Read first non-empty line (subject)
-FIRST_LINE="$(sed -n '1p' "$MSG_FILE" | tr -d '\r')"
-
-# Allow merge commits and empty messages
-if [[ "$FIRST_LINE" =~ ^Merge\  ]] || [[ -z "$FIRST_LINE" ]]; then
-  exit 0
-fi
-
-# Allow bypass tokens
-if grep -Eqi '\[skip commitlint\]|\[ci skip\]' "$MSG_FILE"; then
-  echo "Bypass token found in commit message — skipping commitlint."
-  exit 0
-fi
-
-# Basic Conventional Commit subject regex
-if printf '%s' "$FIRST_LINE" | grep -Eq '^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert)(\([^)]+\))?(!)?:\s.+'; then
-  exit 0
-fi
-
-cat <<EOF >&2
-ERROR: Commit message does not follow Conventional Commits.
-
-Expected: <type>(scope)?: subject
-Valid types: feat, fix, docs, style, refactor, perf, test, chore, build, ci, revert
-
-Examples:
-  feat(parser): add support for new syntax
-  fix: crash when input is empty
-
-If this is intentional, include '[skip commitlint]' in the commit message to bypass.
-EOF
-exit 1

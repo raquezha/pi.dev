@@ -273,6 +273,10 @@ if [[ -L "$AGENT_DIR/extensions/clean-repo" ]]; then
   rm "$AGENT_DIR/extensions/clean-repo"
   ok "Removed legacy clean-repo extension (replaced by /cleanup skill)"
 fi
+if [[ -L "$AGENT_DIR/extensions/arize-phoenix" ]]; then
+  rm "$AGENT_DIR/extensions/arize-phoenix"
+  ok "Removed arize-phoenix extension"
+fi
 
 # Link specific extensions (opt-in)
 link_item "$PI_DIR/extensions/powerline-footer"   "$AGENT_DIR/extensions/powerline-footer"   "extensions/powerline-footer"
@@ -291,6 +295,8 @@ else
   ok "env-protection already enabled in settings.json"
 fi
 link_item "$PI_DIR/extensions/search-subagent"        "$AGENT_DIR/extensions/search-subagent"        "extensions/search-subagent"
+link_item "$PI_DIR/extensions/html-observability"     "$AGENT_DIR/extensions/html-observability"     "extensions/html-observability"
+# link_item "$PI_DIR/extensions/arize-phoenix"          "$AGENT_DIR/extensions/arize-phoenix"          "extensions/arize-phoenix"
 
 # Manual-only extensions are not linked here. Load them explicitly when needed.
 if [[ -L "$AGENT_DIR/extensions/gemini-api" ]]; then
