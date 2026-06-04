@@ -941,6 +941,72 @@ $ npm install -g notrace noleaks</div>
             </div>
           </div>
         </div>
+
+        <!-- Logged Decisions & Rationale Panel -->
+        <div class="panel">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Logged Decisions & Rationale
+          </div>
+          
+          <div class="decision-list" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <!-- Decision 1: Android Skills Update Drift Prevention -->
+            <div class="naming-card active-now" style="border-left: 4px solid var(--accent); padding-left: 1rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="color: #fff; font-size: 1rem;">No Local Copies or Clones of Android Skills</strong>
+                <span class="naming-tag core" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);">Rule Rejected</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0;">
+                <strong>Decision:</strong> We explicitly rejected copying or cloning files from the official <code>android/skills</code> repository locally into either <code>pi.dev</code> or <code>nothing</code>.
+              </p>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+                <strong>Rationale:</strong> Direct copying or cloning introduces severe <strong>update drift</strong>. When Google updates the official skills on GitHub, any local setup becomes immediately stale. To keep tools up-to-date automatically, we resolve them dynamically.
+              </p>
+            </div>
+
+            <!-- Decision 2: Dynamic MCP Server Registry -->
+            <div class="naming-card active-now" style="border-left: 4px solid var(--accent); padding-left: 1rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="color: #fff; font-size: 1rem;">Dynamic MCP Server Resolution</strong>
+                <span class="naming-tag core" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">Rule Approved</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0;">
+                <strong>Decision:</strong> We registered the <code>android-skills</code> MCP server via NPM registry invocation (<code>npx -y android-skills-mcp</code>) in the agent settings.
+              </p>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+                <strong>Rationale:</strong> Loads the latest canonical Android guidelines dynamically on-demand, preventing repository bloat, simplifying cross-platform bootstraps, and guaranteeing the developer always uses the latest guidelines without manual intervention.
+              </p>
+            </div>
+
+            <!-- Decision 3: Removal of Default Models Block -->
+            <div class="naming-card active-now" style="border-left: 4px solid var(--accent); padding-left: 1rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="color: #fff; font-size: 1rem;">Removal of Hardcoded default_models</strong>
+                <span class="naming-tag core" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">Rule Approved</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0;">
+                <strong>Decision:</strong> Dropped the default LLM list block from the configurations, loading only the last selected mindset as the active profile.
+              </p>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+                <strong>Rationale:</strong> Prevents model selection redundancy and keeps configuration files lean and clean.
+              </p>
+            </div>
+
+            <!-- Decision 4: Package-based Installation Model -->
+            <div class="naming-card active-now" style="border-left: 4px solid var(--accent); padding-left: 1rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="color: #fff; font-size: 1rem;">Package-based Installation Model</strong>
+                <span class="naming-tag core" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">Rule Approved</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0;">
+                <strong>Decision:</strong> Replace platform-specific symlink setups with standard global NPM package installs (e.g. publishing <code>notrace</code>).
+              </p>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+                <strong>Rationale:</strong> Avoids complex file path symlinking on Linux vs. macOS, ensures clean upgrades, and makes dotfiles installation lightweight.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Right Column (Inventory, Simulator, Blueprints) -->
