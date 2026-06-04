@@ -59,7 +59,7 @@ Build a "Staff Engineer" grade agentic workflow engine that:
 
 ---
 
-## 🧩 Skills Map (pi/skills/workflow/)
+## 🧩 Skills Map (pi/skills/norpiv/)
 
 | Skill | Status | Notes |
 | :--- | :--- | :--- |
@@ -75,7 +75,7 @@ Build a "Staff Engineer" grade agentic workflow engine that:
 
 ## 🔧 The Wiring
 
-- **`pi/scripts/workflow/triage_helper.sh`**: Helper used by `triage` to create `.workflow/tasks/[source-id]/` and populate `WORK.md` and `metadata.json` from remote APIs (`gh`, `glab`, `jira`).
+- **`pi/scripts/norpiv/triage_helper.sh`**: Helper used by `triage` to create `.workflow/tasks/[source-id]/` and populate `WORK.md` and `metadata.json` from remote APIs (`gh`, `glab`, `jira`).
 - **`pi/shell_integration.sh`**: Provides hats that preload skill sets (see Hats above).
 - **`scripts/setup.sh`**: Intentionally skips linking some large context files (AGENTS.md, skills). Review if symlink behavior should change.
 - **`docs/agents/`**: Durable, anti-bloat memory for domain and tech rules.
@@ -88,7 +88,7 @@ Build a "Staff Engineer" grade agentic workflow engine that:
 2. Decide whether `PLAN.md` (this file) remains a committed planning artifact or is moved to an ephemeral workspace; prefer keeping durable rules only in `docs/agents/`.
 3. Review `scripts/setup.sh` symlink behavior for repo-local extensions; avoid auto-linking large context files by default.
 4. `.workflow/` is intentionally at the repo root and is already listed in `.gitignore`.
-5. Skills in `pi/skills/workflow/` are implemented to use `WORK.md` guarded sections; verify other skills follow the same contract.
+5. Skills in `pi/skills/norpiv/` are implemented to use `WORK.md` guarded sections; verify other skills follow the same contract.
 
 ---
 

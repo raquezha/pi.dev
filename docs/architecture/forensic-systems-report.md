@@ -17,7 +17,7 @@ The `pi.dev` architecture is an orchestration wrapper. It is not an agent engine
     *   *Key Files*: `pi/shell_integration.sh`
 4.  **The "Skills" (Persona Prompts)**
     *   *Purpose*: Forces the generic agent into narrow, phase-specific execution loops (Triage, Frame, Grill, Plan, Implement, Verify).
-    *   *Key Files*: `pi/skills/workflow/*`
+    *   *Key Files*: `pi/skills/norpiv/*`
 5.  **Capability Interceptors (Extensions)**
     *   *Purpose*: Runtime blocking of tools to prevent credential exfiltration.
     *   *Key Files*: `pi/extensions/noleaks/index.ts`
@@ -54,7 +54,7 @@ The system uses highly constrained, heavily guarded prompts to enforce the RPIV 
 *   **Task Metadata**: GitHub Issue #45. Repo size: 800 files. Model: Claude 3.5 Sonnet.
 *   **Timeline**:
     1.  `pi --rpiv` (Router loads 10 skills into context. *~4k input tokens base*).
-    2.  `/triage github:45`. Agent calls `bash ./pi/scripts/workflow/triage_helper.sh github 45`. Tool returns stdout confirming `WORK.md` creation.
+    2.  `/triage github:45`. Agent calls `bash ./pi/scripts/norpiv/triage_helper.sh github 45`. Tool returns stdout confirming `WORK.md` creation.
     3.  `/plan`. Agent reads `WORK.md`. Agent reads `package.json`. Agent writes 3 slices to `[PLAN]`.
     4.  User: `EXECUTE slice 1`. Agent reads `.workflow/active_task.json`.
     5.  Agent executes `bash scripts/enforce-branch.sh`.

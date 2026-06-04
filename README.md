@@ -84,7 +84,7 @@ For a detailed breakdown of LLM metrics (Context, Caching, Tokens), see the [Age
 ## 🛠 Skills
 
 Located in `pi/skills/`:
-- `workflow/`: Core Lean RPIV skills.
+- `norpiv/`: Core Lean RPIV skills.
 - `android/`: Android-specific toolkits.
 - `search/`: Brave Search + Firecrawl integration (linked globally by setup).
 - `meta/agent-os/`: Initialize or sync Agent-First infrastructure in any repo.

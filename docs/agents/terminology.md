@@ -37,6 +37,6 @@ Concise definitions and best practices for LLM-related metrics and agentic terms
 - When in doubt about what to include in context, prefer adding a short pointer to a durable doc (e.g., `docs/agents/…`) rather than embedding large files.
 
 ## References
-- Workflow: `docs/agents/workflow.md`
+- Workflow: `docs/agents/norpiv.md`
 - RPIV quick guide: `docs/agents/rpiv-workflow.md`
-- Update durable docs: `pi/skills/workflow/update-docs/SKILL.md`
+- Update durable docs: `pi/skills/norpiv/update-docs/SKILL.md`

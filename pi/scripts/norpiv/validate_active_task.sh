@@ -78,7 +78,7 @@ fi
 echo
 echo "Suggested fixes (dry):"
 if [[ -n "$WORK_MD" && ! -f "$WORK_MD" ]]; then
-  echo "  - Re-run triage: ./pi/scripts/workflow/triage_helper.sh <source> <id>"
+  echo "  - Re-run triage: ./pi/scripts/norpiv/triage_helper.sh <source> <id>"
   echo "  - Or update .workflow/active_task.json to include a correct taskPath or source+id"
 fi
 

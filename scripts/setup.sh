@@ -107,7 +107,7 @@ fi
 
 
 # Ensure triage_helper.sh is executable
-TRIAGE_SCRIPT="$REPO_DIR/pi/scripts/workflow/triage_helper.sh"
+TRIAGE_SCRIPT="$REPO_DIR/pi/scripts/norpiv/triage_helper.sh"
 if [[ -f "$TRIAGE_SCRIPT" ]]; then
   chmod +x "$TRIAGE_SCRIPT"
   ok "triage_helper.sh is executable"
@@ -404,19 +404,19 @@ show_available "$PI_DIR/skills" "$AGENT_DIR/skills" "Skills"
 echo ""
 show_available "$PI_DIR/extensions" "$AGENT_DIR/extensions" "Extensions"
 
-# ── Auto-link workflow skills (Core to R&D Workflow) ─────────────────
+# ── Auto-link norpiv skills (Core to R&D Workflow) ─────────────────
 
-# Most workflow skills are injected via 'pi --pm' or 'pi --dev' shell 
+# Most norpiv skills are injected via 'pi --pm' or 'pi --dev' shell 
 # integration to avoid context bloat in standard sessions.
 # However, /cleanup is universally useful for managing workspace state, 
 # and the Search category is small enough to keep globally discoverable.
 echo ""
 info "Linking globally useful skills..."
 link_item "$PI_DIR/skills/search" "$AGENT_DIR/skills/search" "skills/search"
-link_item "$PI_DIR/skills/workflow/cleanup" "$AGENT_DIR/skills/cleanup" "skills/cleanup"
+link_item "$PI_DIR/skills/norpiv/cleanup" "$AGENT_DIR/skills/cleanup" "skills/cleanup"
 
 echo ""
-info "Skipped workflow skills by default to avoid context bloat."
+info "Skipped norpiv skills by default to avoid context bloat."
 info "Enable other skills manually by linking them to $AGENT_DIR/skills/"
 
 # ── Secrets check ────────────────────────────────────────────────────

@@ -24,4 +24,4 @@ pi.dev agent rules (pi-local)
 
 - **Cleanliness & commits**: Do not commit ephemeral task files. Use Conventional Commits for all changes.
 
-- **References**: `docs/agents/workflow.md`, `pi/skills/workflow/update-docs/SKILL.md`, `pi/skills/README.md`.
+- **References**: `docs/agents/norpiv.md`, `pi/skills/norpiv/update-docs/SKILL.md`, `pi/skills/README.md`.

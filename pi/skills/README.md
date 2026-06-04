@@ -22,7 +22,7 @@ Web search and information retrieval.
 Skills for managing GitLab CI/CD pipelines, MR reviews, and environment deployments.
 - **Status**: ⚪ Planned
 
-### 🔁 Workflow
+### 🔁 norpiv
 Core RPIV workflow skills for task intake, framing, planning, implementation, verification, tracker sync, and documentation upkeep.
 - **Status**: 🟢 Lean RPIV Added
 - **Skills**: `triage`, `frame`, `grill-with-docs`, `plan`, `implement`, `verify`, `sync`, `update-docs`, `cleanup`
@@ -40,7 +40,7 @@ Skills for creating and maintaining pi skills and other agent-facing building bl
 ### ✍️ Documentation / Context Curation
 Skills for keeping durable repo documentation and agent context aligned without context bloat.
 - **Status**: 🟢 Context Curation Added
-- **Skills**: `workflow/update-docs`
+- **Skills**: `norpiv/update-docs`
 - **Notes**: `update-docs` updates durable docs such as `AGENTS.md`, `README.md`, skill docs, and `docs/agents/*`; task-specific state stays in `.workflow/tasks/*/WORK.md`.
 
 ---

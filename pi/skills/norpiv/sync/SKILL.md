@@ -37,7 +37,7 @@ Format the message for two audiences:
   `<!-- pi-sync-marker -->`
 
 ### 3. Execution
-- **Jira**: Execute `./pi/skills/workflow/sync/jira_smart_sync.sh <ISSUE_ID>`. This script handles the ADF format and smart logic.
+- **Jira**: Execute `./pi/skills/norpiv/sync/jira_smart_sync.sh <ISSUE_ID>`. This script handles the ADF format and smart logic.
 - **GitHub**:
   - `Check`: `gh issue/pr view <id> --json comments --jq '.comments[-1]'`
   - `Action`: If `.body` contains marker AND slices match, `gh api -X PATCH ...`. Else `gh issue/pr comment ...`.

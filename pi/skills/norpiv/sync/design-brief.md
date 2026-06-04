@@ -27,8 +27,8 @@ Developers using `pi` for RPIV or task-based implementation, reporting progress 
 4. **Shell Safety**: Use temporary files and `--body-file` to avoid shell length/escaping issues.
 
 ## File Structure
-- `pi/skills/workflow/sync/SKILL.md`: Operational instructions.
-- `pi/skills/workflow/sync/jira_smart_sync.sh`: Hardened implementation script.
+- `pi/skills/norpiv/sync/SKILL.md`: Operational instructions.
+- `pi/skills/norpiv/sync/jira_smart_sync.sh`: Hardened implementation script.
 
 ## Success Metric
 - Zero duplicate Pi comments when progress is static.

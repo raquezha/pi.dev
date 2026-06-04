@@ -1,19 +1,19 @@
 {
   "mindsets": {
     "android": {
-      "skills": ["android", "workflow/triage", "workflow/implement", "workflow/verify"],
+      "skills": ["android", "norpiv/triage", "norpiv/implement", "norpiv/verify"],
       "extensions": []
     },
     "pm": {
-      "skills": ["search", "workflow/triage", "workflow/frame", "workflow/grill-with-docs", "workflow/plan", "workflow/sync"],
+      "skills": ["search", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/sync"],
       "extensions": []
     },
     "dev": {
-      "skills": ["search", "workflow/triage", "workflow/implement", "workflow/verify", "workflow/sync", "workflow/cleanup"],
+      "skills": ["search", "norpiv/triage", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/cleanup"],
       "extensions": ["notrace"]
     },
     "rpiv": {
-      "skills": ["search", "workflow/triage", "workflow/frame", "workflow/grill-with-docs", "workflow/plan", "workflow/implement", "workflow/verify", "workflow/sync", "workflow/update-docs", "workflow/cleanup"],
+      "skills": ["search", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/update-docs", "norpiv/cleanup"],
       "extensions": ["notrace"]
     },
     "meta": {
@@ -36,7 +36,7 @@
     "android-logcat-smart": { "provider": "openai-codex", "model": "gpt-5.5", "priority": 5 },
     "android-agp9-migration": { "provider": "openai-codex", "model": "gpt-5.5", "priority": 5 },
     "android-ci-component-adoption": { "provider": "openai-codex", "model": "gpt-5.5", "priority": 5 },
-    "workflow": { "provider": "openai-codex", "model": "gpt-5.5", "priority": 5 },
+    "norpiv": { "provider": "openai-codex", "model": "gpt-5.5", "priority": 5 },
     "android": { "provider": "openai-codex", "model": "gpt-5.5", "priority": 5 },
     "update-docs": { "provider": "openai-codex", "model": "gpt-5.4", "priority": 4 },
     "pi-skill-creator": { "provider": "openai-codex", "model": "gpt-5.4", "priority": 4 },
