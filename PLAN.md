@@ -84,24 +84,24 @@ Every core block is anchored to a standard `no-` prefix naming convention to sig
 ## 📋 5. Timeline Checklist & Status
 
 ### Phase 1: Local Refactoring & Renaming
-* [ ] **Task 1.1**: Rename RPIV workflow skills ➔ `norpiv`.
-* [ ] **Task 1.2**: Rename core triage scripts ➔ `norpiv`.
-* [ ] **Task 1.3**: Rename credentials protector ➔ `noleaks`.
-* [ ] **Task 1.4**: Rename html trace collector ➔ `notrace`.
-* [ ] **Task 1.5**: Rename other extensions (`nofooter`, `nosearch`, `noagy`).
+* [x] **Task 1.1**: Rename RPIV workflow skills ➔ `norpiv`.
+* [x] **Task 1.2**: Rename core triage scripts ➔ `norpiv`.
+* [x] **Task 1.3**: Rename credentials protector ➔ `noleaks`.
+* [x] **Task 1.4**: Rename html trace collector ➔ `notrace`.
+* [x] **Task 1.5**: Rename other extensions (`nofooter`, `nosearch`, `noagy`).
 
 ### Phase 2: Packaging Custom Extensions
-* [ ] **Task 2.1**: Restructure `notrace` to support standard Node compile (`tsconfig.json`).
-* [ ] **Task 2.2**: Scaffolding package specifications (`package.json`) for custom extensions.
-* [ ] **Task 2.3**: Establish private scopes for npm distribution.
-* [ ] **Task 2.4**: Publish built packages to NPM.
+* [x] **Task 2.1**: Restructure `notrace` to support standard Node compile (`tsconfig.json`).
+* [x] **Task 2.2**: Scaffolding package specifications (`package.json`) for custom extensions.
+* [x] **Task 2.3**: Establish public `@raquezha/*` npm scope distribution with CI token + Changesets.
+* [x] **Task 2.4**: Publish built packages to NPM (`@raquezha/noagy`, `nofooter`, `noleaks`, `nosearch`, `notrace` all at `0.0.1`).
 
 ### Phase 3: Building "nothing" Monorepo
-* [ ] **Task 3.1**: Write cross-platform `bootstrap.sh` installer.
-* [ ] **Task 3.2**: Extract declarative mindset configurations to `mindsets.json`.
-* [ ] **Task 3.3**: Integrate dynamically-resolving path loaders in shell integrations.
-* [ ] **Task 3.4**: Write visual, comprehensive READMEs for each monorepo package.
-* [ ] **Task 3.5**: Implement `md-to-html` plan dashboard compiler in `nometa`.
+* [x] **Task 3.1**: Write cross-platform `bootstrap.sh` installer.
+* [x] **Task 3.2**: Extract declarative mindset configurations to `mindsets.json`.
+* [x] **Task 3.3**: Integrate dynamically-resolving path loaders in shell integrations.
+* [x] **Task 3.4**: Write visual, comprehensive READMEs for each monorepo package.
+* [x] **Task 3.5**: Implement `nohtml` universal input-to-HTML compiler in `nometa` (renamed from `md-to-html`; supports markdown, conversation JSONL, and plain text).
 
 ### Phase 4: Transition & Verification
 * [ ] **Task 4.1**: Verify `bootstrap.sh` execution and setups on macOS Darwin.
@@ -109,9 +109,9 @@ Every core block is anchored to a standard `no-` prefix naming convention to sig
 * [ ] **Task 4.3**: Validate telemetry trace viewer output compilation.
 
 ### Phase 5: Automated Workflows (GitHub Actions)
-* [ ] **Task 5.1**: CI Validation (`ci-validate.yml`) running `shellcheck` and linting configs.
-* [ ] **Task 5.2**: Upstream Guidelines Auto-Sync (`sync-upstream-skills.yml`) creating review PRs.
-* [ ] **Task 5.3**: CD Publishing Workflow (`publish-packages.yml`) triggering on tag releases.
+* [x] **Task 5.1**: CI Validation (`ci-validate.yml`) running `shellcheck` and linting configs.
+* [x] **Task 5.2**: Upstream Guidelines Auto-Sync (`sync-upstream-skills.yml`) creating review PRs.
+* [x] **Task 5.3**: CD Publishing Workflow (`publish-packages.yml`) triggering on tag releases.
 
 ---
 
