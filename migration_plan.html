@@ -1228,6 +1228,8 @@ $ npm install -g notrace noleaks</div>
         <button class="tab-btn" onclick="switchTab('shell', this)">shell_integration.sh</button>
         <button class="tab-btn" onclick="switchTab('settings', this)">settings.json</button>
         <button class="tab-btn" onclick="switchTab('github-actions', this)">sync-upstream.yml</button>
+        <button class="tab-btn" onclick="switchTab('norpiv-work', this)">norpiv/WORK.md</button>
+        <button class="tab-btn" onclick="switchTab('norpiv-flow', this)">norpiv-flow</button>
       </div>
 
       <!-- Tab: bootstrap.sh -->
@@ -1417,6 +1419,75 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
 <span class="code-comment">            Please review the diff before merging to check for rules and prompts updates.</span>
 <span class="code-comment">          branch: android-skills-sync</span>
 <span class="code-comment">          delete-branch: true</span></pre>
+      </div>
+
+      <!-- Tab: norpiv-work -->
+      <div class="tab-content" id="tab-norpiv-work">
+        <div class="code-header">
+          <span>Path: .workflow/tasks/[task-id]/WORK.md (The Anatomy of RPIV Source of Truth)</span>
+          <button class="copy-btn" onclick="copyCode('code-norpiv-work')">Copy Code</button>
+        </div>
+        <pre id="code-norpiv-work"><span class="code-comment"># TASK: github-42 — Implement dynamic route loading</span>
+
+<span class="code-keyword">## [BRIEF]</span>
+- <span class="code-string">Goal:</span> Replace static router definitions in packages/app with dynamic code-splitted routes.
+- <span class="code-string">Constraints:</span> Maintain 100% test coverage; do not bundle admin routes into the user bundle.
+- <span class="code-string">Context:</span> Target files are `src/router.ts` and `src/main.ts`.
+
+<span class="code-keyword">## [GRILL]</span>
+- <span class="code-string">Q:</span> Did we check if import() is supported in our targeted browsers?
+  <span class="code-string">A:</span> Yes, target is modern browsers only.
+- <span class="code-string">Q:</span> What happens if dynamic loading fails (e.g. network disconnect)?
+  <span class="code-string">A:</span> Must show a retry banner/boundary.
+
+<span class="code-keyword">## [PLAN]</span>
+- [x] Slice 1: Setup React.lazy boundaries and error boundary wrappers.
+- [ ] Slice 2: Implement dynamic import mapping for core route configurations.
+- [ ] Slice 3: Add integration tests verifying route splits.
+
+<span class="code-keyword">## [LOG]</span>
+### 2026-06-05 09:15:00 — Slice 1 Completed
+- Created `src/components/SafeRouteLoader.tsx` error fallback.
+- Added tests in `tests/SafeRouteLoader.test.tsx`.
+- Verification run: `npm run test` (Passed, 2 tests).</pre>
+      </div>
+
+      <!-- Tab: norpiv-flow -->
+      <div class="tab-content" id="tab-norpiv-flow">
+        <div class="code-header">
+          <span>Path: norpiv Workflow Orchestration Engine (Logical Commands Breakdown)</span>
+          <button class="copy-btn" onclick="copyCode('code-norpiv-flow')">Copy Code</button>
+        </div>
+        <pre id="code-norpiv-flow"><span class="code-keyword">1. /triage [source]:[id]</span>
+   - Reads remote metadata (Jira/GitHub) and scaffolds task directory:
+     `.workflow/tasks/[id]/WORK.md` and `metadata.json`.
+   - Points `active_task.json` to the new task path.
+
+<span class="code-keyword">2. /frame</span>
+   - Interactively assists the developer in summarizing requirements.
+   - Populates the <span class="code-string">[BRIEF]</span> section in `WORK.md`. Rejects implementation scripts.
+
+<span class="code-keyword">3. /grill-with-docs</span>
+   - Reads workspace constraints, tech briefs, and `CONTEXT.md`.
+   - Asks strategic questions to refine architecture, outputting answers to <span class="code-string">[GRILL]</span>.
+
+<span class="code-keyword">4. /plan</span>
+   - Splits execution into thin, vertical, testable slices.
+   - Writes checkbox items in <span class="code-string">[PLAN]</span>. Strict constraint: no coding allowed.
+
+<span class="code-keyword">5. /implement</span>
+   - Checks off the next slice in <span class="code-string">[PLAN]</span>.
+   - Requires explicit <span class="code-string">"EXECUTE"</span> user prompt. Implements slice, updates <span class="code-string">[LOG]</span>.
+
+<span class="code-keyword">6. /verify</span>
+   - Triggers compiler checks, linters, and unit tests.
+   - Logs compilation errors or test outputs into the <span class="code-string">[LOG]</span> pipeline.
+
+<span class="code-keyword">7. /sync</span>
+   - Summarizes progress and bridges local log files back to the issue tracker.
+
+<span class="code-keyword">8. /cleanup</span>
+   - Safely removes the localized task folder, prunes merged Git branches, and resets pointers.</pre>
       </div>
     </div>
   </div>
