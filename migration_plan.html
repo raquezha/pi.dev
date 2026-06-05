@@ -1052,6 +1052,20 @@ $ npm install -g notrace noleaks</div>
                 <strong>Rationale:</strong> Avoids complex file path symlinking on Linux vs. macOS, ensures clean upgrades, and makes dotfiles installation lightweight.
               </p>
             </div>
+
+            <!-- Decision 5: Isolated Workspaces via Git Worktrees -->
+            <div class="naming-card active-now" style="border-left: 4px solid var(--accent); padding-left: 1rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="color: #fff; font-size: 1rem;">Isolated Workspaces via Git Worktrees</strong>
+                <span class="naming-tag core" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">Rule Approved</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0;">
+                <strong>Decision:</strong> Task development inside RPIV runs inside isolated Git Worktree directories dynamically checked out under <code>.workflow/tasks/[id]/code/</code>.
+              </p>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+                <strong>Rationale:</strong> Prevents workspace contamination, removes the need to <code>git stash</code> half-completed work when context-switching, allows parallel testing/linting in subagents, and keeps the main repo directory clean.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -1200,6 +1214,12 @@ $ npm install -g notrace noleaks</div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-icon">📄</span><span class="tree-name">bootstrap.sh</span><span class="tree-comment"># OS-discoverable installer</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-icon">📄</span><span class="tree-name">mindsets.json</span><span class="tree-comment"># Declarative mindsets schema</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-icon">📄</span><span class="tree-name">settings.json</span><span class="tree-comment"># Core default configurations</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-icon dir">📁</span><span class="tree-name">.workflow/</span><span class="tree-comment"># Git-ignored RPIV workspace</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon dir">📁</span><span class="tree-name">tasks/</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon dir">📁</span><span class="tree-name">github-42/</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon">📄</span><span class="tree-name">WORK.md</span><span class="tree-comment"># Task Single Source of Truth</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon">📄</span><span class="tree-name">metadata.json</span><span class="tree-comment"># Issue tracker metadata</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon dir">📁</span><span class="tree-name">code/</span><span class="tree-comment"># Checked out Git Worktree (Dynamic)</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-icon dir">📁</span><span class="tree-name">dotfiles/</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon">📄</span><span class="tree-name">shell_integration.sh</span><span class="tree-comment"># Dynamic loader wrapper</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-icon dir">📁</span><span class="tree-name">packages/</span></div>
