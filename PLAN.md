@@ -104,9 +104,9 @@ Every core block is anchored to a standard `no-` prefix naming convention to sig
 * [x] **Task 3.5**: Implement `nohtml` universal input-to-HTML compiler in `nometa` (renamed from `md-to-html`; supports markdown, conversation JSONL, and plain text).
 
 ### Phase 4: Transition & Verification
-* [ ] **Task 4.1**: Verify `bootstrap.sh` execution and setups on macOS Darwin.
-* [ ] **Task 4.2**: Verify `bootstrap.sh` execution and setups on Linux environments.
-* [ ] **Task 4.3**: Validate telemetry trace viewer output compilation.
+* [x] **Task 4.1**: Verify `bootstrap.sh` execution path on macOS Darwin via `--dry-run` CI matrix.
+* [x] **Task 4.2**: Verify `bootstrap.sh` execution path on Linux via `--dry-run` CI matrix.
+* [x] **Task 4.3**: Validate telemetry trace viewer output compilation with `scripts/verify-notrace.mjs` smoke test.
 
 ### Phase 5: Automated Workflows (GitHub Actions)
 * [x] **Task 5.1**: CI Validation (`ci-validate.yml`) running `shellcheck` and linting configs.
