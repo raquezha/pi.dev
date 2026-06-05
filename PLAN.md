@@ -12,15 +12,19 @@
 ---
 
 ## 🎯 1. Overview & Goals
-The goal is to replace the platform-specific setups, symlinks, and duplicate directories in `pi.dev` with a clean, package-based monorepo installer named **`nothing`**. This workspace will configure Zsh/Bash shells identically on **macOS** and **Linux** without repository bloat or update drift.
+The goal is to replace the platform-specific setups, symlinks, and duplicate directories in `pi.dev` with a clean, package-based monorepo installer named **`nothing`** — a **standalone repository** at `/Users/raquezha/RQZ/personal/nothing`. This workspace will configure Zsh/Bash shells identically on **macOS** and **Linux** without repository bloat or update drift.
+
+* **Fresh Install (new machine)**: `curl -fsSL https://pi.dev/install.sh | sh`
+* **Applying Local Changes**: run `bootstrap.sh` directly from the `nothing` repo after any updates.
+* **NPM Scope**: All published packages are public under `@raquezha` (e.g. `@raquezha/notrace`).
 
 ---
 
 ## 🏛️ 2. Architectural Design Decisions
 
-### 2.1. Dynamic Android Guidelines (No Copies or Clones)
-* **Decision**: We explicitly rejected physically copying or cloning Google's canonical [android/skills](https://github.com/android/skills) files into our repositories.
-* **Rationale**: Upstream changes by Google would immediately cause **update drift** in our static folders. Instead, we dynamically query the guidelines on-demand using the **MCP Server** registry (`npx -y android-skills-mcp`) configured in `settings.json`.
+### 2.1. Android Guidelines: Sync + Dynamic Query
+* **Decision**: Upstream [android/skills](https://github.com/android/skills) guidelines are periodically synced into `packages/android/` via a GitHub Actions workflow (§6.5). The **MCP Server** (`npx -y android-skills-mcp`) remains configured for on-demand querying during agent sessions.
+* **Rationale**: The sync gives us a local copy that stays current via automated review PRs — no manual drift, no stale snapshots. The MCP server provides instant lookups without filesystem reads during live sessions.
 
 ### 2.2. Isolated Workspaces via Git Worktrees
 * **Decision**: RPIV task workspaces will instantiate isolated Git Worktrees inside the task folders during implementation.
@@ -45,14 +49,15 @@ nothing/
 ├── settings.json                 # Global agent settings and MCP server blocks
 ├── dotfiles/
 │   └── shell_integration.sh      # Parses custom mindset flags and resolves package paths
-├── packages/                     # Monorepo packages (using consistent "no-" prefix)
+├── packages/                     # Monorepo packages
+│   ├── android/                  # Auto-synced copy of official android/skills guidelines
 │   ├── norpiv/                   # Lean RPIV workflow orchestrator skills
-│   ├── notrace/                  # HTML telemetry and trace viewer extension
-│   ├── noleaks/                  # Security credentials protector shield extension
-│   ├── nosearch/                 # Integrated Search skills & background subagent wrapper
-│   ├── noagy/                    # OAuth login provider extension
-│   ├── nometa/                   # Meta skills (pi-skill-creator, agent-os, nothing-bootstrap, md-to-html)
-│   └── nofooter/                 # CLI powerline footer theme extension
+│   ├── notrace/                  # HTML telemetry and trace viewer (@raquezha/notrace)
+│   ├── noleaks/                  # Security credentials protector shield (@raquezha/noleaks)
+│   ├── nosearch/                 # Integrated Search skills & subagent wrapper (@raquezha/nosearch)
+│   ├── noagy/                    # OAuth login provider extension (@raquezha/noagy)
+│   ├── nometa/                   # Meta skills (pi-skill-creator, agent-os, md-to-html)
+│   └── nofooter/                 # CLI powerline footer theme (@raquezha/nofooter)
 └── .github/
     └── workflows/
         └── sync-upstream-skills.yml # Auto-sync action fetching updates from android/skills
@@ -64,15 +69,15 @@ nothing/
 
 Every core block is anchored to a standard `no-` prefix naming convention to signify isolation and lightweight footprint:
 
-| Old Repository Path | New Monorepo Package | Type | Purpose |
-| :--- | :--- | :--- | :--- |
-| `workflow/` | `packages/norpiv/` | Skill | RPIV orchestrator skills |
-| `html-observability/` | `packages/notrace/` | Extension | HTML trace collector |
-| `env-protection/` | `packages/noleaks/` | Extension | Credentials protector |
-| `search-subagent/` & `search/` | `packages/nosearch/` | Integrated | Search skills & subagent wrapper |
-| `antigravity-auth-login/` | `packages/noagy/` | Extension | OAuth login utility |
-| `powerline-footer/` | `packages/nofooter/` | Extension | Terminal layout theme |
-| `meta/` | `packages/nometa/` | Skill | Meta systems and skill generators |
+| Old Repository Path | New Monorepo Package | npm Package | Type | Purpose |
+| :--- | :--- | :--- | :--- | :--- |
+| `workflow/` | `packages/norpiv/` | *(skill, not published)* | Skill | RPIV orchestrator skills |
+| `html-observability/` | `packages/notrace/` | `@raquezha/notrace` | Extension | HTML trace collector |
+| `env-protection/` | `packages/noleaks/` | `@raquezha/noleaks` | Extension | Credentials protector |
+| `search-subagent/` & `search/` | `packages/nosearch/` | `@raquezha/nosearch` | Integrated | Search skills & subagent wrapper |
+| `antigravity-auth-login/` | `packages/noagy/` | `@raquezha/noagy` | Extension | OAuth login utility |
+| `powerline-footer/` | `packages/nofooter/` | `@raquezha/nofooter` | Extension | Terminal layout theme |
+| `meta/` | `packages/nometa/` | *(skill, not published)* | Skill | Meta systems and skill generators |
 
 ---
 
@@ -113,6 +118,10 @@ Every core block is anchored to a standard `no-` prefix naming convention to sig
 ## 🛠️ 6. Blueprints & Configurations
 
 ### 6.1. Cross-Platform `bootstrap.sh`
+
+> **Entry point for fresh machines**: `curl -fsSL https://pi.dev/install.sh | sh`
+> **For local changes**: run `./bootstrap.sh` directly from the `nothing` repo.
+
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
@@ -138,7 +147,7 @@ esac
 # 2. Install Pi Coding Agent and extensions globally from NPM
 echo "Installing packages from NPM..."
 npm install -g @mariozechner/pi-coding-agent
-npm install -g nothing-notrace nothing-noleaks
+npm install -g @raquezha/notrace @raquezha/noleaks @raquezha/nosearch @raquezha/noagy @raquezha/nofooter
 
 # 3. Mount configurations
 mkdir -p "$HOME/.pi/agent"
