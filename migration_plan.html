@@ -895,6 +895,17 @@ $ npm install -g notrace noleaks</div>
                   </div>
                 </div>
               </div>
+
+              <div class="task-item" id="task-p3-5">
+                <div class="task-checkbox" onclick="toggleTask('p3-5'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p3-5')">
+                  <div class="task-text">Implement `md-to-html` plan dashboard compiler in `nometa`</div>
+                  <div class="task-desc">Create the compiler skill that translates markdown planning files into interactive dashboards.</div>
+                  <div class="task-details">
+                    <p>Builds the dedicated parser and template compiler that dynamically maps markdown checklists to interactive HTML elements.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1528,6 +1539,7 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
       'p3-2': true,  // Completed
       'p3-3': true,  // Completed
       'p3-4': false,
+      'p3-5': false,
       'p4-1': false,
       'p4-2': false,
       'p4-3': false,
@@ -1574,7 +1586,7 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
     function updateCalculatedProgress() {
       const list = Object.keys(tasks);
       const groups = { p1: 0, p2: 0, p3: 0, p4: 0, p5: 0 };
-      const groupTotals = { p1: 5, p2: 4, p3: 4, p4: 3, p5: 3 };
+      const groupTotals = { p1: 5, p2: 4, p3: 5, p4: 3, p5: 3 };
 
       list.forEach(key => {
         const prefix = key.split('-')[0]; // 'p1', 'p2' etc.

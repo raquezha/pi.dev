@@ -45,8 +45,8 @@ nothing/
 │   ├── noleaks/                  # Security credentials protector shield extension
 │   ├── nosearch/                 # Integrated Search skills & background subagent wrapper
 │   ├── noantigravity/            # OAuth login provider extension
-│   ├── nofooter/                 # CLI powerline footer theme extension
-│   └── nometa/                   # Meta systems skills (pi-skill-creator, agent-os)
+│   ├── nometa/                   # Meta skills (pi-skill-creator, agent-os, nothing-bootstrap, md-to-html)
+│   └── nofooter/                 # CLI powerline footer theme extension
 └── .github/
     └── workflows/
         └── sync-upstream-skills.yml # Auto-sync action fetching updates from android/skills
@@ -90,6 +90,7 @@ Every core block is anchored to a standard `no-` prefix naming convention to sig
 * [x] **Task 3.2**: Extract declarative mindset configurations to `mindsets.json`.
 * [x] **Task 3.3**: Integrate dynamically-resolving path loaders in shell integrations.
 * [ ] **Task 3.4**: Write visual, comprehensive READMEs for each monorepo package.
+* [ ] **Task 3.5**: Implement `md-to-html` plan dashboard compiler in `nometa`.
 
 ### Phase 4: Transition & Verification
 * [ ] **Task 4.1**: Verify `bootstrap.sh` execution and setups on macOS Darwin.

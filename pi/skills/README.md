@@ -31,10 +31,10 @@ Core RPIV workflow skills for task intake, framing, planning, implementation, ve
 Skills for Fastlane, App Store/Play Store automated releases, and TestFlight management.
 - **Status**: ⚪ Planned
 
-### 🛠 Meta
+### 🛠 Meta (nometa)
 Skills for creating and maintaining pi skills and other agent-facing building blocks.
-- **Status**: 🟢 Pi Skill Creator & Agent-OS Added
-- **Skills**: `meta/pi-skill-creator`, `meta/agent-os`
+- **Status**: 🟢 Pi Skill Creator, Agent-OS & MD-to-HTML Added
+- **Skills**: `nometa/pi-skill-creator`, `nometa/agent-os`, `nometa/md-to-html`
 - **Notes**: `pi-skill-creator` is pi.dev-first; it can study external repos as source material but should normally generate reusable skills back into `pi/skills/...` in this repository unless the user explicitly wants a project-local skill.
 
 ### ✍️ Documentation / Context Curation
