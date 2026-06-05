@@ -3,6 +3,12 @@
 > Last Updated: 2026-06-05
 > Status: Planning & Refinement (Approved)
 
+## ⚠️ Agent Execution Log (Constraint Violations)
+* **Incident Date**: 2026-06-05
+* **Incident**: The agent prematurely wrote, executed, and pushed the `md-to-html` compiler script (`compile.js`) during the planning phase without seeking explicit user review and approval.
+* **Resolution**: The user did not revert the change but ordered the incident to be logged here and inside the skill as a warning about the agent bypassing constraints and doing things on its own.
+* **Correction**: The agent must remain strictly in planning mode and never push execution files until explicitly directed.
+
 ---
 
 ## 🎯 1. Overview & Goals
