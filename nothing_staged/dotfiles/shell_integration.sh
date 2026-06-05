@@ -88,6 +88,17 @@ pi() {
   # Parse custom flags
   while [[ $# -gt 0 ]]; do
     case "$1" in
+      --nothing)
+        export PI_MINDSET="nothing"
+        MINDSET="nothing"
+        export PI_CODING_AGENT_DIR="$HOME/.pi/nothing_empty"
+        export PI_TELEMETRY=0
+        mkdir -p "$PI_CODING_AGENT_DIR"
+        EXTRA_SKILLS=()
+        EXTRA_EXTENSIONS=()
+        ARGS+=("--system-prompt" "" "--no-themes" "--no-extensions" "--no-skills" "--no-prompt-templates" "--no-context-files" "--no-session")
+        shift
+        ;;
       --android|--pm|--dev|--rpiv|--meta|--write|--antigravity)
         local flag_name="${1#--}"
         export PI_MINDSET="$flag_name"
@@ -173,4 +184,9 @@ pi() {
   fi
   
   command pi "${EXTRA_SKILLS[@]}" "${EXTRA_EXTENSIONS[@]}" "${ARGS[@]}"
+  
+  # Reset mindset and agent config directory for subsequent calls in the same shell
+  unset PI_MINDSET
+  unset PI_CODING_AGENT_DIR
+  unset PI_TELEMETRY
 }

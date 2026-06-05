@@ -91,6 +91,16 @@ pi() {
   # Parse custom flags
   while [[ $# -gt 0 ]]; do
     case "$1" in
+      --nothing)
+        export PI_MINDSET="nothing"
+        export PI_CODING_AGENT_DIR="$HOME/.pi/nothing_empty"
+        export PI_TELEMETRY=0
+        mkdir -p "$PI_CODING_AGENT_DIR"
+        EXTRA_SKILLS=()
+        EXTRA_EXTENSIONS=()
+        ARGS+=("--system-prompt" "" "--no-themes" "--no-extensions" "--no-skills" "--no-prompt-templates" "--no-context-files" "--no-session")
+        shift
+        ;;
       --android)
         MINDSET="\033[0;32mandroid\033[0m"
         export PI_MINDSET="android"
@@ -179,7 +189,7 @@ pi() {
       --antigravity)
         MINDSET="\033[0;31mantigravity\033[0m"
         export PI_MINDSET="antigravity"
-        EXTRA_EXTENSIONS+=("--extension" "$REPO_DIR/pi/extensions/noantigravity")
+        EXTRA_EXTENSIONS+=("--extension" "$REPO_DIR/pi/extensions/noagy")
         shift
         ;;
       --codex)
@@ -286,6 +296,8 @@ pi() {
   
   # Reset mindset for subsequent calls in the same shell
   unset PI_MINDSET
+  unset PI_CODING_AGENT_DIR
+  unset PI_TELEMETRY
 }
 
 alias reload-pi="source $HOME/RQZ/personal/pi.dev/pi/shell_integration.sh && echo 'pi.dev shell integration reloaded'"

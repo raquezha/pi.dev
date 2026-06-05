@@ -305,7 +305,11 @@ if [[ -L "$AGENT_DIR/extensions/gemini-api" ]]; then
 fi
 if [[ -L "$AGENT_DIR/extensions/noantigravity" ]]; then
   rm "$AGENT_DIR/extensions/noantigravity"
-  warn "Removed manual-only extensions/noantigravity; use pi --antigravity or pi -e ./pi/extensions/noantigravity"
+  warn "Removed retired extensions/noantigravity; use pi --antigravity or pi -e ./pi/extensions/noagy"
+fi
+if [[ -L "$AGENT_DIR/extensions/noagy" ]]; then
+  rm "$AGENT_DIR/extensions/noagy"
+  warn "Removed manual-only extensions/noagy; use pi --antigravity or pi -e ./pi/extensions/noagy"
 fi
 
 # ── Link prompts ─────────────────────────────────────────────────────

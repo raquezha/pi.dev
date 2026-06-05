@@ -711,6 +711,38 @@
             Timeline & Execution Phases
           </div>
 
+          <!-- Phase 0 -->
+          <div class="phase-container" id="phase-0">
+            <div class="phase-header">
+              <span class="phase-badge">Phase 0: Pre-Migration System Reset</span>
+              <span class="phase-progress" id="progress-p0">0% Done</span>
+            </div>
+            
+            <div class="task-list">
+              <div class="task-item" id="task-p0-1">
+                <div class="task-checkbox" onclick="toggleTask('p0-1'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p0-1')">
+                  <div class="task-text">Create and execute `cleanup_legacy.sh`</div>
+                  <div class="task-desc">Removes all custom symlinks, shell integration entries, and global git config modifications created by `pi.dev` (Proposed).</div>
+                  <div class="task-details">
+                    <p>Reverts `.zshrc`/`.bashrc` integration lines, deletes old symlinks pointing to `pi.dev` in `~/.pi/agent/`, and cleans up global Git hooks.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-item" id="task-p0-2">
+                <div class="task-checkbox" onclick="toggleTask('p0-2'); event.stopPropagation();"></div>
+                <div class="task-content" onclick="toggleDetails('p0-2')">
+                  <div class="task-text">Clean up legacy compiled binaries</div>
+                  <div class="task-desc">Removes compiled legacy binaries such as `entire-agent-pi` from host paths (Proposed).</div>
+                  <div class="task-details">
+                    <p>Deletes `entire-agent-pi` from `~/.local/bin/` or `/usr/local/bin/` to ensure a completely clean environment before installing global NPM packages.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Phase 1 -->
           <div class="phase-container" id="phase-1">
             <div class="phase-header">
@@ -768,8 +800,8 @@
               <div class="task-item" id="task-p1-5">
                 <div class="task-checkbox" onclick="toggleTask('p1-5'); event.stopPropagation();"></div>
                 <div class="task-content" onclick="toggleDetails('p1-5')">
-                  <div class="task-text">Rename remaining extensions (`noantigravity`, `nofooter`)</div>
-                  <div class="task-desc">Renamed `antigravity-auth-login` ➔ `noantigravity` and `powerline-footer` ➔ `nofooter` (Completed).</div>
+                  <div class="task-text">Rename remaining extensions (`noagy`, `nofooter`)</div>
+                  <div class="task-desc">Renamed `antigravity-auth-login` ➔ `noagy` and `powerline-footer` ➔ `nofooter` (Completed).</div>
                   <div class="task-details">
                     <p>Matched standard naming convention patterns where every core block anchors on either nothing, something, or everything.</p>
                   </div>
@@ -1008,31 +1040,31 @@ $ npm install -g notrace noleaks</div>
           </div>
           
           <div class="decision-list" style="display: flex; flex-direction: column; gap: 1.25rem;">
-            <!-- Decision 1: Android Skills Update Drift Prevention -->
+            <!-- Decision 1: Android Skills Guidelines Location -->
             <div class="naming-card active-now" style="border-left: 4px solid var(--accent); padding-left: 1rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <strong style="color: #fff; font-size: 1rem;">No Local Copies or Clones of Android Skills</strong>
-                <span class="naming-tag core" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);">Rule Rejected</span>
-              </div>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0;">
-                <strong>Decision:</strong> We explicitly rejected copying or cloning files from the official <code>android/skills</code> repository locally into either <code>pi.dev</code> or <code>nothing</code>.
-              </p>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
-                <strong>Rationale:</strong> Direct copying or cloning introduces severe <strong>update drift</strong>. When Google updates the official skills on GitHub, any local setup becomes immediately stale. To keep tools up-to-date automatically, we resolve them dynamically.
-              </p>
-            </div>
-
-            <!-- Decision 2: Dynamic MCP Server Registry -->
-            <div class="naming-card active-now" style="border-left: 4px solid var(--accent); padding-left: 1rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <strong style="color: #fff; font-size: 1rem;">Dynamic MCP Server Resolution</strong>
+                <strong style="color: #fff; font-size: 1rem;">Android Skills Synced Locally via Actions</strong>
                 <span class="naming-tag core" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">Rule Approved</span>
               </div>
               <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0;">
-                <strong>Decision:</strong> We registered the <code>android-skills</code> MCP server via NPM registry invocation (<code>npx -y android-skills-mcp</code>) in the agent settings.
+                <strong>Decision:</strong> We choose to keep local guideline files in <code>packages/android/</code> and sync updates weekly using a GitHub Actions cron job.
               </p>
               <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
-                <strong>Rationale:</strong> Loads the latest canonical Android guidelines dynamically on-demand, preventing repository bloat, simplifying cross-platform bootstraps, and guaranteeing the developer always uses the latest guidelines without manual intervention.
+                <strong>Rationale:</strong> Exposing files locally enables offline usage. The GitHub Action automates the check-in of updates via reviewable Pull Requests, combining the safety of local control with dynamic drift protection.
+              </p>
+            </div>
+
+            <!-- Decision 2: Rejection of Dynamic MCP Server -->
+            <div class="naming-card active-now" style="border-left: 4px solid var(--accent); padding-left: 1rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="color: #fff; font-size: 1rem;">Ditched Dynamic MCP Server</strong>
+                <span class="naming-tag core" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);">Rule Rejected</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0;">
+                <strong>Decision:</strong> Rejected dynamic MCP server package loader execution in Settings.
+              </p>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+                <strong>Rationale:</strong> The dynamic MCP lookup introduces external network dependencies and script startup latency during agent bootstrap. Syncing local package files directly is cleaner and more reliable.
               </p>
             </div>
 
@@ -1075,20 +1107,6 @@ $ npm install -g notrace noleaks</div>
               </p>
               <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
                 <strong>Rationale:</strong> Prevents workspace contamination, removes the need to <code>git stash</code> half-completed work when context-switching, allows parallel testing/linting in subagents, and keeps the main repo directory clean.
-              </p>
-            </div>
-
-            <!-- Decision 6: Isolated Sandbox Verification -->
-            <div class="naming-card active-now" style="border-left: 4px solid var(--accent); padding-left: 1rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <strong style="color: #fff; font-size: 1rem;">Isolated Sandbox Verification</strong>
-                <span class="naming-tag core" style="background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3);">Proposed / Pending Review</span>
-              </div>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0;">
-                <strong>Decision:</strong> Run Phase 4 installer validation (<code>bootstrap.sh</code>) inside transient container sandboxes (Docker <code>ubuntu:latest</code> / <code>debian:stable</code> for Linux, and clean guest user accounts for macOS).
-              </p>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
-                <strong>Rationale:</strong> Protects the developer's primary machine environment from target shell profile changes and verifies that the monorepo installer is completely self-contained on pristine target OS builds.
               </p>
             </div>
           </div>
@@ -1159,7 +1177,7 @@ $ npm install -g notrace noleaks</div>
 
             <div class="naming-card">
               <div class="naming-header">
-                <span class="naming-title">noantigravity</span>
+                <span class="naming-title">noagy</span>
                 <span class="naming-tag extension">extension</span>
               </div>
               <span class="naming-desc">OAuth login provider wrapping public APIs.</span>
@@ -1252,7 +1270,7 @@ $ npm install -g notrace noleaks</div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">notrace/</span><span class="tree-comment"># HTMLTrace collector</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">noleaks/</span><span class="tree-comment"># Security block checks</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">nosearch/</span><span class="tree-comment"># Integrated Search & subagent scraper</span></div>
-            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">noantigravity/</span><span class="tree-comment"># Auth wrapper</span></div>
+            <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">noagy/</span><span class="tree-comment"># Auth wrapper</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">nofooter/</span><span class="tree-comment"># Terminal theme</span></div>
             <div class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon pkg">📦</span><span class="tree-name">nometa/</span><span class="tree-comment"># Meta systems & skill creators</span></div>
           </div>
@@ -1268,6 +1286,7 @@ $ npm install -g notrace noleaks</div>
       </div>
       
       <div class="tab-header">
+        <button class="tab-btn" onclick="switchTab('cleanup', this)">cleanup_legacy.sh</button>
         <button class="tab-btn active" onclick="switchTab('bootstrap', this)">bootstrap.sh</button>
         <button class="tab-btn" onclick="switchTab('mindsets', this)">mindsets.json</button>
         <button class="tab-btn" onclick="switchTab('shell', this)">shell_integration.sh</button>
@@ -1275,6 +1294,98 @@ $ npm install -g notrace noleaks</div>
         <button class="tab-btn" onclick="switchTab('github-actions', this)">sync-upstream.yml</button>
         <button class="tab-btn" onclick="switchTab('norpiv-work', this)">norpiv/WORK.md</button>
         <button class="tab-btn" onclick="switchTab('norpiv-flow', this)">norpiv-flow</button>
+      </div>
+
+      <!-- Tab: cleanup_legacy.sh -->
+      <div class="tab-content" id="tab-cleanup">
+        <div class="code-header">
+          <span>Path: scripts/cleanup_legacy.sh (Pre-migration reset)</span>
+          <button class="copy-btn" onclick="copyCode('code-cleanup')">Copy Code</button>
+        </div>
+        <pre id="code-cleanup"><span class="code-comment">#!/usr/bin/env bash</span>
+<span class="code-keyword">set</span> -euo pipefail
+
+<span class="code-keyword">echo</span> <span class="code-string">"🧹 Starting legacy pi.dev cleanup..."</span>
+
+<span class="code-comment"># 1. Clean up shell profile integration lines</span>
+SHELL_RC=<span class="code-string">""</span>
+<span class="code-keyword">if</span> [[ -f <span class="code-string">"$HOME/.zshrc"</span> ]]; <span class="code-keyword">then</span>
+  SHELL_RC=<span class="code-string">"$HOME/.zshrc"</span>
+<span class="code-keyword">elif</span> [[ -f <span class="code-string">"$HOME/.bashrc"</span> ]]; <span class="code-keyword">then</span>
+  SHELL_RC=<span class="code-string">"$HOME/.bashrc"</span>
+<span class="code-keyword">fi</span>
+
+<span class="code-keyword">if</span> [[ -n <span class="code-string">"$SHELL_RC"</span> ]]; <span class="code-keyword">then</span>
+  <span class="code-keyword">echo</span> <span class="code-string">"Checking $(basename "$SHELL_RC") for legacy integrations..."</span>
+  <span class="code-keyword">if</span> grep -q <span class="code-string">"pi.dev/pi/shell_integration.sh"</span> <span class="code-string">"$SHELL_RC"</span>; <span class="code-keyword">then</span>
+    cp <span class="code-string">"$SHELL_RC"</span> <span class="code-string">"$SHELL_RC.backup.$(date +%s)"</span>
+    perl -i -ne <span class="code-string">'print unless /pi\.dev\/pi\/shell_integration\.sh/'</span> <span class="code-string">"$SHELL_RC"</span>
+    <span class="code-keyword">echo</span> <span class="code-string">"Removed pi.dev shell integration line."</span>
+  <span class="code-keyword">fi</span>
+<span class="code-keyword">fi</span>
+
+<span class="code-comment"># 2. Clean up symlinks in ~/.pi/agent/</span>
+AGENT_DIR=<span class="code-string">"$HOME/.pi/agent"</span>
+<span class="code-keyword">if</span> [[ -d <span class="code-string">"$AGENT_DIR"</span> ]]; <span class="code-keyword">then</span>
+  <span class="code-keyword">echo</span> <span class="code-string">"Pruning broken symlinks..."</span>
+  <span class="code-keyword">for</span> item <span class="code-keyword">in</span> <span class="code-string">"$AGENT_DIR"</span>/* <span class="code-string">"$AGENT_DIR"</span>/extensions/* <span class="code-string">"$AGENT_DIR"</span>/skills/* <span class="code-string">"$AGENT_DIR"</span>/prompts/* <span class="code-string">"$AGENT_DIR"</span>/themes/*; <span class="code-keyword">do</span>
+    <span class="code-keyword">if</span> [[ -L <span class="code-string">"$item"</span> ]]; <span class="code-keyword">then</span>
+      target=<span class="code-string">"$(readlink "$item")"</span>
+      <span class="code-keyword">if</span> [[ <span class="code-string">"$target"</span> == *<span class="code-string">"pi.dev"</span>* ]]; <span class="code-keyword">then</span>
+        rm <span class="code-string">"$item"</span>
+        <span class="code-keyword">echo</span> <span class="code-string">"Removed symlink: $item"</span>
+      <span class="code-keyword">fi</span>
+    <span class="code-keyword">fi</span>
+  <span class="code-keyword">done</span>
+<span class="code-keyword">fi</span>
+
+<span class="code-comment"># 3. Clean up global Git hooks</span>
+GITHOOKS_DIR=<span class="code-string">"$HOME/.githooks"</span>
+HOOK_FILE=<span class="code-string">"$GITHOOKS_DIR/commit-msg"</span>
+<span class="code-keyword">if</span> [[ -L <span class="code-string">"$HOOK_FILE"</span> ]]; <span class="code-keyword">then</span>
+  target=<span class="code-string">"$(readlink "$HOOK_FILE")"</span>
+  <span class="code-keyword">if</span> [[ <span class="code-string">"$target"</span> == *<span class="code-string">"pi.dev"</span>* ]]; <span class="code-keyword">then</span>
+    rm <span class="code-string">"$HOOK_FILE"</span>
+    <span class="code-keyword">echo</span> <span class="code-string">"Removed global git commit-msg hook."</span>
+    <span class="code-keyword">if</span> [[ -z <span class="code-string">"$(ls -A "$GITHOOKS_DIR" 2>/dev/null)"</span> ]]; <span class="code-keyword">then</span>
+      git config --global --unset core.hooksPath || <span class="code-keyword">true</span>
+      rmdir <span class="code-string">"$GITHOOKS_DIR"</span>
+      <span class="code-keyword">echo</span> <span class="code-string">"Unconfigured global hooksPath."</span>
+    <span class="code-keyword">fi</span>
+  <span class="code-keyword">fi</span>
+<span class="code-keyword">fi</span>
+
+<span class="code-comment"># 4. Clean up legacy compiled binaries</span>
+<span class="code-keyword">echo</span> <span class="code-string">"Checking legacy binaries..."</span>
+LEGACY_PATHS=(
+  <span class="code-string">"$HOME/.local/bin/entire-agent-pi"</span>
+  <span class="code-string">"/usr/local/bin/entire-agent-pi"</span>
+)
+<span class="code-keyword">for</span> bin <span class="code-keyword">in</span> <span class="code-string">"${LEGACY_PATHS[@]}"</span>; <span class="code-keyword">do</span>
+  <span class="code-keyword">if</span> [[ -f <span class="code-string">"$bin"</span> ]]; <span class="code-keyword">then</span>
+    rm <span class="code-string">"$bin"</span>
+    <span class="code-keyword">echo</span> <span class="code-string">"Removed legacy binary: $bin"</span>
+  <span class="code-keyword">fi</span>
+<span class="code-keyword">done</span>
+
+<span class="code-comment"># 5. Clean up global Gitignore rules</span>
+GLOBAL_GITIGNORE=<span class="code-string">"$HOME/.gitignore_global"</span>
+<span class="code-keyword">if</span> [[ -f <span class="code-string">"$GLOBAL_GITIGNORE"</span> ]]; <span class="code-keyword">then</span>
+  <span class="code-keyword">echo</span> <span class="code-string">"Cleaning ~/.gitignore_global..."</span>
+  <span class="code-keyword">if</span> grep -q <span class="code-string">"# pi workspace"</span> <span class="code-string">"$GLOBAL_GITIGNORE"</span> || grep -q <span class="code-string">"# pi configuration files"</span> <span class="code-string">"$GLOBAL_GITIGNORE"</span>; <span class="code-keyword">then</span>
+    cp <span class="code-string">"$GLOBAL_GITIGNORE"</span> <span class="code-string">"$GLOBAL_GITIGNORE.backup.$(date +%s)"</span>
+    perl -i -ne <span class="code-string">'
+      BEGIN { $skip = 0 }
+      if (/# pi workspace/ || /# pi configuration files/) { $skip = 1; next; }
+      if ($skip && /^\s*$/) { $skip = 0; next; }
+      if ($skip && !/^\.workflow/ && !/^\.pi-/) { $skip = 0; }
+      print unless $skip;
+    '</span> <span class="code-string">"$GLOBAL_GITIGNORE"</span>
+    <span class="code-keyword">echo</span> <span class="code-string">"Cleaned up ~/.gitignore_global."</span>
+  <span class="code-keyword">fi</span>
+<span class="code-keyword">fi</span>
+
+<span class="code-keyword">echo</span> <span class="code-string">"Legacy cleanup complete! ✨"</span></pre>
       </div>
 
       <!-- Tab: bootstrap.sh -->
@@ -1291,12 +1402,15 @@ OS=<span class="code-string">"$(uname -s)"</span>
 <span class="code-keyword">case</span> <span class="code-string">"$OS"</span> <span class="code-keyword">in</span>
   Darwin)
     <span class="code-keyword">echo</span> <span class="code-string">"Installing tools via Homebrew..."</span>
-    brew install node tmux git gh go
+    brew install node tmux git gh go rsync
     ;;
   Linux)
-    <span class="code-keyword">echo</span> <span class="code-string">"Installing tools via apt-get..."</span>
-    <span class="code-keyword">if</span> command -v apt-get &amp;&gt;/dev/null; <span class="code-keyword">then</span>
-      sudo apt-get update &amp;&amp; sudo apt-get install -y nodejs npm tmux git github-cli golang
+    <span class="code-keyword">if</span> [ -f /etc/arch-release ] || command -v pacman &amp;&gt;/dev/null; <span class="code-keyword">then</span>
+      <span class="code-keyword">echo</span> <span class="code-string">"Installing tools via pacman..."</span>
+      sudo pacman -S --needed --noconfirm nodejs npm tmux git github-cli go rsync
+    <span class="code-keyword">elif</span> command -v apt-get &amp;&gt;/dev/null; <span class="code-keyword">then</span>
+      <span class="code-keyword">echo</span> <span class="code-string">"Installing tools via apt-get..."</span>
+      sudo apt-get update &amp;&amp; sudo apt-get install -y nodejs npm tmux git github-cli golang rsync
     <span class="code-keyword">fi</span>
     ;;
 <span class="code-keyword">esac</span>
@@ -1304,11 +1418,12 @@ OS=<span class="code-string">"$(uname -s)"</span>
 <span class="code-comment"># 2. Install Pi Coding Agent and extensions from NPM</span>
 <span class="code-keyword">echo</span> <span class="code-string">"Installing packages from NPM..."</span>
 npm install -g @mariozechner/pi-coding-agent
-npm install -g notrace noleaks
+npm install -g nothing-notrace nothing-noleaks
 
 <span class="code-comment"># 3. Mount configurations</span>
 mkdir -p <span class="code-string">"$HOME/.pi/agent"</span>
 cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span>
+cp mindsets.json <span class="code-string">"$HOME/.pi/agent/mindsets.json"</span>
 <span class="code-keyword">echo</span> <span class="code-string">"Bootstrap complete! 🎉"</span></pre>
       </div>
 
@@ -1320,37 +1435,33 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
         </div>
         <pre id="code-mindsets">{
   <span class="code-string">"mindsets"</span>: {
-    <span class="code-string">"nothing"</span>: {
-      <span class="code-string">"skills"</span>: [<span class="code-string">"nometa/nothing"</span>],
-      <span class="code-string">"extensions"</span>: []
-    },
     <span class="code-string">"android"</span>: {
       <span class="code-string">"skills"</span>: [<span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>],
-      <span class="code-string">"extensions"</span>: []
+      <span class="code-string">"extensions"</span>: [<span class="code-string">"noagy"</span>]
     },
     <span class="code-string">"pm"</span>: {
       <span class="code-string">"skills"</span>: [<span class="code-string">"nosearch"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/frame"</span>, <span class="code-string">"norpiv/grill-with-docs"</span>, <span class="code-string">"norpiv/plan"</span>, <span class="code-string">"norpiv/sync"</span>],
-      <span class="code-string">"extensions"</span>: []
+      <span class="code-string">"extensions"</span>: [<span class="code-string">"noagy"</span>]
     },
     <span class="code-string">"dev"</span>: {
       <span class="code-string">"skills"</span>: [<span class="code-string">"nosearch"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>, <span class="code-string">"norpiv/sync"</span>, <span class="code-string">"norpiv/cleanup"</span>],
-      <span class="code-string">"extensions"</span>: [<span class="code-string">"notrace"</span>]
+      <span class="code-string">"extensions"</span>: [<span class="code-string">"notrace"</span>, <span class="code-string">"noagy"</span>]
     },
     <span class="code-string">"rpiv"</span>: {
       <span class="code-string">"skills"</span>: [<span class="code-string">"nosearch"</span>, <span class="code-string">"norpiv/triage"</span>, <span class="code-string">"norpiv/frame"</span>, <span class="code-string">"norpiv/grill-with-docs"</span>, <span class="code-string">"norpiv/plan"</span>, <span class="code-string">"norpiv/implement"</span>, <span class="code-string">"norpiv/verify"</span>, <span class="code-string">"norpiv/sync"</span>, <span class="code-string">"norpiv/update-docs"</span>, <span class="code-string">"norpiv/cleanup"</span>],
-      <span class="code-string">"extensions"</span>: [<span class="code-string">"notrace"</span>]
+      <span class="code-string">"extensions"</span>: [<span class="code-string">"notrace"</span>, <span class="code-string">"noagy"</span>]
     },
     <span class="code-string">"meta"</span>: {
       <span class="code-string">"skills"</span>: [<span class="code-string">"nometa"</span>, <span class="code-string">"nosearch"</span>],
-      <span class="code-string">"extensions"</span>: [<span class="code-string">"noleaks"</span>]
+      <span class="code-string">"extensions"</span>: [<span class="code-string">"noleaks"</span>, <span class="code-string">"noagy"</span>]
     },
     <span class="code-string">"write"</span>: {
       <span class="code-string">"skills"</span>: [<span class="code-string">"nosearch"</span>],
-      <span class="code-string">"extensions"</span>: []
+      <span class="code-string">"extensions"</span>: [<span class="code-string">"noagy"</span>]
     },
     <span class="code-string">"antigravity"</span>: {
       <span class="code-string">"skills"</span>: [],
-      <span class="code-string">"extensions"</span>: ["noantigravity"]
+      <span class="code-string">"extensions"</span>: [<span class="code-string">"noagy"</span>]
     }
   }
 }</pre>
@@ -1376,7 +1487,15 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
   <span class="code-comment"># Parse Custom Mindset Flags dynamically</span>
   <span class="code-keyword">while</span> [[ $# -gt 0 ]]; <span class="code-keyword">do</span>
     <span class="code-keyword">case</span> <span class="code-string">"$1"</span> <span class="code-keyword">in</span>
-      --android|--pm|--dev|--rpiv|--meta)
+      --nothing)
+        <span class="code-keyword">export</span> PI_MINDSET=<span class="code-string">"nothing"</span>
+        <span class="code-keyword">export</span> PI_CODING_AGENT_DIR=<span class="code-string">"$HOME/.pi/nothing_empty"</span>
+        <span class="code-keyword">export</span> PI_TELEMETRY=0
+        mkdir -p <span class="code-string">"$PI_CODING_AGENT_DIR"</span>
+        ARGS+=(<span class="code-string">"--system-prompt"</span> <span class="code-string">""</span> <span class="code-string">"--no-themes"</span> <span class="code-string">"--no-extensions"</span> <span class="code-string">"--no-skills"</span> <span class="code-string">"--no-prompt-templates"</span> <span class="code-string">"--no-context-files"</span> <span class="code-string">"--no-session"</span>)
+        <span class="code-keyword">shift</span>
+        ;;
+      --android|--pm|--dev|--rpiv|--meta|--antigravity)
         <span class="code-keyword">local</span> flag_name=<span class="code-string">"${1#--}"</span>
         <span class="code-keyword">export</span> PI_MINDSET=<span class="code-string">"$flag_name"</span>
         
@@ -1398,6 +1517,11 @@ cp settings.json <span class="code-string">"$HOME/.pi/agent/settings.json"</span
   <span class="code-keyword">done</span>
 
   command pi <span class="code-string">"${EXTRA_SKILLS[@]}"</span> <span class="code-string">"${EXTRA_EXTENSIONS[@]}"</span> <span class="code-string">"${ARGS[@]}"</span>
+  
+  <span class="code-comment"># Reset mindset and agent config directory for subsequent calls in the same shell</span>
+  <span class="code-keyword">unset</span> PI_MINDSET
+  <span class="code-keyword">unset</span> PI_CODING_AGENT_DIR
+  <span class="code-keyword">unset</span> PI_TELEMETRY
 }</pre>
       </div>
 

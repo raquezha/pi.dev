@@ -34,10 +34,6 @@ The goal is to replace the platform-specific setups, symlinks, and duplicate dir
 * **Decision**: Eliminated the hardcoded `default_models` list from settings, relying purely on the mindset configuration profiles.
 * **Rationale**: Eliminates redundancy and keeps config files clean.
 
-### 2.5. Isolated Sandbox Verification (Proposed)
-* **Decision**: Phase 4 installer validation (`bootstrap.sh`) will run inside transient, isolated container sandboxes (e.g. Docker `ubuntu:latest` or `debian:stable` for Linux, and isolated user sessions for macOS) instead of the developer's main host workspace.
-* **Rationale**: Prevents package and configuration contamination on the host machine, and verifies that the bootstrap installer is 100% self-sufficient on clean operating system installations.
-
 ---
 
 ## 📂 3. Repository Blueprint Tree (`nothing/`)
@@ -54,7 +50,7 @@ nothing/
 │   ├── notrace/                  # HTML telemetry and trace viewer extension
 │   ├── noleaks/                  # Security credentials protector shield extension
 │   ├── nosearch/                 # Integrated Search skills & background subagent wrapper
-│   ├── noantigravity/            # OAuth login provider extension
+│   ├── noagy/                    # OAuth login provider extension
 │   ├── nometa/                   # Meta skills (pi-skill-creator, agent-os, nothing-bootstrap, md-to-html)
 │   └── nofooter/                 # CLI powerline footer theme extension
 └── .github/
@@ -74,7 +70,7 @@ Every core block is anchored to a standard `no-` prefix naming convention to sig
 | `html-observability/` | `packages/notrace/` | Extension | HTML trace collector |
 | `env-protection/` | `packages/noleaks/` | Extension | Credentials protector |
 | `search-subagent/` & `search/` | `packages/nosearch/` | Integrated | Search skills & subagent wrapper |
-| `antigravity-auth-login/` | `packages/noantigravity/` | Extension | OAuth login utility |
+| `antigravity-auth-login/` | `packages/noagy/` | Extension | OAuth login utility |
 | `powerline-footer/` | `packages/nofooter/` | Extension | Terminal layout theme |
 | `meta/` | `packages/nometa/` | Skill | Meta systems and skill generators |
 
@@ -87,7 +83,7 @@ Every core block is anchored to a standard `no-` prefix naming convention to sig
 * [ ] **Task 1.2**: Rename core triage scripts ➔ `norpiv`.
 * [ ] **Task 1.3**: Rename credentials protector ➔ `noleaks`.
 * [ ] **Task 1.4**: Rename html trace collector ➔ `notrace`.
-* [ ] **Task 1.5**: Rename other extensions (`nofooter`, `nosearch`, `noantigravity`).
+* [ ] **Task 1.5**: Rename other extensions (`nofooter`, `nosearch`, `noagy`).
 
 ### Phase 2: Packaging Custom Extensions
 * [ ] **Task 2.1**: Restructure `notrace` to support standard Node compile (`tsconfig.json`).
@@ -126,12 +122,15 @@ OS="$(uname -s)"
 case "$OS" in
   Darwin)
     echo "Installing tools via Homebrew..."
-    brew install node tmux git gh go
+    brew install node tmux git gh go rsync
     ;;
   Linux)
-    echo "Installing tools via apt-get..."
-    if command -v apt-get &>/dev/null; then
-      sudo apt-get update && sudo apt-get install -y nodejs npm tmux git github-cli golang
+    if [ -f /etc/arch-release ] || command -v pacman &>/dev/null; then
+      echo "Installing tools via pacman..."
+      sudo pacman -S --needed --noconfirm nodejs npm tmux git github-cli go rsync
+    elif command -v apt-get &>/dev/null; then
+      echo "Installing tools via apt-get..."
+      sudo apt-get update && sudo apt-get install -y nodejs npm tmux git github-cli golang rsync
     fi
     ;;
 esac
@@ -139,11 +138,12 @@ esac
 # 2. Install Pi Coding Agent and extensions globally from NPM
 echo "Installing packages from NPM..."
 npm install -g @mariozechner/pi-coding-agent
-npm install -g notrace noleaks
+npm install -g nothing-notrace nothing-noleaks
 
 # 3. Mount configurations
 mkdir -p "$HOME/.pi/agent"
 cp settings.json "$HOME/.pi/agent/settings.json"
+cp mindsets.json "$HOME/.pi/agent/mindsets.json"
 echo "Bootstrap complete! 🎉"
 ```
 
@@ -151,37 +151,33 @@ echo "Bootstrap complete! 🎉"
 ```json
 {
   "mindsets": {
-    "nothing": {
-      "skills": ["nometa/nothing"],
-      "extensions": []
-    },
     "android": {
       "skills": ["norpiv/triage", "norpiv/implement", "norpiv/verify"],
-      "extensions": []
+      "extensions": ["noagy"]
     },
     "pm": {
       "skills": ["nosearch", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/sync"],
-      "extensions": []
+      "extensions": ["noagy"]
     },
     "dev": {
       "skills": ["nosearch", "norpiv/triage", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/cleanup"],
-      "extensions": ["notrace"]
+      "extensions": ["notrace", "noagy"]
     },
     "rpiv": {
       "skills": ["nosearch", "norpiv/triage", "norpiv/frame", "norpiv/grill-with-docs", "norpiv/plan", "norpiv/implement", "norpiv/verify", "norpiv/sync", "norpiv/update-docs", "norpiv/cleanup"],
-      "extensions": ["notrace"]
+      "extensions": ["notrace", "noagy"]
     },
     "meta": {
       "skills": ["nometa", "nosearch"],
-      "extensions": ["noleaks"]
+      "extensions": ["noleaks", "noagy"]
     },
     "write": {
       "skills": ["nosearch"],
-      "extensions": []
+      "extensions": ["noagy"]
     },
     "antigravity": {
       "skills": [],
-      "extensions": ["noantigravity"]
+      "extensions": ["noagy"]
     }
   }
 }
