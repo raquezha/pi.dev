@@ -1,10 +1,10 @@
-# search (Brave Search & Web Scraper Tools)
+# nosearch (Brave Search & Web Scraper Tools)
 
 Core search automation skills and background subagent wrappers used to fetch live web documentation, stack overflows, and API specifications.
 
 ## 🛠 Skills Checklist
 
-This package exposes the following search skills:
+This package exposes the following nosearch skills:
 
 - **`brave-search`**: Execute web search queries directly via the Brave Search API. Automatically parses and ranks summary results.
 - **`firecrawl`**: High-performance web scraper that converts any public HTML webpage or documentation site into clean, LLM-friendly Markdown.

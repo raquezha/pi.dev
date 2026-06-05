@@ -105,13 +105,13 @@ pi() {
       --pm)
         MINDSET="\033[0;35mpm\033[0m"
         export PI_MINDSET="pm"
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/nosearch")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/triage")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/frame")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/grill-with-docs")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/plan")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/sync")
-        model_for_skill_path "$SKILLS_DIR/search"
+        model_for_skill_path "$SKILLS_DIR/nosearch"
         model_for_skill_path "$SKILLS_DIR/norpiv/triage"
         model_for_skill_path "$SKILLS_DIR/norpiv/frame"
         model_for_skill_path "$SKILLS_DIR/norpiv/grill-with-docs"
@@ -122,13 +122,13 @@ pi() {
       --dev)
         MINDSET="\033[0;33mdev\033[0m"
         export PI_MINDSET="dev"
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/nosearch")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/triage")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/implement")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/verify")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/sync")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/cleanup")
-        model_for_skill_path "$SKILLS_DIR/search"
+        model_for_skill_path "$SKILLS_DIR/nosearch"
         model_for_skill_path "$SKILLS_DIR/norpiv/triage"
         model_for_skill_path "$SKILLS_DIR/norpiv/implement"
         model_for_skill_path "$SKILLS_DIR/norpiv/verify"
@@ -139,7 +139,7 @@ pi() {
       --rpiv)
         MINDSET="\033[0;34mRPIV\033[0m"
         export PI_MINDSET="rpiv"
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/nosearch")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/triage")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/frame")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/grill-with-docs")
@@ -149,7 +149,7 @@ pi() {
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/sync")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/update-docs")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/norpiv/cleanup")
-        model_for_skill_path "$SKILLS_DIR/search"
+        model_for_skill_path "$SKILLS_DIR/nosearch"
         model_for_skill_path "$SKILLS_DIR/norpiv/triage"
         model_for_skill_path "$SKILLS_DIR/norpiv/frame"
         model_for_skill_path "$SKILLS_DIR/norpiv/grill-with-docs"
@@ -164,16 +164,16 @@ pi() {
       --meta)
         MINDSET="\033[0;35mmeta\033[0m"
         export PI_MINDSET="meta"
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/meta" "--skill" "$SKILLS_DIR/search" "--extension" "$REPO_DIR/pi/extensions/noleaks/index.ts")
-        model_for_skill_path "$SKILLS_DIR/meta"
-        model_for_skill_path "$SKILLS_DIR/search"
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/nometa" "--skill" "$SKILLS_DIR/nosearch" "--extension" "$REPO_DIR/pi/extensions/noleaks/index.ts")
+        model_for_skill_path "$SKILLS_DIR/nometa"
+        model_for_skill_path "$SKILLS_DIR/nosearch"
         shift
         ;;
       --write)
         MINDSET="\033[0;34mwrite\033[0m"
         export PI_MINDSET="write"
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
-        model_for_skill_path "$SKILLS_DIR/search"
+        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/nosearch")
+        model_for_skill_path "$SKILLS_DIR/nosearch"
         shift
         ;;
       --antigravity)
