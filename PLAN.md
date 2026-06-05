@@ -1,7 +1,7 @@
 # Monorepo Migration Plan: Transition to "nothing"
 
 > Last Updated: 2026-06-05
-> Status: Planning & Refinement (Proposed / Reviewing)
+> Status: Migration Executed / Public Skill Installer Refinement
 
 ## ⚠️ Agent Execution Log (Constraint Violations)
 * **Incident Date**: 2026-06-05
@@ -17,6 +17,7 @@ The goal is to replace the platform-specific setups, symlinks, and duplicate dir
 * **Fresh Install (new machine)**: `curl -fsSL https://pi.dev/install.sh | sh`
 * **Applying Local Changes**: run `bootstrap.sh` directly from the `nothing` repo after any updates.
 * **NPM Scope**: All published packages are public under `@raquezha` (e.g. `@raquezha/notrace`).
+* **Current Handoff Snapshot (2026-06-05)**: `nothing` now owns the fresh-machine bootstrap path. `norpiv` and `nosearch` support public `*-install` commands with `--target pi|claude|codex|all`; `packages/noantigravity` and `packages/norpiv/write-a-plan` were removed as obsolete migration artifacts.
 
 ---
 
@@ -51,10 +52,13 @@ nothing/
 │   └── shell_integration.sh      # Parses custom mindset flags and resolves package paths
 ├── packages/                     # Monorepo packages
 │   ├── android/                  # Auto-synced copy of official android/skills guidelines
-│   ├── norpiv/                   # Lean RPIV workflow orchestrator skills
+│   ├── norpiv/                   # Lean RPIV workflow orchestrator skills (@raquezha/norpiv)
+│   │   ├── bin/norpiv-install.cjs # Skill installer: --target pi|claude|codex|all
+│   │   └── scripts/              # triage + active-task validation helpers
 │   ├── notrace/                  # HTML telemetry and trace viewer (@raquezha/notrace)
 │   ├── noleaks/                  # Security credentials protector shield (@raquezha/noleaks)
 │   ├── nosearch/                 # Integrated Search skills & subagent wrapper (@raquezha/nosearch)
+│   │   └── bin/nosearch-install.cjs # Skill installer: --target pi|claude|codex|all
 │   ├── noagy/                    # OAuth login provider extension (@raquezha/noagy)
 │   ├── nometa/                   # Meta skills (pi-skill-creator, agent-os, md-to-html)
 │   └── nofooter/                 # CLI powerline footer theme (@raquezha/nofooter)
@@ -71,10 +75,10 @@ Every core block is anchored to a standard `no-` prefix naming convention to sig
 
 | Old Repository Path | New Monorepo Package | npm Package | Type | Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `workflow/` | `packages/norpiv/` | *(skill, not published)* | Skill | RPIV orchestrator skills |
+| `workflow/` | `packages/norpiv/` | `@raquezha/norpiv` | Skill Bundle | RPIV orchestrator skills + `norpiv-install` |
 | `html-observability/` | `packages/notrace/` | `@raquezha/notrace` | Extension | HTML trace collector |
 | `env-protection/` | `packages/noleaks/` | `@raquezha/noleaks` | Extension | Credentials protector |
-| `search-subagent/` & `search/` | `packages/nosearch/` | `@raquezha/nosearch` | Integrated | Search skills & subagent wrapper |
+| `search-subagent/` & `search/` | `packages/nosearch/` | `@raquezha/nosearch` | Integrated | Search skills, subagent wrapper + `nosearch-install` |
 | `antigravity-auth-login/` | `packages/noagy/` | `@raquezha/noagy` | Extension | OAuth login utility |
 | `powerline-footer/` | `packages/nofooter/` | `@raquezha/nofooter` | Extension | Terminal layout theme |
 | `meta/` | `packages/nometa/` | *(skill, not published)* | Skill | Meta systems and skill generators |
@@ -95,6 +99,7 @@ Every core block is anchored to a standard `no-` prefix naming convention to sig
 * [x] **Task 2.2**: Scaffolding package specifications (`package.json`) for custom extensions.
 * [x] **Task 2.3**: Establish public `@raquezha/*` npm scope distribution with CI token + Changesets.
 * [x] **Task 2.4**: Publish built packages to NPM (`@raquezha/noagy`, `nofooter`, `noleaks`, `nosearch`, `notrace` all at `0.0.1`).
+* [x] **Task 2.5**: Add public skill-bundle package metadata and installer bins for `@raquezha/norpiv` and `@raquezha/nosearch`.
 
 ### Phase 3: Building "nothing" Monorepo
 * [x] **Task 3.1**: Write cross-platform `bootstrap.sh` installer.
@@ -102,6 +107,7 @@ Every core block is anchored to a standard `no-` prefix naming convention to sig
 * [x] **Task 3.3**: Integrate dynamically-resolving path loaders in shell integrations.
 * [x] **Task 3.4**: Write visual, comprehensive READMEs for each monorepo package.
 * [x] **Task 3.5**: Implement `nohtml` universal input-to-HTML compiler in `nometa` (renamed from `md-to-html`; supports markdown, conversation JSONL, and plain text).
+* [x] **Task 3.6**: Rework `nothing/bootstrap.sh` as the fresh-machine entry point that installs npm extensions, wires skill installers, mounts configs, and installs shell hats.
 
 ### Phase 4: Transition & Verification
 * [x] **Task 4.1**: Verify `bootstrap.sh` execution path on macOS Darwin via `--dry-run` CI matrix.

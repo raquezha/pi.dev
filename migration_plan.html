@@ -684,7 +684,7 @@
     <header>
       <div class="brand">
         <h1>nothing Monorepo Migration Plan</h1>
-        <p>A unified, clean setup replacing localized symlinks with published NPM packages and declarative configurations.</p>
+        <p>A unified, clean setup replacing localized symlinks with published NPM packages, public skill installers, and declarative configurations.</p>
       </div>
       <div class="progress-widget">
         <div class="progress-circle-container">
@@ -700,6 +700,37 @@
         </div>
       </div>
     </header>
+
+    <!-- Handoff Snapshot -->
+    <div class="panel" style="margin-bottom: 2rem;">
+      <div class="panel-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        2026-06-05 Handoff Snapshot
+      </div>
+      <div class="task-list">
+        <div class="task-item completed">
+          <div class="task-checkbox checked"></div>
+          <div class="task-content">
+            <div class="task-text">Fresh-machine bootstrap moved to <code>nothing/bootstrap.sh</code></div>
+            <div class="task-desc">Bootstrap now installs Pi, published extensions, config defaults, shell hats, global skill discovery, and helper scripts for a clean machine setup.</div>
+          </div>
+        </div>
+        <div class="task-item completed">
+          <div class="task-checkbox checked"></div>
+          <div class="task-content">
+            <div class="task-text">Public skill installer pattern added</div>
+            <div class="task-desc"><code>@raquezha/norpiv</code> and <code>@raquezha/nosearch</code> now expose <code>norpiv-install</code> / <code>nosearch-install</code> with <code>--target pi|claude|codex|all</code>.</div>
+          </div>
+        </div>
+        <div class="task-item completed">
+          <div class="task-checkbox checked"></div>
+          <div class="task-content">
+            <div class="task-text">Obsolete migration artifacts removed</div>
+            <div class="task-desc">Deleted <code>packages/noantigravity</code> and <code>packages/norpiv/write-a-plan</code> from <code>nothing</code>; Git reset remains available via history if needed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Dashboard Grid -->
     <div class="dashboard-grid">
