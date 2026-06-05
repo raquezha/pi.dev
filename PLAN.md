@@ -1,7 +1,7 @@
 # Monorepo Migration Plan: Transition to "nothing"
 
 > Last Updated: 2026-06-05
-> Status: Planning & Refinement (Approved)
+> Status: Planning & Refinement (Proposed / Reviewing)
 
 ## ⚠️ Agent Execution Log (Constraint Violations)
 * **Incident Date**: 2026-06-05
@@ -34,7 +34,7 @@ The goal is to replace the platform-specific setups, symlinks, and duplicate dir
 * **Decision**: Eliminated the hardcoded `default_models` list from settings, relying purely on the mindset configuration profiles.
 * **Rationale**: Eliminates redundancy and keeps config files clean.
 
-### 2.5. Isolated Sandbox Verification
+### 2.5. Isolated Sandbox Verification (Proposed)
 * **Decision**: Phase 4 installer validation (`bootstrap.sh`) will run inside transient, isolated container sandboxes (e.g. Docker `ubuntu:latest` or `debian:stable` for Linux, and isolated user sessions for macOS) instead of the developer's main host workspace.
 * **Rationale**: Prevents package and configuration contamination on the host machine, and verifies that the bootstrap installer is 100% self-sufficient on clean operating system installations.
 
