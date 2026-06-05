@@ -79,22 +79,22 @@ Every core block is anchored to a standard `no-` prefix naming convention to sig
 ## 📋 5. Timeline Checklist & Status
 
 ### Phase 1: Local Refactoring & Renaming
-* [x] **Task 1.1**: Rename RPIV workflow skills ➔ `norpiv`.
-* [x] **Task 1.2**: Rename core triage scripts ➔ `norpiv`.
-* [x] **Task 1.3**: Rename credentials protector ➔ `noleaks`.
-* [x] **Task 1.4**: Rename html trace collector ➔ `notrace`.
-* [x] **Task 1.5**: Rename other extensions (`nofooter`, `nosearch`, `noantigravity`).
+* [ ] **Task 1.1**: Rename RPIV workflow skills ➔ `norpiv`.
+* [ ] **Task 1.2**: Rename core triage scripts ➔ `norpiv`.
+* [ ] **Task 1.3**: Rename credentials protector ➔ `noleaks`.
+* [ ] **Task 1.4**: Rename html trace collector ➔ `notrace`.
+* [ ] **Task 1.5**: Rename other extensions (`nofooter`, `nosearch`, `noantigravity`).
 
 ### Phase 2: Packaging Custom Extensions
-* [x] **Task 2.1**: Restructure `notrace` to support standard Node compile (`tsconfig.json`).
-* [x] **Task 2.2**: Scaffolding package specifications (`package.json`) for custom extensions.
-* [x] **Task 2.3**: Establish private scopes for npm distribution.
+* [ ] **Task 2.1**: Restructure `notrace` to support standard Node compile (`tsconfig.json`).
+* [ ] **Task 2.2**: Scaffolding package specifications (`package.json`) for custom extensions.
+* [ ] **Task 2.3**: Establish private scopes for npm distribution.
 * [ ] **Task 2.4**: Publish built packages to NPM.
 
 ### Phase 3: Building "nothing" Monorepo
-* [x] **Task 3.1**: Write cross-platform `bootstrap.sh` installer.
-* [x] **Task 3.2**: Extract declarative mindset configurations to `mindsets.json`.
-* [x] **Task 3.3**: Integrate dynamically-resolving path loaders in shell integrations.
+* [ ] **Task 3.1**: Write cross-platform `bootstrap.sh` installer.
+* [ ] **Task 3.2**: Extract declarative mindset configurations to `mindsets.json`.
+* [ ] **Task 3.3**: Integrate dynamically-resolving path loaders in shell integrations.
 * [ ] **Task 3.4**: Write visual, comprehensive READMEs for each monorepo package.
 * [ ] **Task 3.5**: Implement `md-to-html` plan dashboard compiler in `nometa`.
 
