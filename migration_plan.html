@@ -1077,6 +1077,20 @@ $ npm install -g notrace noleaks</div>
                 <strong>Rationale:</strong> Prevents workspace contamination, removes the need to <code>git stash</code> half-completed work when context-switching, allows parallel testing/linting in subagents, and keeps the main repo directory clean.
               </p>
             </div>
+
+            <!-- Decision 6: Isolated Sandbox Verification -->
+            <div class="naming-card active-now" style="border-left: 4px solid var(--accent); padding-left: 1rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="color: #fff; font-size: 1rem;">Isolated Sandbox Verification</strong>
+                <span class="naming-tag core" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">Rule Approved</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0;">
+                <strong>Decision:</strong> Run Phase 4 installer validation (<code>bootstrap.sh</code>) inside transient container sandboxes (Docker <code>ubuntu:latest</code> / <code>debian:stable</code> for Linux, and clean guest user accounts for macOS).
+              </p>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+                <strong>Rationale:</strong> Protects the developer's primary machine environment from target shell profile changes and verifies that the monorepo installer is completely self-contained on pristine target OS builds.
+              </p>
+            </div>
           </div>
         </div>
       </div>
