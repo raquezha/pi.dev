@@ -75,7 +75,7 @@ Build a "Staff Engineer" grade agentic workflow engine that:
 
 ---
 
-## 🧩 Skills Map (pi/skills/workflow/)
+## 🧩 Skills Map (`nothing/packages/norpiv/`)
 
 | Skill | Status | Notes |
 | :--- | :--- | :--- |
@@ -85,13 +85,14 @@ Build a "Staff Engineer" grade agentic workflow engine that:
 | `plan` | ✅ Created | Writes `[PLAN]` only; never implement during planning.
 | `implement` | ✅ Created | Implements one slice, appends to `[LOG]`.
 | `verify` | ✅ Created | Runs verification and updates `[LOG]`.
-| `to-jira` | ✅ Created | Tracker sync helper.
+| `sync` | ✅ Created | Tracker sync helper.
+| `cleanup` | ✅ Created | Auxiliary hygiene skill. Repo/task cleanup utility, not strict RPIV phase.
 
 ---
 
 ## 🔧 The Wiring
 
-- **`pi/scripts/workflow/triage_helper.sh`**: Helper used by `triage` to create `.workflow/tasks/[source-id]/` and populate `WORK.md` and `metadata.json` from remote APIs (`gh`, `glab`, `jira`).
+- **`nothing/packages/norpiv/scripts/triage_helper.sh`**: Helper used by `triage` to create `.workflow/tasks/[source-id]/` and populate `WORK.md` and `metadata.json` from remote APIs (`gh`, `glab`, `jira`).
 - **`pi/shell_integration.sh` / `nothing/dotfiles/shell_integration.sh`**: Provides base hats plus additive modifiers. Base hats should load first-party skills from local repo paths, not from global installs.
 - **Bootstrap strategy**: Bootstrap should install Pi, settings, shell wiring, and published extensions. It must not make first-party workflow correctness depend on global skill installs.
 - **First-party skills**: `norpiv`, `nometa`, `nosearch`, and other owned workflow assets stay local/symlinked from repo so active development always uses checked-out source.
@@ -119,7 +120,7 @@ Build a "Staff Engineer" grade agentic workflow engine that:
 2. Expand `pi --android` curated skill set only after real usage justifies additions beyond `android-cli`.
 3. Decide RTK integration depth after manual testing: no-op marker, doc-only install, bootstrap flag, or true Pi hook integration.
 4. `.workflow/` is intentionally at repo root and is already listed in `.gitignore`.
-5. Skills in `pi/skills/workflow/` are implemented to use `WORK.md` guarded sections; verify other skills follow same contract.
+5. Skills in `nothing/packages/norpiv/` are implemented to use `WORK.md` guarded sections; verify other skills follow same contract.
 
 ---
 
