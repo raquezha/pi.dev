@@ -1,6 +1,6 @@
 # RPIV Workflow Engine — PLAN.md
 > Last Updated: 2026-06-07
-> Status: Approved — initial implementation in `nothing/` started
+> Status: Migrated to `nothing/`; `pi.dev` archived for historical reference
 
 ---
 

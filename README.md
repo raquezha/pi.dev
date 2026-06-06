@@ -1,8 +1,15 @@
 # pi.dev
 
+> [!IMPORTANT]
+> This repository is archived.
+>
+> Active development moved to: https://github.com/raquezha/nothing
+>
+> `pi.dev` remains read-only historical reference for the old local Pi workspace. Current bootstrap, hats, RPIV skills, Android skill snapshot, npm packages, and public skill handoff docs live in `nothing`.
+
 *Deterministic HITL orchestration layer on top of a stochastic coding engine.*
 
-Personal workspace for advanced agentic coding workflows, specialized skills, and specialized mindsets.
+Historical personal workspace for advanced agentic coding workflows, specialized skills, and specialized mindsets.
 
 ## 🚀 R&D Agentic Workflow
 
