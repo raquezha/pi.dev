@@ -60,5 +60,5 @@ pi --dev
 pi --skill ~/Developer/pi.dev/pi/skills/search/firecrawl
 
 # Explicit model override wins.
-pi --model openai-codex/gpt-5.5 --skill ~/Developer/pi.dev/pi/skills/workflow/cleanup
+pi --model openai-codex/gpt-5.5 --skill ~/RQZ/personal/nothing/packages/norpiv/cleanup
 ```

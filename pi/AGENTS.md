@@ -16,6 +16,7 @@ pi.dev agent rules (pi-local)
   - **NEVER implement during planning**: Do not create files, folders, scripts, or run filesystem-modifying tool calls until the user explicitly says `EXECUTE`.
   - **Anti-bloat**: Durable context belongs in `docs/agents/`. Use `/update-docs` to curate durable docs; avoid dumping session logs into durable docs.
   - **Sync**: Use `/sync` to bridge the local RPIV workspace with external trackers (GitHub/GitLab/Jira).
+  - **Canonical workflow bundle**: Prefer `../nothing/packages/norpiv` as the source of truth for RPIV workflow skills when present. Treat `pi/skills/workflow/*` as migration/back-compat copies unless the user explicitly asks to work on those legacy copies.
   - **Skill authoring**: Use the `pi-skill-creator` process (`pi/skills/meta/pi-skill-creator/SKILL.md`) when creating or improving skills; do not hand-roll new skills without the checklist.
   - **Hats**: The shell integration provides hats (mindsets) such as `--rpiv`, `--android`, `--pm`, `--dev`, `--meta`, `--write`, and `--antigravity` to load appropriate skill sets.
   - **Agent-First Infrastructure**: For any repository, prioritize seeding with `pi agent-os` to ensure standardized context and "Durable Execution" memory.
@@ -24,4 +25,4 @@ pi.dev agent rules (pi-local)
 
 - **Cleanliness & commits**: Do not commit ephemeral task files. Use Conventional Commits for all changes.
 
-- **References**: `docs/agents/workflow.md`, `pi/skills/workflow/update-docs/SKILL.md`, `pi/skills/README.md`.
+- **References**: `docs/agents/workflow.md`, `../nothing/packages/norpiv/update-docs/SKILL.md` (preferred when present), `pi/skills/workflow/update-docs/SKILL.md` (migration fallback), `pi/skills/README.md`.

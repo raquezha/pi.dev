@@ -8,6 +8,11 @@
 pi() {
   local REPO_DIR="$HOME/RQZ/personal/pi.dev"
   local SKILLS_DIR="$REPO_DIR/pi/skills"
+  local NORPIV_DIR="${PI_NORPIV_DIR:-$HOME/RQZ/personal/nothing/packages/norpiv}"
+  local WORKFLOW_SKILLS_DIR="$SKILLS_DIR/workflow"
+  if [[ -d "$NORPIV_DIR/triage" && -d "$NORPIV_DIR/implement" && -d "$NORPIV_DIR/verify" ]]; then
+    WORKFLOW_SKILLS_DIR="$NORPIV_DIR"
+  fi
   local CODEX_PKG_NAME="@howaboua/pi-codex-conversion"
   local CODEX_PKG_CACHE_DIR="$HOME/.pi/agent/external-packages/pi-codex-conversion"
   local CODEX_PKG_PATH="$CODEX_PKG_CACHE_DIR/node_modules/@howaboua/pi-codex-conversion"
@@ -95,49 +100,49 @@ pi() {
         MINDSET="\033[0;32mandroid\033[0m"
         export PI_MINDSET="android"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/android")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/triage")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/implement")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/triage")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/implement")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/verify")
         model_for_skill_path "$SKILLS_DIR/android"
-        model_for_skill_path "$SKILLS_DIR/workflow/triage"
-        model_for_skill_path "$SKILLS_DIR/workflow/implement"
-        model_for_skill_path "$SKILLS_DIR/workflow/verify"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/triage"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/implement"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/verify"
         shift
         ;;
       --pm)
         MINDSET="\033[0;35mpm\033[0m"
         export PI_MINDSET="pm"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/triage")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/frame")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/grill-with-docs")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/plan")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/sync")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/triage")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/frame")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/grill-with-docs")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/plan")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/sync")
         model_for_skill_path "$SKILLS_DIR/search"
-        model_for_skill_path "$SKILLS_DIR/workflow/triage"
-        model_for_skill_path "$SKILLS_DIR/workflow/frame"
-        model_for_skill_path "$SKILLS_DIR/workflow/grill-with-docs"
-        model_for_skill_path "$SKILLS_DIR/workflow/plan"
-        model_for_skill_path "$SKILLS_DIR/workflow/sync"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/triage"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/frame"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/grill-with-docs"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/plan"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/sync"
         shift
         ;;
       --dev)
         MINDSET="\033[0;33mdev\033[0m"
         export PI_MINDSET="dev"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/triage")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/implement")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/sync")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/cleanup")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/triage")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/implement")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/verify")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/sync")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/cleanup")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/dev/change-review")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/dev/ci-triage")
         model_for_skill_path "$SKILLS_DIR/search"
-        model_for_skill_path "$SKILLS_DIR/workflow/triage"
-        model_for_skill_path "$SKILLS_DIR/workflow/implement"
-        model_for_skill_path "$SKILLS_DIR/workflow/verify"
-        model_for_skill_path "$SKILLS_DIR/workflow/sync"
-        model_for_skill_path "$SKILLS_DIR/workflow/cleanup"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/triage"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/implement"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/verify"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/sync"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/cleanup"
         model_for_skill_path "$SKILLS_DIR/dev/change-review"
         model_for_skill_path "$SKILLS_DIR/dev/ci-triage"
         shift
@@ -146,27 +151,27 @@ pi() {
         MINDSET="\033[0;34mRPIV\033[0m"
         export PI_MINDSET="rpiv"
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/search")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/triage")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/frame")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/grill-with-docs")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/plan")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/implement")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/verify")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/sync")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/update-docs")
-        EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/workflow/cleanup")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/triage")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/frame")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/grill-with-docs")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/plan")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/implement")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/verify")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/sync")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/update-docs")
+        EXTRA_SKILLS+=("--skill" "$WORKFLOW_SKILLS_DIR/cleanup")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/dev/change-review")
         EXTRA_SKILLS+=("--skill" "$SKILLS_DIR/dev/ci-triage")
         model_for_skill_path "$SKILLS_DIR/search"
-        model_for_skill_path "$SKILLS_DIR/workflow/triage"
-        model_for_skill_path "$SKILLS_DIR/workflow/frame"
-        model_for_skill_path "$SKILLS_DIR/workflow/grill-with-docs"
-        model_for_skill_path "$SKILLS_DIR/workflow/plan"
-        model_for_skill_path "$SKILLS_DIR/workflow/implement"
-        model_for_skill_path "$SKILLS_DIR/workflow/verify"
-        model_for_skill_path "$SKILLS_DIR/workflow/sync"
-        model_for_skill_path "$SKILLS_DIR/workflow/update-docs"
-        model_for_skill_path "$SKILLS_DIR/workflow/cleanup"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/triage"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/frame"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/grill-with-docs"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/plan"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/implement"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/verify"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/sync"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/update-docs"
+        model_for_skill_path "$WORKFLOW_SKILLS_DIR/cleanup"
         model_for_skill_path "$SKILLS_DIR/dev/change-review"
         model_for_skill_path "$SKILLS_DIR/dev/ci-triage"
         shift

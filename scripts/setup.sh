@@ -11,7 +11,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"
+PERSONAL_DIR="$(dirname "$REPO_DIR")"
 PI_DIR="$REPO_DIR/pi"
+NORPIV_DIR="${PI_NORPIV_DIR:-$PERSONAL_DIR/nothing/packages/norpiv}"
 AGENT_DIR="$HOME/.pi/agent"
 SECRETS_FILE="$HOME/.pi-secrets/.env"
 
@@ -37,6 +39,11 @@ echo ""
 
 if ! command -v pi &>/dev/null; then
   err "pi is not installed. Run: npm install -g @mariozechner/pi-coding-agent"
+  exit 1
+fi
+
+if ! command -v jq &>/dev/null; then
+  err "jq is required for setup.sh JSON merges. Install it first (e.g. brew install jq or sudo apt install jq)."
   exit 1
 fi
 
@@ -106,13 +113,22 @@ else
 fi
 
 
-# Ensure triage_helper.sh is executable
-TRIAGE_SCRIPT="$REPO_DIR/pi/scripts/workflow/triage_helper.sh"
-if [[ -f "$TRIAGE_SCRIPT" ]]; then
-  chmod +x "$TRIAGE_SCRIPT"
-  ok "triage_helper.sh is executable"
+# Ensure norpiv helper scripts are executable when the bundle is present
+if [[ -d "$NORPIV_DIR" ]]; then
+  while IFS= read -r helper; do
+    chmod +x "$helper"
+  done < <(find "$NORPIV_DIR" -type f \( -name '*.sh' -o -name '*.cjs' \) | sort)
+  ok "norpiv helper scripts are executable"
 else
-  warn "triage_helper.sh not found at $TRIAGE_SCRIPT"
+  warn "norpiv bundle not found at $NORPIV_DIR"
+fi
+
+# Keep legacy workflow helper scripts executable for migration fallback.
+if [[ -d "$REPO_DIR/pi/scripts/workflow" ]]; then
+  while IFS= read -r helper; do
+    chmod +x "$helper"
+  done < <(find "$REPO_DIR/pi/scripts/workflow" -type f -name '*.sh' | sort)
+  ok "legacy workflow helper scripts are executable"
 fi
 
 # ── Install global git commit hook ─────────────────────────────────────
@@ -179,13 +195,14 @@ link_item() {
   ok "Linked $label"
 }
 
-# prune_unmanaged <target_dir> <source_dir> <label>
-# Removes items in target_dir that don't have a corresponding item in source_dir.
-# Moves unmanaged real files to a backup directory.
+# prune_unmanaged <target_dir> <source_dir> <label> [extra_source_dir]
+# Removes items in target_dir that don't have a corresponding item in source_dir
+# (or optional extra_source_dir). Moves unmanaged real files to a backup directory.
 prune_unmanaged() {
   local target_dir="$1"
   local source_dir="$2"
   local label="$3"
+  local extra_source_dir="${4:-}"
 
   if [[ ! -d "$target_dir" ]]; then return; fi
   
@@ -199,8 +216,15 @@ prune_unmanaged() {
     # Skip .gitkeep
     if [[ "$filename" == ".gitkeep" ]]; then continue; fi
 
-    # If the item doesn't exist in the source, it's unmanaged
-    if [[ ! -e "$source_dir/$filename" ]]; then
+    local managed=0
+    if [[ -e "$source_dir/$filename" ]]; then
+      managed=1
+    elif [[ -n "$extra_source_dir" && -e "$extra_source_dir/$filename" ]]; then
+      managed=1
+    fi
+
+    # If the item doesn't exist in any managed source, it's unmanaged
+    if [[ "$managed" -eq 0 ]]; then
       # If it's a symlink, just remove it
       if [[ -L "$item" ]]; then
         rm "$item"
@@ -370,8 +394,8 @@ echo ""
 info "Checking available (not linked) items..."
 echo ""
 
-# Prune items no longer in repo
-prune_unmanaged "$AGENT_DIR/skills" "$PI_DIR/skills" "skills"
+# Prune items no longer in repo while preserving the canonical norpiv bundle if present
+prune_unmanaged "$AGENT_DIR/skills" "$PI_DIR/skills" "skills" "$NORPIV_DIR"
 prune_unmanaged "$AGENT_DIR/themes" "$PI_DIR/themes" "themes"
 
 show_available() {
@@ -402,12 +426,16 @@ show_available "$PI_DIR/extensions" "$AGENT_DIR/extensions" "Extensions"
 
 # Most workflow skills are injected via 'pi --pm' or 'pi --dev' shell 
 # integration to avoid context bloat in standard sessions.
-# However, /cleanup is universally useful for managing workspace state, 
+# However, /cleanup is universally useful for managing workspace state,
 # and the Search category is small enough to keep globally discoverable.
 echo ""
 info "Linking globally useful skills..."
 link_item "$PI_DIR/skills/search" "$AGENT_DIR/skills/search" "skills/search"
-link_item "$PI_DIR/skills/workflow/cleanup" "$AGENT_DIR/skills/cleanup" "skills/cleanup"
+if [[ -d "$NORPIV_DIR/cleanup" ]]; then
+  link_item "$NORPIV_DIR/cleanup" "$AGENT_DIR/skills/cleanup" "skills/cleanup"
+else
+  link_item "$PI_DIR/skills/workflow/cleanup" "$AGENT_DIR/skills/cleanup" "skills/cleanup"
+fi
 
 echo ""
 info "Skipped workflow skills by default to avoid context bloat."

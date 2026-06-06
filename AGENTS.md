@@ -12,7 +12,7 @@ pi.dev agent guardrails
 
 - **Commits**: Use Conventional Commits for all commits.
 
-- **Where to find pi-local workflow rules**: See `pi/AGENTS.md` and `docs/agents/workflow.md` for repository-specific workflow, hats, and naming conventions. For guidance on durable documentation edits, see `pi/skills/workflow/update-docs/SKILL.md`.
+- **Where to find pi-local workflow rules**: See `pi/AGENTS.md` and `docs/agents/workflow.md` for repository-specific workflow, hats, and naming conventions. Runtime hats prefer the canonical RPIV bundle at `../nothing/packages/norpiv` when present. For guidance on durable documentation edits, prefer `../nothing/packages/norpiv/update-docs/SKILL.md` and fall back to `pi/skills/workflow/update-docs/SKILL.md` only during migration.
 
 Active task canonical schema
 
@@ -28,7 +28,7 @@ Active task canonical schema
 
 - Consumer (enforce-branch.sh and other scripts) behavior: prefer `taskPath` when present; if absent, derive the task folder from `source` + `id` (i.e., `<source>-<id>`). Emit clear diagnostics when neither `taskPath` nor `id` are available.
 
-- Validation: A lightweight, print-only validation script is available at `pi/scripts/workflow/validate_active_task.sh` to help inspect and remediate inconsistent state without making automatic changes.
+- Validation: A lightweight, print-only validation script is available at `../nothing/packages/norpiv/scripts/validate_active_task.sh` when the norpiv bundle is present; otherwise fall back to `pi/scripts/workflow/validate_active_task.sh`.
 
 Migration and compatibility
 

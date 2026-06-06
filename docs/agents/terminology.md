@@ -40,4 +40,4 @@ Concise definitions and best practices for LLM-related metrics and agentic terms
 ## References
 - Workflow: `docs/agents/workflow.md`
 - RPIV quick guide: `docs/agents/rpiv-workflow.md`
-- Update durable docs: `pi/skills/workflow/update-docs/SKILL.md`
+- Update durable docs: prefer `../nothing/packages/norpiv/update-docs/SKILL.md` when the norpiv bundle is present; otherwise use `pi/skills/workflow/update-docs/SKILL.md`

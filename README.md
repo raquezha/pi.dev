@@ -18,6 +18,8 @@ This repository implements a high-performance "Staff Engineer" workflow for the 
 
 Workflow-driven skills should read `AGENTS.md`, `pi/AGENTS.md`, and `pi/skills/README.md` before editing workflow rules. Use `jira:`, `github:`, `gitlab:`, or `local:` prefixes for namespacing.
 
+> Migration note: the canonical RPIV workflow bundle now lives in `../nothing/packages/norpiv`, and `pi/shell_integration.sh` prefers that bundle when present. Legacy `pi/skills/workflow/*` copies remain for migration/back-compat.
+
 ## 🧠 Philosophy: Why RPIV?
 
 The Lean RPIV workflow (Triage → Frame → Grill → Plan → Implement → Verify) is built on the principle of **Deterministic Quality over Stochastic Speed**.
@@ -84,7 +86,7 @@ For a detailed breakdown of LLM metrics (Context, Caching, Tokens), see the [Age
 ## 🛠 Skills
 
 Located in `pi/skills/`:
-- `workflow/`: Core Lean RPIV skills.
+- `workflow/`: Legacy repo-local RPIV copies kept for migration/back-compat. Runtime hats prefer `../nothing/packages/norpiv` when present.
 - `android/`: Android-specific toolkits.
 - `dev/change-review`: Platform-neutral review skill for local diffs, GitHub PRs, and GitLab MRs.
 - `dev/ci-triage`: Platform-neutral triage skill for GitHub Actions, GitLab CI/CD, and local quality gate failures.

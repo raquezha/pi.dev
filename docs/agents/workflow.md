@@ -3,7 +3,7 @@
 Durable workflow context for pi.dev. Keep this concise and update via `/update-docs` when workflow rules change.
 
 Overview
-- Lean RPIV: Triage → Frame → Grill → Plan → Implement → Verify. Each phase maps to a workflow skill under `pi/skills/workflow/`.
+- Lean RPIV: Triage → Frame → Grill → Plan → Implement → Verify. Each phase maps to a workflow skill under `pi/skills/workflow/` conceptually, but runtime hats now prefer the canonical bundle at `../nothing/packages/norpiv` when present.
 
 Core phases
 - Triage (`/triage`): Fetch remote issue data and create or resume a namespaced workspace at `.workflow/tasks/[source-id]/`. Initialize `metadata.json` and `WORK.md` if needed.
@@ -44,9 +44,10 @@ Anti-bloat checklist (before editing durable docs)
 5. Does this belong in a skill reference instead of `docs/agents/`?
 
 Where to edit durable docs
-- Use `/update-docs` (`pi/skills/workflow/update-docs/SKILL.md`). Prefer rules and decisions; avoid full session transcripts.
+- Use `/update-docs` (runtime hats prefer `../nothing/packages/norpiv/update-docs/SKILL.md`; `pi/skills/workflow/update-docs/SKILL.md` is the migration fallback). Prefer rules and decisions; avoid full session transcripts.
 
 References
-- `pi/skills/workflow/update-docs/SKILL.md`
+- `../nothing/packages/norpiv/update-docs/SKILL.md` (preferred runtime source)
+- `pi/skills/workflow/update-docs/SKILL.md` (migration fallback)
 - `pi/skills/README.md`
 - Model routing cheat sheet: `docs/agents/recommended-skill-models.md`

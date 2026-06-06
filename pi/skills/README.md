@@ -32,6 +32,7 @@ Skills for broader GitLab CI/CD management, MR automation, and environment deplo
 Core RPIV workflow skills for task intake, framing, planning, implementation, verification, tracker sync, and documentation upkeep.
 - **Status**: 🟢 Lean RPIV Added
 - **Skills**: `triage`, `frame`, `grill-with-docs`, `plan`, `implement`, `verify`, `sync`, `update-docs`, `cleanup`
+- **Notes**: canonical runtime source is `../nothing/packages/norpiv` when present; `pi/skills/workflow/*` remains in this repo for migration/back-compat and reference.
 
 ### 🚀 Mobile DevOps (Planned)
 Skills for Fastlane, App Store/Play Store automated releases, and TestFlight management.
